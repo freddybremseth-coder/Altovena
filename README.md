@@ -1,4 +1,4 @@
-# Altovena — website v0.4
+# Altovena — website v0.5
 
 A dependency-free, bilingual (English/Norwegian) first website for Altovena, a planned international AI product and technology brand.
 
@@ -12,7 +12,7 @@ python3 -m http.server 8000 --directory dist
 
 Open `http://localhost:8000/en/` or `http://localhost:8000/no/`.
 
-This builds **22 statically rendered pages** covering the home page, product overview, four product pages, Nexus technology, services, team and contact in both languages. Version 0.2 adds four product-specific, three-step illustrative walkthroughs (eight localized tours) and a client-side email-draft contact form in both languages.
+This builds **24 statically rendered pages** covering the home page, product overview, four product pages, Nexus technology, services, team and contact in both languages. Version 0.2 adds four product-specific, three-step illustrative walkthroughs (eight localized tours) and a client-side email-draft contact form in both languages.
 
 ## What's new in v0.3
 
@@ -66,3 +66,19 @@ This builds **22 statically rendered pages** covering the home page, product ove
 5. Add approved privacy policy and company details.
 6. Set up production domain, analytics/Search Console and launch indexing only after QA.
 7. Connect product pages and source material to the SEO/AEO/GEO editorial standards in the working manual.
+
+## What's new in v0.5
+
+- New bilingual **Trust & control / Tillit og kontroll** page describing planned AI review, quality processes, financial oversight and data access boundaries. These statements describe design goals, **not** existing certifications or enterprise contractual commitments.
+- Team responsibilities: Freddy Bremseth (product and technology), Anna Bremseth (finance, accounting, quality assurance and internal controls), Andrea Thorsnes Karlsen (marketing and customer experience), Erlend Thorsnes Karlsen (SEO/AEO/GEO).
+- Product pages now include a transparent scope/availability clarification and a contextual trust link. The company page and all footers link to the new page.
+- 24 bilingual pages; new page appears in sitemap only on an explicitly approved public release.
+- New automated QA checks for page count, staff names, navigation and index prevention.
+
+### Human checks still required
+
+- Anna: financial and quality-control language, correct invoicing/legal company details, cost commitments.
+- Freddy: actual product status, demo accuracy, integrations and service scope.
+- Andrea: public biography approval, customer language, accessible user experience.
+- Erlend: SEO/AEO/GEO content accuracy and metadata.
+- Legal/privacy: actual operator identity, approved privacy information and contractual terms. These are not fabricated by the marketing pages.
