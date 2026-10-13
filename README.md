@@ -1,4 +1,4 @@
-# Altovena — website v0.1
+# Altovena — website v0.2
 
 A dependency-free, bilingual (English/Norwegian) first website for Altovena, a planned international AI product and technology brand.
 
@@ -12,13 +12,13 @@ python3 -m http.server 8000 --directory dist
 
 Open `http://localhost:8000/en/` or `http://localhost:8000/no/`.
 
-This builds **20 statically rendered pages** covering the home page, product overview, four product pages, Nexus technology, services, team and contact in both languages.
+This builds **20 statically rendered pages** covering the home page, product overview, four product pages, Nexus technology, services, team and contact in both languages. Version 0.2 adds four product-specific, three-step illustrative walkthroughs (eight localized tours) and a client-side email-draft contact form in both languages.
 
 ## Release safeguards
 
 - By default **all pages are noindex** and `robots.txt` disallows crawling. This is a prelaunch build.
-- Set `SITE_URL=https://your-confirmed-domain.example` **only after domain ownership, legal publishing details, product copy and sitemap are approved**. This enables canonical, hreflang and sitemap output.
-- Set `CONTACT_EMAIL=your-verified-inbox` before launch. Until then the existing `post@chatgenius.pro` inbox is shown as a clearly marked *temporary* contact channel. No form submission or CRM integration is claimed.
+- For public release, set both `SITE_URL=https://your-confirmed-domain.example` and `PUBLIC_LAUNCH=true` **only after domain ownership, legal publishing details, product copy and sitemap are approved**. Preview remains noindex even if a site URL was configured accidentally. Public release builds fail if a dedicated contact inbox has not been configured.
+- Set `CONTACT_EMAIL=your-verified-inbox` before launch. Until then the existing `post@chatgenius.pro` inbox is shown as a clearly marked *temporary* contact channel. The interactive contact fields only generate a draft using the visitor’s own email app: **no data is uploaded, no message is sent automatically, and no CRM integration is claimed**.
 - Product pages describe product directions; product access, subscription prices, client logos, performance claims and case studies must be verified before launch.
 - Workflow visualization is explicitly illustrative, not customer data.
 - Team titles and bios require sign-off before public release.
@@ -27,8 +27,11 @@ This builds **20 statically rendered pages** covering the home page, product ove
 
 ## Repository structure
 
-- `scripts/build.mjs` — site generator and Norwegian/English content.
-- `public/styles.css` — responsive style system.
+- `scripts/build.mjs` — base site generator and Norwegian/English content.
+- `scripts/enhance.mjs` — product walkthroughs, contact-draft pages and deliberate public-release gate.
+- `scripts/qa-enhancements.mjs` — tests for product walkthroughs, contact forms and prelaunch safety.
+- `public/styles.css` and `public/enhance.css` — responsive design system and interactive page styles.
+- `public/enquiry.js` — opens a mailto draft without a network submission.
 - `public/site.js` — accessible mobile navigation.
 - `scripts/check.mjs` — tests route counts, on-page structure and internal links.
 - `vercel.json` — build output configuration.
