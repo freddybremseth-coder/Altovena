@@ -1,4 +1,4 @@
-# Altovena — website v0.2
+# Altovena — website v0.3
 
 A dependency-free, bilingual (English/Norwegian) first website for Altovena, a planned international AI product and technology brand.
 
@@ -12,7 +12,14 @@ python3 -m http.server 8000 --directory dist
 
 Open `http://localhost:8000/en/` or `http://localhost:8000/no/`.
 
-This builds **20 statically rendered pages** covering the home page, product overview, four product pages, Nexus technology, services, team and contact in both languages. Version 0.2 adds four product-specific, three-step illustrative walkthroughs (eight localized tours) and a client-side email-draft contact form in both languages.
+This builds **22 statically rendered pages** covering the home page, product overview, four product pages, Nexus technology, services, team and contact in both languages. Version 0.2 adds four product-specific, three-step illustrative walkthroughs (eight localized tours) and a client-side email-draft contact form in both languages.
+
+## What's new in v0.3
+
+- **Applied work / Praktisk bruk:** a new English/Norwegian operating-context page featuring ZenEcoHomes and Doña Anna. These are clearly described as real work contexts — not fictional testimonials or quantified performance claims.
+- **Interactive example dossiers:** client-side example evidence, data confidence and suggested human-reviewed next actions on Offer Intelligence and Visibility. No live research or AI API calls.
+- **Product-aware contact links:** product CTAs carry a `?product=` parameter that selects the relevant topic in the existing email-draft form.
+- **22 localized pages**, each linking to the new applied-work page; sitemap inclusion remains gated to approved public releases.
 
 ## Release safeguards
 
@@ -28,11 +35,11 @@ This builds **20 statically rendered pages** covering the home page, product ove
 ## Repository structure
 
 - `scripts/build.mjs` — base site generator and Norwegian/English content.
-- `scripts/enhance.mjs` — product walkthroughs, contact-draft pages and deliberate public-release gate.
+- `scripts/enhance.mjs` — product walkthroughs, contact-draft pages and deliberate public-release gate.\n- `scripts/extend.mjs` — bilingual applied-work page, example scenarios, product-aware enquiry links.\n- `scripts/qa-extend.mjs` — 22-page, scenario and contextual-link QA.
 - `scripts/qa-enhancements.mjs` — tests for product walkthroughs, contact forms and prelaunch safety.
 - `public/styles.css` and `public/enhance.css` — responsive design system and interactive page styles.
 - `public/enquiry.js` — opens a mailto draft without a network submission.
-- `public/site.js` — accessible mobile navigation.
+- `public/site.js` — accessible mobile navigation.\n- `public/scenario.css` and `public/scenario.js` — accessible static example scenarios and product preselection.
 - `scripts/check.mjs` — tests route counts, on-page structure and internal links.
 - `vercel.json` — build output configuration.
 - `dist/` — generated website, excluded from Git.
