@@ -1,0 +1,12 @@
+{
+  "name": "altovena-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "npm run build && node scripts/check.mjs",
+    "check": "node --check scripts/build.mjs && node --check scripts/check.mjs && node --check public/site.js"
+  },
+  "engines": { "node": ">=20" }
+}
