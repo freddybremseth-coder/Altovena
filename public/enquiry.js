@@ -13,7 +13,7 @@ if(form){
     const body=no
       ? 'Navn: '+name+'\nVirksomhet: '+company+'\nE-post: '+email+'\nTema: '+selected+'\n\nBehov:\n'+need
       : 'Name: '+name+'\nCompany: '+company+'\nEmail: '+email+'\nTopic: '+selected+'\n\nNeed:\n'+need;
-    const target='mailto:'+encodeURIComponent(form.dataset.contact)+'?subject='+encodeURIComponent('Altovena – '+selected)+'&body='+encodeURIComponent(body);
+    const target='mailto:'+form.dataset.contact+'?subject='+encodeURIComponent('Altovena – '+selected)+'&body='+encodeURIComponent(body);
     form.querySelector('[data-enquiry-note]').textContent=no
       ? 'E-postprogrammet åpnes. Ingen melding er sendt automatisk.'
       : 'Opening your email program. No message was sent automatically.';
