@@ -1,4 +1,4 @@
-# Altovena — website v0.3
+# Altovena — website v0.4
 
 A dependency-free, bilingual (English/Norwegian) first website for Altovena, a planned international AI product and technology brand.
 
@@ -21,6 +21,14 @@ This builds **22 statically rendered pages** covering the home page, product ove
 - **Product-aware contact links:** product CTAs carry a `?product=` parameter that selects the relevant topic in the existing email-draft form.
 - **22 localized pages**, each linking to the new applied-work page; sitemap inclusion remains gated to approved public releases.
 
+## What's new in v0.4
+
+- **Solution adviser / Produktveiviser:** a product-matching section on each localized home page. Visitors select one of four business challenges and immediately see an honest recommendation for Offer Intelligence, Visibility, RealtyFlow or Olivia OS.
+- **Product-aware next step:** every recommendation links to the correct product page and preselects the corresponding topic on the existing email-draft contact page.
+- **Private by construction:** no AI call, cookies, browser storage, tracking or submissions. This is clearly marked as a static decision guide, not a live AI or company analysis.
+- **New QA:** automated validation for both languages, all four routes, correct links and preview indexing protection.
+- **Product screenshot acceptance checklist:** `docs/demo-asset-approval.md` specifies verification, redaction and sign-off required before replacing illustrative panels with real app screenshots.
+
 ## Release safeguards
 
 - By default **all pages are noindex** and `robots.txt` disallows crawling. This is a prelaunch build.
@@ -40,6 +48,10 @@ This builds **22 statically rendered pages** covering the home page, product ove
 - `public/styles.css` and `public/enhance.css` — responsive design system and interactive page styles.
 - `public/enquiry.js` — opens a mailto draft without a network submission.
 - `public/site.js` — accessible mobile navigation.\n- `public/scenario.css` and `public/scenario.js` — accessible static example scenarios and product preselection.
+- `scripts/match.mjs` — build-time bilingual homepage product adviser.
+- `scripts/qa-adviser.mjs` — test the adviser, links, privacy and prelaunch checks.
+- `public/adviser.css` and `public/adviser.js` — accessible product guidance (static decision tree).
+- `docs/demo-asset-approval.md` — approved real-screenshot requirements.
 - `scripts/check.mjs` — tests route counts, on-page structure and internal links.
 - `vercel.json` — build output configuration.
 - `dist/` — generated website, excluded from Git.
