@@ -1,43 +1,46 @@
-# Altovena
+# Altovena — website v0.1
 
-**AI Products & Intelligent Systems**
+A dependency-free, bilingual (English/Norwegian) first website for Altovena, a planned international AI product and technology brand.
 
-Altovena er under planlegging som en internasjonal produkt- og teknologimerkevare med egne SaaS-løsninger, implementering og spesialisttjenester. Dette repositoriet er tiltenkt selskapets nye nettsted, merkevaremateriale og nettsidespesifikasjoner.
+## Run and test
 
-> **Status:** Planleggingsfase. Selskapsregistrering, varemerke, domene, produktstatus og offentlige påstander må bekreftes før lansering.
+```bash
+npm run check
+npm test
+python3 -m http.server 8000 --directory dist
+```
 
-## Merkevaremodell
+Open `http://localhost:8000/en/` or `http://localhost:8000/no/`.
 
-- **Altovena** — profesjonelle AI-produkter og løsninger for bedrifter.
-- **ChatGenius.pro** — beholdes som egen merkevare for mindre AI-apper, enklere SaaS-produkter, nettsider og opplæring.
-- **Nexus / Shared Core** — underliggende teknologi som ikke kopieres inn i dette markedsføringsrepoet.
+This builds **20 statically rendered pages** covering the home page, product overview, four product pages, Nexus technology, services, team and contact in both languages.
 
-## Produkter under vurdering
+## Release safeguards
 
-- Offer Intelligence — kunde- og mulighetsanalyse, med mennesker som tar kontaktbeslutninger.
-- Visibility — SEO, AEO og GEO med faglig styring og målbar oppfølging.
-- RealtyFlow — plattform for eiendoms- og salgsprosesser.
-- Olivia OS — systemstøtte for landbruk og gårdsdrift.
-- Nexus Intelligence — teknologiplattformen bak løsningene.
+- By default **all pages are noindex** and `robots.txt` disallows crawling. This is a prelaunch build.
+- Set `SITE_URL=https://your-confirmed-domain.example` **only after domain ownership, legal publishing details, product copy and sitemap are approved**. This enables canonical, hreflang and sitemap output.
+- Set `CONTACT_EMAIL=your-verified-inbox` before launch. Until then the existing `post@chatgenius.pro` inbox is shown as a clearly marked *temporary* contact channel. No form submission or CRM integration is claimed.
+- Product pages describe product directions; product access, subscription prices, client logos, performance claims and case studies must be verified before launch.
+- Workflow visualization is explicitly illustrative, not customer data.
+- Team titles and bios require sign-off before public release.
+- No trackers, external font downloads or analytics scripts are loaded in this first version.
+- ChatGenius.pro remains a separate brand for small apps, simpler SaaS, websites and training.
 
-Ingen produktfunksjon skal omtales som offentlig tilgjengelig før den er verifisert.
+## Repository structure
 
-## Team og fagområder
+- `scripts/build.mjs` — site generator and Norwegian/English content.
+- `public/styles.css` — responsive style system.
+- `public/site.js` — accessible mobile navigation.
+- `scripts/check.mjs` — tests route counts, on-page structure and internal links.
+- `vercel.json` — build output configuration.
+- `dist/` — generated website, excluded from Git.
+- `.github/workflows/validate.yml` — Node 24 CI checks.
 
-- **Freddy Bremseth:** Founder, Product & Technology
-- **Anna Bremseth:** Finance, Accounting, Quality Assurance & Internal Control
-- **Andrea Thorsnes Karlsen:** Marketing & Customer Experience
-- **Erlend Thorsnes Karlsen:** SEO, AEO & GEO Architecture
+## Further development
 
-Stillingstitler og offentlig personpresentasjon skal gjennomgås og godkjennes før publisering.
-
-## Arbeidsprinsipper
-
-1. Produkter først; spesialisttjenester og implementering som supplerende inntektsstrøm.
-2. Ekte produktdemoer og etterprøvbare caser, ikke oppdiktede kundeutsagn eller tall.
-3. Engelsk og norsk som planlagte lanseringsspråk; spansk vurderes senere.
-4. Brukervennlig, tilgjengelig, raskt og mobiltilpasset nettsted.
-5. SEO/AEO/GEO, forfatteransvar, kilder, internlenking og kundereise bygges inn fra starten.
-6. Menneskelig kontroll av publisering, økonomi og konsekvensfulle AI-handlinger.
-
-**Neste steg:** Grunnleggende merkevare-/nettstedsstrategi legges frem for gjennomgang før vi starter implementering og produksjonsdeploy.
+1. Verify and approve company name, domains, legal pages and person descriptions.
+2. Decide which products have demo, private pilot or publicly sellable status; label each accurately.
+3. Replace illustrated system flow with approved real product screenshots.
+4. Establish Altovena-branded demo/lead workflow with consent and data handling requirements.
+5. Add approved privacy policy and company details.
+6. Set up production domain, analytics/Search Console and launch indexing only after QA.
+7. Connect product pages and source material to the SEO/AEO/GEO editorial standards in the working manual.
