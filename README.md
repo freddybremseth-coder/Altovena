@@ -82,3 +82,12 @@ This builds **24 statically rendered pages** covering the home page, product ove
 - Andrea: public biography approval, customer language, accessible user experience.
 - Erlend: SEO/AEO/GEO content accuracy and metadata.
 - Legal/privacy: actual operator identity, approved privacy information and contractual terms. These are not fabricated by the marketing pages.
+
+## What's new in v0.6
+
+- Altovena brand logo and favicon variants are installed throughout the English/Norwegian site.
+- Real, optimized brand artwork is used for homepage and four products. Each AI-rendered image is expressly labeled as a **concept illustration**, not a real system screenshot.
+- The company and contact pages display the founder-supplied contact address at Avenida del Presidente Adolfo Suárez 14, Eagle Tower, Benidorm, Spain, and the intended domain Altovena.com. This does not claim a legally registered address or completed company registration.
+- The home page includes an original **18-second captioned, silent** brand-introduction video with poster and user-controlled playback. This is concept footage, not live product footage.
+- See `docs/brand-media-policy.md` for screenshot and media acceptance rules. Screenshots of actual functioning systems will only be added once reviewed and redacted.
+- Build and QA expanded to verify all brand media and 24 localized pages; prelaunch indexing safeguards remain unchanged.

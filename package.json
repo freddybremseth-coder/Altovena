@@ -1,12 +1,12 @@
 {
   "name": "altovena-website",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/enhance.mjs && node scripts/extend.mjs && node scripts/match.mjs && node scripts/trust.mjs",
-    "test": "npm run build && node scripts/check.mjs && node scripts/qa-enhancements.mjs && node scripts/qa-extend.mjs && node scripts/qa-adviser.mjs && node scripts/qa-trust.mjs",
-    "check": "node --check scripts/build.mjs && node --check scripts/enhance.mjs && node --check scripts/check.mjs && node --check scripts/qa-enhancements.mjs && node --check public/site.js && node --check public/enquiry.js && node --check scripts/extend.mjs && node --check scripts/qa-extend.mjs && node --check public/scenario.js && node --check scripts/match.mjs && node --check scripts/qa-adviser.mjs && node --check public/adviser.js && node --check scripts/trust.mjs && node --check scripts/qa-trust.mjs"
+    "build": "node scripts/enhance.mjs && node scripts/extend.mjs && node scripts/match.mjs && node scripts/trust.mjs && node scripts/brand.mjs",
+    "test": "npm run build && node scripts/check.mjs && node scripts/qa-enhancements.mjs && node scripts/qa-extend.mjs && node scripts/qa-adviser.mjs && node scripts/qa-trust.mjs && node scripts/qa-brand.mjs",
+    "check": "node --check scripts/build.mjs && node --check scripts/enhance.mjs && node --check scripts/check.mjs && node --check scripts/qa-enhancements.mjs && node --check public/site.js && node --check public/enquiry.js && node --check scripts/extend.mjs && node --check scripts/qa-extend.mjs && node --check public/scenario.js && node --check scripts/match.mjs && node --check scripts/qa-adviser.mjs && node --check public/adviser.js && node --check scripts/trust.mjs && node --check scripts/qa-trust.mjs && node --check scripts/brand.mjs && node --check scripts/qa-brand.mjs"
   },
   "engines": {
     "node": ">=20"
