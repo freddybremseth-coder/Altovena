@@ -1,12 +1,14 @@
 {
   "name": "altovena-website",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/enhance.mjs",
-    "test": "npm run build && node scripts/check.mjs && node scripts/qa-enhancements.mjs",
-    "check": "node --check scripts/build.mjs && node --check scripts/enhance.mjs && node --check scripts/check.mjs && node --check scripts/qa-enhancements.mjs && node --check public/site.js && node --check public/enquiry.js"
+    "build": "node scripts/enhance.mjs && node scripts/extend.mjs",
+    "test": "npm run build && node scripts/check.mjs && node scripts/qa-enhancements.mjs && node scripts/qa-extend.mjs",
+    "check": "node --check scripts/build.mjs && node --check scripts/enhance.mjs && node --check scripts/check.mjs && node --check scripts/qa-enhancements.mjs && node --check public/site.js && node --check public/enquiry.js && node --check scripts/extend.mjs && node --check scripts/qa-extend.mjs && node --check public/scenario.js"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  }
 }
