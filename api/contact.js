@@ -32,11 +32,13 @@ export default async function handler(req,res){
  let v=req.body;if(typeof v==='string'){try{v=JSON.parse(v);}catch{return reply(res,400,{ok:false,error:'INVALID_JSON'});}}
  if(!v||typeof v!=='object'||Array.isArray(v))return reply(res,400,{ok:false,error:'INVALID_REQUEST'});
  if(clean(v.website))return reply(res,422,{ok:false,error:'INVALID_REQUEST'});
- const {name,company,email,needs,product,challengeToken}=v;
+ const {name,company,email,needs,product,challengeToken,submissionId,pageUrl}=v;
  if(!valid(name,120)||!valid(email,254)||!valid(needs,2500)||
  typeof company!=='string'||company.length>160||!allowedProducts.has(product)||
  !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email)||
- !valid(challengeToken,4096))return reply(res,422,{ok:false,error:'INVALID_FIELDS'});
+ !valid(challengeToken,4096)||typeof submissionId!=='string'||
+ !/^[a-f\d]{8}-[a-f\d]{4}-[1-8][a-f\d]{3}-[89ab][a-f\d]{3}-[a-f\d]{12}$/i.test(submissionId))
+ return reply(res,422,{ok:false,error:'INVALID_FIELDS'});
  try{
   const verify=await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify',{
    method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
@@ -51,7 +53,10 @@ export default async function handler(req,res){
    brandKey:'altovena',source:'altovena.com/contact',requestType:'product-enquiry',
    name:clean(name),company:clean(company),email:clean(email).toLowerCase(),
    message:clean(needs),product,consent:{purpose:'respond_to_request',marketing:false},
-   pageUrl:sourceOrigin+'/no/bestill-demo/'
+   submissionId:clean(submissionId).toLowerCase(),
+   pageUrl:typeof pageUrl==='string'&&
+    [sourceOrigin+'/en/book-demo/',sourceOrigin+'/no/bestill-demo/'].includes(pageUrl)
+    ?pageUrl:sourceOrigin+'/no/bestill-demo/'
   };
   const response=await fetch(destination.href,{
    method:'POST',headers:{
@@ -61,7 +66,7 @@ export default async function handler(req,res){
   if(!response.ok)return reply(res,502,{ok:false,error:'REALTYFLOW_DELIVERY_FAILED'});
   const outcome=await response.json().catch(()=>null);
   // No success for simulated/ignored ingestion, spam-discard or empty response.
-  if(outcome?.ok!==true||outcome?.accepted!==true||!outcome?.leadId)
+  if(outcome?.ok!==true||outcome?.accepted!==true||!outcome?.leadId||!outcome?.workItemId)
    return reply(res,502,{ok:false,error:'REALTYFLOW_NOT_CONFIRMED'});
   return reply(res,200,{ok:true,received:true});
  }catch{
