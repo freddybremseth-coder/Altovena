@@ -60,10 +60,19 @@ Ingen uverifiserte SEO/GEO-snarveier, oppdiktede kundecaser eller presentasjon a
 
 **Første hovedartikkel:** `/no/innsikt/seo-aeo-geo-forskjeller/` (engelsk: `/en/insights/seo-aeo-geo-explained/`).
 
-**Revisjonsstatus:** Begge språkversjoner er foreløpig redaksjonelle utkast med uttrykkelig ventende faglig godkjenning. `PUBLIC_LAUNCH=true` er utilstrekkelig alene; bygging krever også `EDITORIAL_APPROVED=true` for offentlig indeksérbar utgivelse.
+**Revisjonsstatus 14. oktober 2026:** Begge språkversjoner av SEO/AEO/GEO-hovedartikkelen er godkjent for publisering av nettstedseier. Dette er ikke dokumentasjon på individuell godkjenning fra Erlend eller Andrea. Begge språkversjoner er teknisk klare i preview, men offentlig publisering avventer registrert domene og fungerende DNS. `PUBLIC_LAUNCH=true` er utilstrekkelig alene; bygging krever også `EDITORIAL_APPROVED=true` for offentlig indeksérbar utgivelse.
 
 **Pålagt kontroll etter publisering:** HTTP 200, riktig canonical/hreflang, oppdatert sitemap, faktisk innhold mot godkjent versjon, mobilvisning og målbar kundereise. `lastmod` settes ikke kunstig ved urelaterte kodeendringer.
 
 ## 7. Mål etter lansering
 
 Rapporter separate trinn: visninger/klikk → engasjerte besøk → besøk på Visibility → demo-/kontaktforespørsel → kvalifisert lead → eventuelt salg. Dokumenterbare AI-siteringer følges særskilt. Ikke opprett nye artikler bare fordi det er mulig å automatisere produksjonen.
+
+## 8. Nye artikler – beslutningslogg
+
+- **14.10.2026, SEO/AEO/GEO:** Godkjent for offentlig publisering av nettstedseier. Artikkelens utkastmerker er fjernet fra kode. Utrulling til indekserbar produksjon er blokkert inntil domenet er registrert og DNS er konfigurert. Ikke sett `PUBLIC_LAUNCH=true` ukritisk, siden dette også kan publisere andre produktsider.
+- **14.10.2026, B2B lead-kvalifisering:** Ny støtteguide til Offer Intelligence. Status **utkast / preview**, krever særskilt menneskelig godkjenning. Den har selvstendig informasjonsintensjon, separate vurderinger av datakvalitet og kjøpsinteresse, kildegrunnlag og manuell godkjenning før kontakt. `OFFER_GUIDE_APPROVED` er separat fra `EDITORIAL_APPROVED`.
+
+### Produksjonssperre for eget domene
+
+Altovena.com er knyttet til Vercel-prosjektet, men Vercel rapporterte 14.10.2026 DNS `misconfigured: true` og registrar-oppslag `available: true`. Før produksjonssetting må domenets eierskap/registrering bekreftes, DNS konfigureres og live HTTPS kontrolleres. Ikke markér en midlertidig vercel.app-preview som offentlig SEO-publisering.
