@@ -21,10 +21,10 @@ for(const lang of ['no','en']){
  if((g.match(/<table\b/g)||[]).length!==1)throw Error('Expected comparison table '+lang);
  if((g.match(/<th\b/g)||[]).length!==3)throw Error('Mobile-first tables use three columns '+lang);
  if((g.match(/<h3\b/g)||[]).length!==3)throw Error('FAQ should have three questions '+lang);
- const sections=[...g.matchAll(/<section class="editorial-section" id="part-\\d+"><h2>[^<]+<\\/h2>([\\s\\S]*?)<\\/section>/g)];
+ const sections=[...g.matchAll(/<section class="editorial-section" id="part-\d+"><h2>[^<]+<\/h2>([\s\S]*?)<\/section>/g)];
  if(sections.length!==8)throw Error('Expected eight focused H2 sections '+lang);
  for(const [i,sec] of sections.entries()){
-  const first=sec[1].match(/^<p>([\\s\\S]*?)<\\/p>/)?.[1]||'';
+  const first=sec[1].match(/^<p>([\s\S]*?)<\/p>/)?.[1]||'';
   if(!first.startsWith('<strong>')||first.replace(/<[^>]+>/g,'').length<80)throw Error('H2 needs an immediate substantive answer '+lang+' section '+(i+1));
  }
  for(const m of g.matchAll(/<td data-label="([^"]+)">/g))if(!m[1].trim())throw Error('Unlabelled mobile comparison cell '+lang);
