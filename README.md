@@ -1,4 +1,4 @@
-# Altovena — website v0.8
+# Altovena — website v1.1
 
 A dependency-free, bilingual (English/Norwegian) first website for Altovena, a planned international AI product and technology brand.
 
@@ -123,3 +123,13 @@ Andrea Thorsnes Karlsen: customer journey, wording, usability and CTA. Erlend Th
 - Builds now include 30 localized pages, with additional QA covering the new guides, language links, sources and preview noindex.
 - Production blocker: Vercel project domain `altovena.com` was added and verified for the project, but DNS is still misconfigured. Vercel registrar lookup found it currently available for registration. Do not claim the public domain is live, or merge draft-only material to production to publish the approved article. Domain purchase requires a separate explicit user authorization.
 - Keep `feature/website-v0-1` / PR #2 in preview while an approved-content-only production release and domain verification are prepared.
+
+## v1.1 – RealtyFlow ownership of forms, CRM and marketing
+
+- **RealtyFlow is the system of record** for Altovena forms, brand leads, CRM, newsletter, Content Hub, social media and campaigns. The website has no independent CRM or email-delivery list.
+- Privacy policies explicitly describe future RealtyFlow processing, not standalone Resend delivery.
+- The server-side `/api/contact` code is a **disabled-by-default, RealtyFlow-only brand-scoped gateway**. It never writes customer data locally and never submits to an unrelated brand.
+- **Do not activate** until the dedicated RealtyFlow `/api/public/altovena-leads` endpoint is implemented, tested for durable record creation, brand routing, duplicate prevention, notification and role-based access. RealtyFlow's existing generic public-lead endpoint defaults unknown brands to Zen Eco Homes and is unsuitable here.
+- Until that test passes, the site keeps the honest mail-draft fallback with prominent links to the privacy pages, and does not claim submissions are saved in CRM.
+- Freddy and Andrea require full **operational** Altovena permissions, scoped in RealtyFlow to the Altovena brand. This is an approved architecture requirement, **not confirmation that membership/permissions are active**.
+- See `docs/realtyflow-brand-integration.md` for the contract, handoff and acceptance tests.
