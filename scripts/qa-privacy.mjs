@@ -28,6 +28,11 @@ for(const lang of ['en','no']){
  if(!policy.includes('European Commission')&&!policy.includes('Europakommisjonen'))throw Error('Primary source missing '+lang);
 }
 const api=fs.readFileSync(path.resolve(import.meta.dirname,'../api/contact.js'),'utf8');
-for(const flag of ['CONTACT_FORM_ENABLED','PRIVACY_APPROVED','PRIVACY_CONTROLLER_NAME','RESEND_API_KEY','TURNSTILE_SECRET_KEY'])
+for(const flag of ['CONTACT_FORM_ENABLED','PRIVACY_APPROVED','PRIVACY_CONTROLLER_NAME','REALTYFLOW_ALTOVENA_INTAKE_URL','REALTYFLOW_ALTOVENA_INTAKE_KEY','TURNSTILE_SECRET_KEY'])
  if(!api.includes(flag))throw Error('Contact server gate missing '+flag);
-console.log('PASS: 32 localized pages, 2 privacy notices, AEPD layered disclosure, contact fallback, privacy gate, noindex and links.');
+if(!api.includes("brandKey:'altovena'")||api.includes("https://api.resend.com/")) throw Error('Contact must be routed only to Altovena brand in RealtyFlow, not standalone Resend');
+for(const lang of ['en','no']){
+ const privacy=fs.readFileSync(path.join(root,routes[lang],'index.html'),'utf8');
+ if(!privacy.includes('RealtyFlow')||privacy.includes('Resend'))throw Error('RealtyFlow must be disclosed, not Resend: '+lang);
+}
+console.log('PASS: 32 pages, privacy disclosures, safe draft fallback, scoped RealtyFlow-only delivery gate, noindex, links.');
