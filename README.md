@@ -115,3 +115,11 @@ This builds **24 statically rendered pages** covering the home page, product ove
 ### Editorial sign-off still required
 
 Andrea Thorsnes Karlsen: customer journey, wording, usability and CTA. Erlend Thorsnes Karlsen: SEO, AEO and GEO substance, search intent and source accuracy. Freddy Bremseth: commercial/product truth. Anna Bremseth: relevant financial quality and controls. Green CI is not editorial sign-off and does not authorize public publishing.
+
+## v0.9 — approved SEO cornerstone, Offer guide in draft
+
+- SEO/AEO/GEO cornerstone guide is approved for publication as of 14 October 2026; the user-authorized approval is now reflected in Norwegian and English copy without falsely claiming individual team approval.
+- One distinct B2B qualification guide is drafted in both languages, under Insights. It separates **quality of company evidence** from **genuine buying interest**, includes privacy-aware guidance with EU primary sources, practical human-approval steps, three-column comparison and FAQ. It is **not approved for production yet**.
+- Builds now include 30 localized pages, with additional QA covering the new guides, language links, sources and preview noindex.
+- Production blocker: Vercel project domain `altovena.com` was added and verified for the project, but DNS is still misconfigured. Vercel registrar lookup found it currently available for registration. Do not claim the public domain is live, or merge draft-only material to production to publish the approved article. Domain purchase requires a separate explicit user authorization.
+- Keep `feature/website-v0-1` / PR #2 in preview while an approved-content-only production release and domain verification are prepared.
