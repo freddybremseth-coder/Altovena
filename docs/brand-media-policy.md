@@ -11,3 +11,9 @@ This plan is the required standard for adding images, video, and screenshots to 
 7. **Release gate**: human approval of brand images and real demos, and review by Andrea (communication/UX), Erlend (SEO/AEO/GEO), Anna (financial/legal disclosures) and Freddy (technical/product truth). Preserve preview noindex while incomplete.
 
 A real product screenshot may **replace** a concept illustration later only after the relevant acceptance checks pass; both types must remain distinguishable.
+
+## v0.7 implementation notes
+
+- Home and product-list product cards show relevant approved concept art, always identified as illustrations, never actual screenshots.
+- Both language versions of the homepage include transcript text for the existing English-language captioned concept video. A separate Norwegian film has been generated but must be uploaded to the brand asset folder and QA'd before embedding on the live preview.
+- User-supplied team address and brand domain remain non-legal contact details until company/legal checks are complete.
