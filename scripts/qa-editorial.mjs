@@ -5,7 +5,7 @@ const routes={no:['innsikt','innsikt/seo-aeo-geo-forskjeller'],en:['insights','i
 const pages=[];
 function walk(d){for(const p of fs.readdirSync(d,{withFileTypes:true})){const f=path.join(d,p.name);if(p.isDirectory())walk(f);else if(p.name==='index.html'&&f!==path.join(root,'index.html'))pages.push(f);}}
 walk(root);
-if(pages.length!==30)throw Error('Expected 30 localized pages, received '+pages.length);
+if(pages.length!==32)throw Error('Expected 32 localized pages, received '+pages.length);
 for(const file of pages){const h=fs.readFileSync(file,'utf8');const inside=file.slice(root.length);
  if((h.match(/<h1\b/g)||[]).length!==1)throw Error('One H1 expected '+inside);
  if(!h.includes('data-insights-nav')||!h.includes('data-insights-footer'))throw Error('Insights navigation missing '+inside);
@@ -34,4 +34,4 @@ for(const lang of ['no','en']){
  if(process.env.PUBLIC_LAUNCH!=='true' && (!g.includes('name="robots" content="noindex,nofollow"')||fs.existsSync(path.join(root,'sitemap.xml'))))throw Error('Preview indexing policy failed');
 }
 const vis=fs.readFileSync(path.join(root,'no/produkter/visibility/index.html'),'utf8');if(!vis.includes('/no/innsikt/seo-aeo-geo-forskjeller/'))throw Error('Missing contextual link from commercial page');
-console.log('PASS: 30 pages, 2-language insights pillar, answer-first copy, 3-column comparison, source links, FAQs, CTA and noindex.');
+console.log('PASS: 32 pages, 2-language insights pillar, answer-first copy, 3-column comparison, source links, FAQs, CTA and noindex.');
