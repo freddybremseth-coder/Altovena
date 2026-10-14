@@ -31,7 +31,7 @@ const copy = {
     title:'SEO, AEO og GEO: Hva er forskjellen?',description:'SEO, AEO og GEO forklart: forstå forskjellene, få konkrete prioriteringer og se hvordan bedre svar kan føre til kvalifiserte kunder.',
     h1:'SEO, AEO og GEO: Hva er forskjellen – og hva bør bedriften gjøre?',
     intro:'SEO gjør det lettere å finne og bruke innhold i søk. AEO gjør svarene tydelige, mens GEO handler om troverdig og anvendelig informasjon i generative AI-tjenester. Arbeidet overlapper: bedriften trenger gode sider for mennesker, ikke tre parallelle innholdsmaskiner.',
-    label:'FAGARTIKKEL · SØK OG AI',byline:'Altovena-redaksjonen · redaksjonelt utkast',review:'Faglig gjennomgang ved Erlend Thorsnes Karlsen gjenstår før offentlig publisering.',
+    label:'FAGARTIKKEL · SØK OG AI',byline:'Altovena-redaksjonen · 14. oktober 2026',review:'Godkjent for publisering 14. oktober 2026. Faglig metode bygger på arbeidsmanualen fra Andrea Thorsnes Karlsen og Erlend Thorsnes Karlsen.',
     headings:[
       ['Hva er SEO?',[
         '<strong>SEO (søkemotoroptimalisering) gjør nettstedet lettere å finne, forstå og bruke i relevante søk.</strong> Arbeidet omfatter teknisk tilgjengelighet, god sidestruktur, nyttig innhold og tillit.',
@@ -75,7 +75,7 @@ const copy = {
     table:[['Område','Spørsmål','Typisk tiltak'],['SEO','Kan kunden finne siden?','Teknikk, struktur, lenker og innhold'],['AEO','Får kunden et klart svar?','Svar først, steg, tabeller og FAQ'],['GEO','Kan opplysningene etterprøves?','Kilder, erfaring, tydelige entiteter']],
     steps:['Velg kundens viktigste spørsmål og ønsket handling.','Finn eksisterende side som allerede burde eie svaret.','Skriv direkte svar under tydelige H2-er og dokumenter påstander.','Legg inn naturlige lenker til fordypning og passende neste steg.','Kontroller mobil, metadata, lenker, faktagrunnlag og produktoplysninger før publisering.'],
     faqTitle:'Vanlige spørsmål',faq:[['Trenger vi en egen GEO-guide for hvert søkeord?','Nei. Flere like artikler kan gi overlappende intensjon. Prioriter én tydelig hovedside med nødvendig understruktur.'],['Må alle overskrifter være spørsmål for AEO?','Nei. Bruk naturlige spørsmål der det passer. Overskrifter kan også beskrive et klart steg eller undertema.'],['Kan Altovena love omtale i AI-svar?','Nei. Vi kan forbedre kvalitet, kildegrunnlag og måling, men ikke bestemme hvilke kilder AI-tjenester viser.']],
-    sources:'Offisielle kilder',next:'Fra kunnskap til neste steg',nextText:'Vil dere vite hvilke sider som bør forbedres først? Se den planlagte Visibility-arbeidsflyten eller ta kontakt om en konkret gjennomgang.',contact:'Diskuter nettstedet med oss',back:'Til innsikt',note:'Faglig utkast. Dette er ikke en garanti for rangering, AI-henvisninger eller tilgjengelighet til et produkt.'
+    sources:'Offisielle kilder',next:'Fra kunnskap til neste steg',nextText:'Vil dere vite hvilke sider som bør forbedres først? Se den planlagte Visibility-arbeidsflyten eller ta kontakt om en konkret gjennomgang.',contact:'Diskuter nettstedet med oss',back:'Til innsikt',note:'Faglig informasjon. Dette er ikke en garanti for rangering, AI-henvisninger eller tilgjengelighet til et produkt.'
   },
   en: {
     nav:'Insights',hubTitle:'Insights on AI and business visibility',hubDescription:'Practical guidance on AI, SEO, AEO, GEO and customer journeys. Move from clearer answers to more qualified business enquiries.',
@@ -86,7 +86,7 @@ const copy = {
     title:'SEO, AEO and GEO: The difference',description:'SEO vs AEO vs GEO explained for businesses. Compare the methods, decide what to improve first and connect visibility to the customer journey.',
     h1:'SEO, AEO and GEO: What is the difference for businesses?',
     intro:'SEO helps people discover and use content in search. AEO makes answers clearer. GEO focuses on information that is credible and understandable in generative AI experiences. The methods overlap: one strong customer-focused page is usually more useful than three separate content programmes.',
-    label:'EXPLAINER · SEARCH AND AI',byline:'Altovena editorial team · draft',review:'Expert editorial review by Erlend Thorsnes Karlsen is pending before publication.',
+    label:'EXPLAINER · SEARCH AND AI',byline:'Altovena editorial team · 14 October 2026',review:'Approved for publication on 14 October 2026. The editorial method follows the working manual by Andrea Thorsnes Karlsen and Erlend Thorsnes Karlsen.',
     headings:[
       ['What is SEO?',[
         '<strong>Search engine optimisation (SEO) helps people find, understand and use relevant website content.</strong> It covers technical accessibility, meaningful structure, useful answers and trust.',
@@ -130,7 +130,7 @@ const copy = {
     table:[['Focus','Main question','Typical work'],['SEO','Can customers find the page?','Technical access, structure, links and content'],['AEO','Does the customer get a clear answer?','Answer-first text, steps, tables and FAQ'],['GEO','Can the facts be verified?','Evidence, experience and consistent entities']],
     steps:['Identify one important customer question and desired next step.','Find the existing page that should own the answer.','Write direct answers under specific H2 headings, with evidence.','Link naturally to relevant resources and the next action.','Check mobile, metadata, internal links, claims and product status before release.'],
     faqTitle:'Common questions',faq:[['Do we need a separate GEO guide for every keyword?','No. Near-duplicate articles often divide the intent. Prefer one strong main page with focused sections.'],['Does AEO require every heading to be a question?','No. Use real questions when appropriate. Other headings can describe a decision or a subtopic.'],['Can Altovena guarantee mentions in AI answers?','No. We can improve content quality, sourcing and measurements, but cannot choose the sources used in AI answers.']],
-    sources:'Official sources',next:'From knowledge to action',nextText:'Want to understand which pages deserve attention first? Explore the planned Visibility workflow or discuss a specific review.',contact:'Discuss your website',back:'Back to insights',note:'Editorial draft. No particular ranking, AI citation or product availability is guaranteed.'
+    sources:'Official sources',next:'From knowledge to action',nextText:'Want to understand which pages deserve attention first? Explore the planned Visibility workflow or discuss a specific review.',contact:'Discuss your website',back:'Back to insights',note:'Educational content. No particular ranking, AI citation or product availability is guaranteed.'
   }
 };
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
