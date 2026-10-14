@@ -1,4 +1,4 @@
-# Altovena — website v0.5
+# Altovena — website v0.7
 
 A dependency-free, bilingual (English/Norwegian) first website for Altovena, a planned international AI product and technology brand.
 
@@ -91,3 +91,13 @@ This builds **24 statically rendered pages** covering the home page, product ove
 - The home page includes an original **18-second captioned, silent** brand-introduction video with poster and user-controlled playback. This is concept footage, not live product footage.
 - See `docs/brand-media-policy.md` for screenshot and media acceptance rules. Screenshots of actual functioning systems will only be added once reviewed and redacted.
 - Build and QA expanded to verify all brand media and 24 localized pages; prelaunch indexing safeguards remain unchanged.
+
+## What's new in v0.7
+
+- Product cards on the home and product-index pages now show the matching optimized illustrations: 16 visual cards across English and Norwegian.
+- Each conceptual image has a visible disclaimer that it is **not** a screenshot of a live product, plus meaningful alt text.
+- The existing brand introduction has an accessible, language-specific transcript, which does not claim to show real product interactions.
+- Build script and QA cover both languages, all four product images, disclosure copy, and the video transcript.
+- A separately generated Norwegian 18-second MP4 is ready for review; the website retains its current embedded English concept film until the Norwegian asset is added to this repository. Do not claim it is deployed yet.
+- OpenGraph preview images are converted to an absolute URL when `PUBLIC_LAUNCH=true` and a verified `SITE_URL` is set.
+- No actual private application screenshots have been added, since approved redacted captures are not available yet. Review `docs/demo-asset-approval.md` before posting any real dashboard screenshot.
