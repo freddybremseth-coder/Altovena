@@ -1,4 +1,4 @@
-# Altovena — website v0.7
+# Altovena — website v0.8
 
 A dependency-free, bilingual (English/Norwegian) first website for Altovena, a planned international AI product and technology brand.
 
@@ -101,3 +101,17 @@ This builds **24 statically rendered pages** covering the home page, product ove
 - A separately generated Norwegian 18-second MP4 is ready for review; the website retains its current embedded English concept film until the Norwegian asset is added to this repository. Do not claim it is deployed yet.
 - OpenGraph preview images are converted to an absolute URL when `PUBLIC_LAUNCH=true` and a verified `SITE_URL` is set.
 - No actual private application screenshots have been added, since approved redacted captures are not available yet. Review `docs/demo-asset-approval.md` before posting any real dashboard screenshot.
+
+## What's new in v0.8 — editorial workflow
+
+- New Norwegian/English Insights hubs: `/no/innsikt/`, `/en/insights/`.
+- One substantive bilingual cornerstone guide on the difference between SEO, AEO and GEO, based on Andrea and Erlend's **SEO/AEO/GEO & customer journey manual v1.2 (14 Oct 2026)**. The copy uses direct H2 answers, evidence and primary-source references, a mobile-friendly three-column comparison, genuine FAQ, contextual links and a relevant next step to Visibility.
+- Guide slugs: `/no/innsikt/seo-aeo-geo-forskjeller/` and `/en/insights/seo-aeo-geo-explained/`.
+- One site-wide Insights navigation/footer entry, and a contextual guide link from the Visibility commercial page; no duplicate articles aimed at the same intent.
+- 28 localized static pages, all still `noindex` in preview. When a verified release is authorized, canonical/hreflang and an updated sitemap are generated. Public editorial release requires **`EDITORIAL_APPROVED=true`** as well as the existing public launch prerequisites.
+- `scripts/qa-editorial.mjs` checks language equivalents, links, sources, answer-first sections, readable comparison cells and release safeguards.
+- `docs/editorial-and-customer-journey-standard.md` documents the six mandatory editorial quality checks, customer-journey stages and human reviewer roles.
+
+### Editorial sign-off still required
+
+Andrea Thorsnes Karlsen: customer journey, wording, usability and CTA. Erlend Thorsnes Karlsen: SEO, AEO and GEO substance, search intent and source accuracy. Freddy Bremseth: commercial/product truth. Anna Bremseth: relevant financial quality and controls. Green CI is not editorial sign-off and does not authorize public publishing.
