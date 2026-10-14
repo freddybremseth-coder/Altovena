@@ -9,12 +9,12 @@ function respond(res,code,body){res.setHeader('Cache-Control','no-store');res.se
 export default async function handler(req,res){
  if(req.method!=='POST'){res.setHeader('Allow','POST');return respond(res,405,{ok:false,error:'METHOD_NOT_ALLOWED'});}
  const cfg=process.env;
- const ready=cfg.CONTACT_FORM_ENABLED==='true'&&cfg.PRIVACY_APPROVED==='true'&&
- ['PRIVACY_CONTROLLER_NAME','PRIVACY_CONTACT_EMAIL','CONTACT_INBOX','CONTACT_FROM','RESEND_API_KEY','TURNSTILE_SITE_KEY','TURNSTILE_SECRET_KEY','SITE_URL'].every(k=>Boolean(cfg[k]));
+ const ready=cfg.CONTACT_FORM_ENABLED==='true'&&cfg.PRIVACY_APPROVED==='true'&&cfg.PUBLIC_LAUNCH==='true'&&
+ ['PRIVACY_CONTROLLER_NAME','PRIVACY_CONTACT_EMAIL','PRIVACY_RETENTION_NO','PRIVACY_RETENTION_EN','CONTACT_INBOX','CONTACT_FROM','RESEND_API_KEY','TURNSTILE_SITE_KEY','TURNSTILE_SECRET_KEY','SITE_URL'].every(k=>Boolean(cfg[k]));
  if(!ready)return respond(res,503,{ok:false,error:'CONTACT_NOT_CONFIGURED'});
  const host=String(req.headers.host||'').toLowerCase();
  const origin=String(req.headers.origin||'');
- if(!host||origin!==('https://'+host))return respond(res,403,{ok:false,error:'ORIGIN_REJECTED'});
+ if(!host||origin!==('https://'+host)||('https://'+host)!==cfg.SITE_URL.replace(/\/$/,''))return respond(res,403,{ok:false,error:'ORIGIN_REJECTED'});
  const len=Number(req.headers['content-length']||0);if(len>12000)return respond(res,413,{ok:false,error:'PAYLOAD_TOO_LARGE'});
  let data=req.body;
  if(typeof data==='string'){try{data=JSON.parse(data);}catch{return respond(res,400,{ok:false,error:'INVALID_JSON'});}}
