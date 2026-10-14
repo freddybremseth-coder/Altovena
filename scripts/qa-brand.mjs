@@ -25,5 +25,5 @@ for(const lang of ['en','no']){
   const h=fs.readFileSync(path.join(main,p,'index.html'),'utf8');if(!h.includes('Adolfo Suárez 14')||!h.includes('Eagle Tower')||!h.includes('altovena.com'))throw Error('Missing contact address '+p);
  }
 }
-if(count!==24)throw Error('Expected 24 localized pages; got '+count);
-console.log('PASS: 24 pages, responsive branded assets, 8 product images, true illustrative labels, contact address and captioned promo video.');
+if(count!==28)throw Error('Expected 28 localized pages; got '+count);
+console.log('PASS: 28 pages, responsive branded assets, 8 product images, true illustrative labels, contact address and captioned promo video.');
