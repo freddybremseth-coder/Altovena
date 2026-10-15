@@ -17,19 +17,20 @@ test("all repository statements scope to trusted tenant with bound parameters",a
   await repo.createMission({createdBy:user,goal:"  Demo mission  "});
   await repo.getMission(mission);
   await repo.listMissions();
-  await repo.transitionMission({missionId:mission,from:"draft",to:"planned",version:1});
+  await repo.transitionMission({missionId:mission,from:"draft",to:"planned",version:1,actorId:user});
   await repo.appendEvidence({missionId:mission,eventType:"mission.started",payload:{ok:true}});
   assert.equal(calls.length,5);
   assert.ok(calls.every(c=>c.args[0]===tenant));
   assert.ok(calls.every(c=>c.sql.includes("$1")));
   assert.deepEqual(calls[0].args,[tenant,user,"Demo mission",0]);
-  assert.deepEqual(calls[3].args,[tenant,mission,"planned","draft",1]);
+  assert.deepEqual(calls[3].args,[tenant,mission,"draft","planned",1,user,"{}"]);
+  assert.match(calls[3].sql,/command\.advance_mission/);
   assert.equal(calls[4].args[4],JSON.stringify({ok:true}));
 });
 test("state transitions reject unsafe or stale input before SQL dispatch",async()=>{
   const {repo,calls}=fixture();
-  await assert.rejects(repo.transitionMission({missionId:mission,from:"draft",to:"completed",version:1}),/invalid state/);
-  await assert.rejects(repo.transitionMission({missionId:mission,from:"draft",to:"planned",version:0}),/invalid version/);
+  await assert.rejects(repo.transitionMission({missionId:mission,from:"draft",to:"completed",version:1,actorId:user}),/invalid state/);
+  await assert.rejects(repo.transitionMission({missionId:mission,from:"draft",to:"planned",version:0,actorId:user}),/invalid version/);
   assert.equal(calls.length,0);
 });
 test("invalid identity, payload and limit rejected",async()=>{
@@ -44,5 +45,5 @@ test("invalid identity, payload and limit rejected",async()=>{
 test("read and CAS transition return null when row missing or stale",async()=>{
   const {repo}=fixture();
   assert.equal(await repo.getMission(mission),null);
-  assert.equal(await repo.transitionMission({missionId:mission,from:"draft",to:"planned",version:1}),null);
+  assert.equal(await repo.transitionMission({missionId:mission,from:"draft",to:"planned",version:1,actorId:user}),null);
 });
