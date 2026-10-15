@@ -153,7 +153,7 @@ for(const lang of ["no","en"])for(const [key,dest] of Object.entries(links)){
  // Put the customer answer immediately after the hero on commercial pages.
  // The previous sitewide pass appended it below tours and other long content,
  // making the essential product explanation hard for buyers to find.
- const leadFirstKeys = new Set(["home","products","offer","visibility","realtyflow","olivia","nexus","services","company"]);
+ const leadFirstKeys = new Set(["home","products","offer","visibility","realtyflow","olivia","nexus","services","company","applied","trust","insights"]);
  if(leadFirstKeys.has(key)){
    const heroOpen=key==="home"?'<section class="hero">':'<section class="page-hero">';
    const heroStart=html.indexOf(heroOpen);
