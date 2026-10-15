@@ -49,7 +49,7 @@ for(const lang of ["no","en"])for(const [key,dest] of Object.entries(links)){
  let section='<section data-altovena-journey-v12="true" class="section journey-section"><div class="container journey-wrap">'+
    '<h2>'+esc(data[0])+'</h2><p class="journey-answer">'+esc(data[1])+'</p>'+
    sections+'<p class="journey-limits">'+esc(data[2])+'</p>'+trust+
-   '<div class="journey-next"><h3>'+relatedHeading+'</h3><div class="journey-links">'+related+'</div></div></div></section>';
+   '<div class="journey-next"><p class="journey-next-heading">'+relatedHeading+'</p><div class="journey-links">'+related+'</div></div></div></section>';
  if(key==="privacy")section=section.replace('journey-section','journey-section journey-privacy');
  // Avoid a duplicate generic full-width CTA on top of the new relevant next
  // step. Keep actual form and other product/user controls untouched.
