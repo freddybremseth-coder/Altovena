@@ -5,7 +5,7 @@ const routes={no:['innsikt','innsikt/seo-aeo-geo-forskjeller'],en:['insights','i
 const pages=[];
 function walk(d){for(const p of fs.readdirSync(d,{withFileTypes:true})){const f=path.join(d,p.name);if(p.isDirectory())walk(f);else if(p.name==='index.html'&&f!==path.join(root,'index.html'))pages.push(f);}}
 walk(root);
-if(pages.length!==32)throw Error('Expected 32 localized pages, received '+pages.length);
+if(pages.length!==34)throw Error('Expected 32 localized pages, received '+pages.length);
 for(const file of pages){const h=fs.readFileSync(file,'utf8');const inside=file.slice(root.length);
  if((h.match(/<h1\b/g)||[]).length!==1)throw Error('One H1 expected '+inside);
  if(!h.includes('data-insights-nav')||!h.includes('data-insights-footer'))throw Error('Insights navigation missing '+inside);
