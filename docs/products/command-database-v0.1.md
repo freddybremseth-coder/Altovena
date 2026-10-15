@@ -42,3 +42,21 @@ Run SQL in this order **only against disposable databases**:
 6. `db/command/tests/004_event_immutability.sql`
 
 This CI check proves the relational schema behaves as designed in vanilla Postgres, not that the Supabase runtime has correct auth or is operationally ready. Real client policies remain intentionally absent and the UI remains read-only/simulated. Privileged owners can disable triggers, so these are DML safety controls, not cryptographically tamper-proof audit storage.
+
+## v0.2 – atomic transitions and task/mission integrity
+
+The following review-only scripts are applied **only in disposable CI PostgreSQL**:
+- `003_atomic_transition_review.sql`: a security-invoker, deny-by-default `command.advance_mission` function that checks a constrained state machine and atomically writes a transition event with the versioned state change.
+- `004_task_mission_integrity_review.sql`: composite task foreign keys prevent events/approvals in one mission from pointing to another mission's task, even inside the same tenant.
+- `tests/005_atomic_transition.sql`: verifies valid transitions, stale versions, cross-tenant denial, malformed transitions and database rollback on simulated event-writing failure.
+- `tests/006_same_mission_integrity.sql`: verifies cross-mission references are rejected but valid references remain allowed.
+
+The JS `prototype/command-sql-repository.mjs` calls the atomic function, requiring an actor ID resolved by a trusted server. This **does not** provide session authentication or guarantee that the caller is authorized. A real server must derive tenant and actor from validated identity and membership, not supplied request fields.
+
+### Remaining release blockers
+- Real authentication, tenant membership policies, a non-admin restricted execution role, tenant RLS tests and data-access authorization.
+- Durable task queue with transactionally claimed leases, retries and exactly-once side-effect protections.
+- Atomic human approval consumption including payload digest, reviewer identity and expiry.
+- Production-grade tracing, encrypted secrets, threat model, operations and restoration tests.
+- Verifying end-to-end use against an isolated Supabase project without affecting RealtyFlow.
+- The online Vercel Command demo remains simulated and does **not** use this PostgreSQL backend.
