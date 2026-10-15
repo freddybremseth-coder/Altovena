@@ -5,6 +5,11 @@ import { journeys, links } from "./journey-data.mjs";
 // Distinct audience/intent-based content on every existing route. This script
 // neither invents pages nor claims unapproved products have been released.
 const root=path.resolve(import.meta.dirname,"../dist");
+// One approved article must never be mistaken for approval of the entire site.
+if(process.env.PUBLIC_LAUNCH==="true" && process.env.SITEWIDE_EDITORIAL_APPROVED!=="true"){
+ throw Error("Public release of Altovena requires separately reviewed SITEWIDE_EDITORIAL_APPROVED=true for all commercial and trust pages.");
+}
+
 const esc=x=>String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const labels={
  no:{home:"Forsiden",products:"Sammenlign produktene",offer:"Offer Intelligence",visibility:"Altovena Visibility",realtyflow:"RealtyFlow",olivia:"Olivia OS",nexus:"Nexus-teknologien",services:"Våre tjenester",company:"Møt Altovena",demo:"Snakk om deres behov",applied:"Praktiske eksempler",trust:"Tillit og kontroll",insights:"Fagguider",seo:"SEO, AEO og GEO forklart",b2b:"Kvalifiser B2B-leads",privacy:"Personvern"},
@@ -42,22 +47,22 @@ const deeper={
 // Titles describe the actual preview product direction, not an announced release.
 const semantic={
 no:{
-home:["AI-produkter som løser konkrete arbeidsoppgaver","Praktiske AI-produkter for bedrifter","Altovena utvikler AI-produkter for bedriftsresearch, SEO, eiendom og gårdsdrift. Se hva løsningene skal levere og hvilken arbeidsflyt de passer til."],
+home:["AI-produkter for konkrete arbeidsoppgaver","Praktiske AI-produkter for bedrifter","Altovena utvikler AI-produkter for B2B-research, SEO, eiendom og gårdsdrift. Se hva hvert produkt skal levere og hvem det passer for."],
 products:["Fire AI-produkter for research, synlighet og drift","Fire AI-produkter – finn riktig løsning","Sammenlign Offer Intelligence, Visibility, RealtyFlow og Olivia OS. Se bruksområder, foreslåtte leveranser og hva bedriften bør vurdere først."],
 offer:["Offer Intelligence: bedre beslutninger om B2B-leads","Offer Intelligence – B2B-leads og research","Lær hvordan Offer Intelligence er tenkt brukt til kildebasert B2B-research, separat vurdering av datakvalitet og kjøpsinteresse og manuell godkjenning."],
-visibility:["Visibility: SEO, AEO og GEO med menneskelig kontroll","Visibility – SEO, AEO og GEO i praksis","Visibility skal hjelpe bedrifter med å prioritere søkeoptimalisering, tydelige svar, kilder og kvalitetssikrede innholdsendringer. Se leveranse og begrensninger."],
+visibility:["Visibility: SEO, AEO og GEO med menneskelig kontroll","Visibility – SEO, AEO og GEO i praksis","Visibility skal støtte SEO, AEO og GEO med tydelige svar, kilder og godkjente forbedringer. Les om hva produktet skal levere."],
 realtyflow:["RealtyFlow: CRM og arbeidsflyt for eiendomsbedrifter","RealtyFlow – CRM og kundeoppfølging","RealtyFlow kobler kundehenvendelser, merkevarer, innhold og oppfølging. Slik er løsningen ment å gi kontroll på kunder, oppgaver og ansvar."],
 olivia:["Olivia OS: oversikt over olivengård og sesongoppgaver","Olivia OS – digital oversikt for olivengård","Olivia OS utvikles for parseller, dokumenter, feltobservasjoner og sesongplaner. Les om menneskelig godkjenning, praktiske eksempler og mulige integrasjoner."],
 nexus:["Nexus: teknologien som binder Altovenas produkter sammen","Nexus – felles teknologi bak AI-produkter","Nexus er Altovenas tekniske plattform for data, roller, godkjenning og arbeidsflyt. Se hvordan felles struktur støtter fire separate produkter."],
 services:["Innføring, integrasjon og opplæring i AI-systemer","AI-implementering, integrasjon og opplæring","Altovena vurderer behov, arbeidsflyt og datakilder før integrasjon, AI-relatert fagarbeid og opplæring. Forstå omfang, ansvar og neste steg."],
 company:["Møt menneskene bak Altovena og produktene","Om Altovena – team og arbeidsmetode","Se hvem som arbeider med Altovenas AI-produkter, hvilke praktiske problemer som ligger bak, og hvorfor vi prioriterer kvalitet og menneskelig kontroll."],
 demo:["Fortell oss hvilken arbeidsprosess du vil forbedre","Kontakt Altovena – diskuter et konkret behov","Beskriv hva bedriften vil forbedre, hvem som skal bruke løsningen og hvilke systemer som finnes. Start med en realistisk vurdering av riktig produkt."],
-applied:["Reell driftserfaring bak RealtyFlow og Olivia OS","Praktiske eksempler – Altovenas utvikling","ZenEcoHomes og Doña Anna viser konkrete arbeidskontekster som informerer RealtyFlow, Visibility og Olivia OS. Se forskjellen mellom erfaring og leverte funksjoner."],
+applied:["Reell driftserfaring bak RealtyFlow og Olivia OS","Praktiske eksempler – Altovenas utvikling","ZenEcoHomes og Doña Anna viser arbeidskontekster bak RealtyFlow, Visibility og Olivia OS. Se forskjellen mellom reell erfaring og planlagte funksjoner."],
 trust:["Tillit, datakvalitet og menneskelig AI-kontroll","Tillit og kontroll i Altovenas AI-produkter","Hvordan Altovena arbeider med kilder, tilgang, godkjenning, faglig vurdering og tydelige leveransegrenser før AI brukes i reelle arbeidsflyter."],
 insights:["Fagguider om SEO, AI-synlighet og B2B-research","Guider om SEO, AEO, GEO og B2B-leads","Lær om SEO, AEO og GEO, datakvalitet og B2B-kvalifisering. Få konkrete svar, forstå risiko og finn neste naturlige steg for virksomheten."]
 },
 en:{
-home:["Practical AI products for real business workflows","Practical AI products for business workflows","Altovena is developing AI products for company research, search visibility, property workflows and farm operations. Discover what each solution is intended to deliver."],
+home:["Practical AI products for real business workflows","AI products for practical business workflows","Altovena develops AI products for company research, online visibility, real-estate workflows and farm operations. Explore each product's planned use."],
 products:["Four AI products for research, visibility and operations","Four AI products – find the right fit","Compare Offer Intelligence, Visibility, RealtyFlow and Olivia OS by business challenge, intended deliverables and practical next steps."],
 offer:["Offer Intelligence: evidence-led B2B lead decisions","Offer Intelligence – qualify B2B leads","Explore Offer Intelligence for source-aware B2B research, separate assessments of data quality and buying signals, and human review before outreach."],
 visibility:["Visibility: SEO, AEO and GEO with human oversight","Visibility – practical SEO, AEO and GEO","Visibility is designed to prioritise technical search improvements, clearer answers and reviewed content. Understand scope, limitations and next steps."],
