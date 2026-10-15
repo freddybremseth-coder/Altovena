@@ -6,13 +6,13 @@ import path from 'node:path';
 const root=path.resolve(import.meta.dirname,'../dist');
 const entries={
   'Offer Intelligence':['offer-intelligence.webp','Kildebasert bedriftsresearch og menneskelig kontroll','Evidence-led company research and human review'],
-  'Visibility':['visibility.webp','SEO, AEO og GEO med kvalitetskontroll','SEO, AEO and GEO with quality controls'],
+  'Altovena Visibility':['visibility.webp','SEO, AEO og GEO med kvalitetskontroll','SEO, AEO and GEO with quality controls'],
   'RealtyFlow':['realtyflow.webp','Eiendomsinformasjon, matching og rådgiveroppfølging','Property information, matching and adviser follow-up'],
   'Olivia OS':['olivia.webp','Feltdokumentasjon og sesongplanlegging i olivenlund','Field records and seasonal work in an olive grove']
 };
 const transcript={
-  no:['Les innholdet i videoen','Altovena — AI-produkter og intelligente systemer','Offer Intelligence: kildebasert research, med menneskelig kontroll','Visibility: SEO, AEO og GEO med kvalitetskontroll','RealtyFlow: sammenhengende eiendoms- og kundereiser','Olivia OS: feltdokumentasjon og sesongplanlegging','Altovena.com — AI foreslår, mennesker bestemmer'],
-  en:['Read the video transcript','Altovena — AI products and intelligent systems','Offer Intelligence: evidence-led research with human oversight','Visibility: SEO, AEO and GEO with quality checks','RealtyFlow: connected property and customer journeys','Olivia OS: field records and seasonal planning','Altovena.com — AI suggests, people decide']
+  no:['Les innholdet i videoen','Altovena — AI-produkter og intelligente systemer','Offer Intelligence: kildebasert research, med menneskelig kontroll','Altovena Visibility: SEO, AEO og GEO med kvalitetskontroll','RealtyFlow: sammenhengende eiendoms- og kundereiser','Olivia OS: feltdokumentasjon og sesongplanlegging','Altovena.com — AI foreslår, mennesker bestemmer'],
+  en:['Read the video transcript','Altovena — AI products and intelligent systems','Offer Intelligence: evidence-led research with human oversight','Altovena Visibility: SEO, AEO and GEO with quality checks','RealtyFlow: connected property and customer journeys','Olivia OS: field records and seasonal planning','Altovena.com — AI suggests, people decide']
 };
 function escapeHtml(s){return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');}
 function edit(file,fn){let before=fs.readFileSync(file,'utf8'),after=fn(before);if(!after.includes('</html>'))throw Error('Invalid document: '+file);fs.writeFileSync(file,after);}
