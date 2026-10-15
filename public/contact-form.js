@@ -2,6 +2,15 @@
 // No submission is claimed until RealtyFlow confirms both CRM contact and follow-up task.
 const form=document.querySelector('[data-live-contact-form]');
 if(form){
+ // Retrying an unchanged request keeps the same UUID. Editing the request must
+ // generate a fresh UUID: otherwise a changed message could be acknowledged
+ // as a duplicate of the original one after an uncertain network failure.
+ const resetPendingForEdits=event=>{
+  if(['name','email','company','product','needs'].includes(event.target?.name))
+   delete form.dataset.pendingSubmissionId;
+ };
+ form.addEventListener('input',resetPendingForEdits);
+ form.addEventListener('change',resetPendingForEdits);
  form.addEventListener('submit',async event=>{
   event.preventDefault();
   if(!form.reportValidity())return;
