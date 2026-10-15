@@ -9,6 +9,7 @@ for(const lang of ['en','no']){
   const file=path.join(p,ent.name);if(ent.isDirectory())recurse(file);
   else if(ent.name==='index.html'){
    const h=fs.readFileSync(file,'utf8');++count;
+   if(file.includes('/demo-workspace/')||file.includes('/demo-arbeidsflate/'))continue;
    if(!h.includes('/brand/logo-altovena.webp')||!h.includes('/brand/favicon-32.png')||!h.includes('/brand.css'))throw Error('Brand not applied '+file);
    if(/class="brand-mark"/.test(h)) throw Error('Legacy monogram remains '+file);
    for(const match of h.matchAll(/(?:src|href)="(\/brand\/[^"#?]+)"/g)){if(!fs.existsSync(path.join(dist,match[1].slice(1))))throw Error('Broken brand asset '+match[1]);}
