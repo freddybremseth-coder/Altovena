@@ -5,7 +5,7 @@ const routes={no:'no/personvern',en:'en/privacy'};
 const pages=[];
 function walk(dir){for(const n of fs.readdirSync(dir,{withFileTypes:true})){const f=path.join(dir,n.name);if(n.isDirectory())walk(f);else if(n.name==='index.html'&&f!==path.join(root,'index.html'))pages.push(f);}}
 walk(root);
-if(pages.length!==32)throw Error('Privacy launch: expected 32 localized pages, got '+pages.length);
+if(pages.length!==34)throw Error('Privacy launch: expected 32 localized pages, got '+pages.length);
 for(const file of pages){
  const html=fs.readFileSync(file,'utf8');
  if(!html.includes('data-privacy-footer'))throw Error('Missing privacy link: '+file);
