@@ -72,6 +72,30 @@ trust:["Trust, evidence and human control in AI workflows","Trust and control in
 insights:["Practical guides to SEO, AI visibility and B2B leads","Guides to SEO, AEO, GEO and B2B leads","Learn the differences between SEO, AEO and GEO and how to qualify B2B prospects using evidence. Clear answers and practical next steps."]
 }
 };
+const matrix={
+ no:{
+   heading:"Hva skiller Altovenas fire produkter?",
+   answer:"De fire produktene løser ulike oppgaver. Velg først området som ligner virksomhetens faktiske arbeidsproblem.",
+   head:["Når dere trenger","Produkt","Hva dere vurderer"],
+   rows:[
+     ["Kildebasert research før salg","Offer Intelligence","Firmagrunnlag, datakvalitet og behovssignaler"],
+     ["Tydelige svar i søk og AI","Visibility","Sider, søkeintensjon, kilder og forbedringsplan"],
+     ["Eiendom, kunder og oppgaver","RealtyFlow","Henvendelser, CRM, merkevarer og ansvarlig oppfølging"],
+     ["Oversikt over gårdsdrift","Olivia OS","Parseller, feltdata, dokumenter og sesongarbeid"]
+   ]
+ },
+ en:{
+   heading:"How do the four Altovena products differ?",
+   answer:"Each product solves a different kind of problem. Start with the work your team actually needs to improve.",
+   head:["When you need","Product","What you would assess"],
+   rows:[
+     ["Evidence-led research before outreach","Offer Intelligence","Company facts, data confidence and possible need"],
+     ["Clear answers in search and AI","Visibility","Pages, search intent, sources and improvement priorities"],
+     ["Property enquiries and follow-up","RealtyFlow","CRM, brands, tasks and responsibility"],
+     ["Organised farm operations","Olivia OS","Parcels, field notes, documents and seasonal work"]
+   ]
+ }
+};
 let n=0;
 for(const lang of ["no","en"])for(const [key,dest] of Object.entries(links)){
  const url=dest[lang==="no"?0:1],file=path.join(root,url.slice(1),"index.html");
@@ -98,6 +122,13 @@ for(const lang of ["no","en"])for(const [key,dest] of Object.entries(links)){
  }).join("");
  const sections=[...(details[lang][key]||[]),...(deeper[lang][key]?[deeper[lang][key].why]:[])].map(([h,a])=>
    '<div class="journey-explain"><h2>'+esc(h)+'</h2><p>'+esc(a)+'</p></div>').join("");
+ const comparison=key==="products"?(
+   '<div class="journey-comparison"><h2>'+esc(matrix[lang].heading)+'</h2><p>'+esc(matrix[lang].answer)+'</p>'+
+   '<div class="journey-table-scroll" role="region" tabindex="0" aria-label="'+esc(matrix[lang].heading)+'"><table><thead><tr>'+
+   matrix[lang].head.map(t=>'<th scope="col">'+esc(t)+'</th>').join("")+
+   '</tr></thead><tbody>'+
+   matrix[lang].rows.map(r=>'<tr>'+r.map((cell,i)=>'<td data-label="'+esc(matrix[lang].head[i])+'">'+esc(cell)+'</td>').join("")+'</tr>').join("")+
+   '</tbody></table></div></div>'):"";
  const faq=deeper[lang][key]?
    '<div class="journey-faq"><h2>'+(lang==="no"?"Vanlige spørsmål før dere velger":"Questions before you choose")+'</h2>'+
    deeper[lang][key].faq.map(([q,a])=>'<div><h3>'+esc(q)+'</h3><p>'+esc(a)+'</p></div>').join("")+'</div>':"";
@@ -108,7 +139,7 @@ for(const lang of ["no","en"])for(const [key,dest] of Object.entries(links)){
  const relatedHeading=lang==="no"?"Hva er ditt neste steg?":"What should you do next?";
  let section='<section data-altovena-journey-v12="true" class="section journey-section"><div class="container journey-wrap">'+
    '<h2>'+esc(data[0])+'</h2><p class="journey-answer">'+esc(data[1])+'</p>'+
-   sections+'<p class="journey-limits">'+esc(data[2])+'</p>'+faq+trust+
+   sections+'<p class="journey-limits">'+esc(data[2])+'</p>'+comparison+faq+trust+
    '<div class="journey-next"><p class="journey-next-heading">'+relatedHeading+'</p><div class="journey-links">'+related+'</div></div></div></section>';
  if(key==="privacy")section=section.replace('journey-section','journey-section journey-privacy');
  // Avoid a duplicate generic full-width CTA on top of the new relevant next
