@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 import { journeys, links } from "./journey-data.mjs";
 
 const dist=path.resolve(import.meta.dirname,"../dist"),root=path.resolve(dist,"journey.css");
@@ -62,7 +63,7 @@ for(const [key,paths] of Object.entries(links))for(const [index,lang] of ["no","
  for(const related of copy[3])assert.ok(html.includes('href="'+links[related][index]+'"'),"Natural onward link from "+url+" to "+related);
  assert.ok(!html.includes("data-altovena-journey-v12")||html.includes("journey-next"));
  // The website remains in protected draft / prelaunch unless specifically approved.
- if(process.env.SITE_URL===undefined||!process.env.SITE_URL.trim())assert.match(html,/name="robots" content="noindex(?:,nofollow)?"/,"Preview must remain noindex");
+ if(process.env.PUBLIC_LAUNCH!=="true")assert.match(html,/name="robots" content="noindex(?:,nofollow)?"/,"All unapproved previews must remain noindex, even with SITE_URL set");
  checked++;
 }
 assert.equal(checked,32);
@@ -76,4 +77,13 @@ for(const lang of ["no","en"]){
 const legal=fs.readFileSync(path.join(dist,"no/personvern/index.html"),"utf8");
 assert.ok(/juridisk|behandlingsansvarlig/i.test(legal));
 assert.ok(legal.includes("Altovena"));
+// Regression: a single approved guide does not release every commercial page.
+const blocked=spawnSync(process.execPath,["scripts/customer-journey.mjs"],{
+  cwd:path.resolve(import.meta.dirname,".."),
+  encoding:"utf8",
+  env:{...process.env,PUBLIC_LAUNCH:"true",SITEWIDE_EDITORIAL_APPROVED:"false"}
+});
+assert.notEqual(blocked.status,0,"A public release must require its own sitewide approval");
+assert.match(blocked.stderr,/SITEWIDE_EDITORIAL_APPROVED/);
+assert.ok(!fs.existsSync(path.join(dist,"sitemap.xml")) || process.env.PUBLIC_LAUNCH==="true","Draft builds cannot have a public sitemap");
 console.log("PASS: 32 bilingual pages, one H1, unique titles/descriptions, intent-specific direct answers, delivery limits, working internal links, next-step CTAs, mobile styling and prelaunch indexing.");
