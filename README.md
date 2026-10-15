@@ -1,6 +1,14 @@
-# Altovena — website v1.1
+# Altovena — website v1.2
 
 A dependency-free, bilingual (English/Norwegian) first website for Altovena, a planned international AI product and technology brand.
+
+## New in v1.2 – sitewide customer journey and answer quality
+
+All 32 existing Norwegian/English pages now receive an individual, answer-first customer-decision section based on the 13 October 2026 Andrea/Erlend SEO, AEO, GEO and customer-journey manual. The four product pages additionally explain why to choose their approach, scope and limitations, with two specific FAQs per product. The portfolio page includes an accessible three-column comparison that becomes labelled cards on mobile. Customer-searchable H1s and unique metadata replace vague slogans where appropriate. Internal next-step links connect hubs, guides, products, real operating contexts and contact without creating overlapping thin URLs.
+
+Build: `scripts/journey-data.mjs` → `scripts/customer-journey.mjs` → `public/journey.css`. Test: `scripts/qa-customer-journey.mjs` checks all 32 pages, semantic headings, metadata, internal links, product FAQs, mobile comparison and preview noindex. See `docs/sitewide-seo-aeo-geo-customer-journey-audit.md` for the complete bilingual route matrix.
+
+**Legal and release limit:** Altovena is the intended new technology company name, not yet a verified registered controller. The privacy notice and direct RealtyFlow intake remain prelaunch. The approved SEO/AEO/GEO article does not authorize publishing the entire draft website. No claims of released products, contractual prices, guarantees or fabricated metrics are made.
 
 ## Run and test
 
