@@ -7,8 +7,8 @@ import { journeys, links } from "./journey-data.mjs";
 const root=path.resolve(import.meta.dirname,"../dist");
 const esc=x=>String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const labels={
- no:{home:"Forsiden",products:"Sammenlign produktene",offer:"Offer Intelligence",visibility:"Visibility",realtyflow:"RealtyFlow",olivia:"Olivia OS",nexus:"Nexus-teknologien",services:"Våre tjenester",company:"Møt Altovena",demo:"Snakk om deres behov",applied:"Praktiske eksempler",trust:"Tillit og kontroll",insights:"Fagguider",seo:"SEO, AEO og GEO forklart",b2b:"Kvalifiser B2B-leads",privacy:"Personvern"},
- en:{home:"Homepage",products:"Compare the products",offer:"Offer Intelligence",visibility:"Visibility",realtyflow:"RealtyFlow",olivia:"Olivia OS",nexus:"Nexus technology",services:"Our services",company:"About Altovena",demo:"Discuss your needs",applied:"Real operating examples",trust:"Trust and control",insights:"Guides and insights",seo:"SEO, AEO and GEO explained",b2b:"B2B lead qualification",privacy:"Privacy"}
+ no:{home:"Forsiden",products:"Sammenlign produktene",offer:"Offer Intelligence",visibility:"Altovena Visibility",realtyflow:"RealtyFlow",olivia:"Olivia OS",nexus:"Nexus-teknologien",services:"Våre tjenester",company:"Møt Altovena",demo:"Snakk om deres behov",applied:"Praktiske eksempler",trust:"Tillit og kontroll",insights:"Fagguider",seo:"SEO, AEO og GEO forklart",b2b:"Kvalifiser B2B-leads",privacy:"Personvern"},
+ en:{home:"Homepage",products:"Compare the products",offer:"Offer Intelligence",visibility:"Altovena Visibility",realtyflow:"RealtyFlow",olivia:"Olivia OS",nexus:"Nexus technology",services:"Our services",company:"About Altovena",demo:"Discuss your needs",applied:"Real operating examples",trust:"Trust and control",insights:"Guides and insights",seo:"SEO, AEO and GEO explained",b2b:"B2B lead qualification",privacy:"Privacy"}
 };
 const details={
  no:{
