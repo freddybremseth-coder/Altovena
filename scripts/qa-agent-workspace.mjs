@@ -10,7 +10,7 @@ for(const [lang,slug] of [['no','demo-arbeidsflate'],['en','demo-workspace']]){
  assert.match(html,/data-agent-reject/);
  assert.match(html,/data-agent-reset/);
  assert.equal((html.match(/class="agent-stages"/g)||[]).length,1);
- const agentList=html.match(/<ol class="agent-stages">([\\s\\S]*?)<\\/ol>/)?.[1]||'';
+ const agentList=html.split('<ol class="agent-stages">')[1]?.split('</ol>')[0]||'';
  assert.equal((agentList.match(/<li><strong>/g)||[]).length,4);
  assert.match(html,/noindex,nofollow/);
 }
