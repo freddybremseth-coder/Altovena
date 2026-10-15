@@ -31,6 +31,16 @@ for(const lang of ['no','en']){
  // Intentionally no canonical or indexing for prelaunch demo.
  let html='<!doctype html><html lang="'+lang+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+inject+'</head><body>'+nav+body+footer+'<script src="/demo-workspace.js" defer></script></body></html>';
  fs.writeFileSync(dest,html);
+ // Discoverable entry from existing product and portfolio pages without moving answer-first sections.
+ const entryLabel=lang==='no'?'Utforsk demoarbeidsflaten':'Explore demo workspace';
+ for(const page of ['/',lang==='no'?'/produkter/':'/products/',...(lang==='no'?['/produkter/offer-intelligence/','/produkter/visibility/','/produkter/realtyflow/','/produkter/olivia/']:['/products/offer-intelligence/','/products/visibility/','/products/realtyflow/','/products/olivia/'])]){
+  const target=path.join(dist,lang,page.slice(1),'index.html');
+  let source=fs.readFileSync(target,'utf8');
+  const link='<p class="container"><a href="'+t.path+'">'+escape(entryLabel)+' →</a></p>';
+  if(!source.includes('</main>'))throw Error('Cannot link demo from '+target);
+  source=source.replace('</main>',link+'</main>');
+  fs.writeFileSync(target,source);
+ }
 }
 fs.writeFileSync(path.join(dist,'demo-workspace.css'),'.demo-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.5rem 0}.demo-choices button{padding:1rem;text-align:left;border:1px solid #81969a;border-radius:.75rem;background:transparent;color:inherit;cursor:pointer}.demo-choices button[aria-pressed="true"]{background:#173c42;color:#fff}.demo-choices button:focus-visible{outline:3px solid #d68d45;outline-offset:3px}.demo-outcome{border:1px solid #9eaeae;border-radius:1rem;padding:1.5rem}.demo-stages{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;list-style-position:inside}.demo-stages li{padding:.5rem}@media(max-width:650px){.demo-choices,.demo-stages{grid-template-columns:1fr}}');
 fs.writeFileSync(path.join(dist,'demo-workspace.js'),`for(const root of document.querySelectorAll('[data-altovena-demo]')){let choices;try{choices=JSON.parse(root.querySelector('[data-demo-data]').textContent)}catch{continue}const buttons=[...root.querySelectorAll('[data-demo-choice]')];for(const button of buttons){button.addEventListener('click',()=>{const i=Number(button.dataset.demoChoice);if(!Number.isInteger(i)||!choices[i])return;const choice=choices[i];buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));root.querySelector('[data-demo-product]').textContent=choice[2];for(let n=0;n<4;n++)root.querySelector('[data-demo-step="'+n+'"]').textContent=choice[n+3];root.querySelector('[data-demo-link]').href=(document.documentElement.lang==='no'?'/no/bestill-demo/':'/en/book-demo/')+'?product='+encodeURIComponent(choice[0])})}}`);
