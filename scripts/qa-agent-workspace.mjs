@@ -9,11 +9,16 @@ for(const [lang,slug] of [['no','demo-arbeidsflate'],['en','demo-workspace']]){
  assert.match(html,/data-agent-approve/);
  assert.match(html,/data-agent-reject/);
  assert.match(html,/data-agent-reset/);
+ assert.match(html,/data-agent-history/);
+ assert.match(html,/DEMO-0001/);
+ assert.match(html,/ingen ekstern utførelse|no external execution/);
  assert.equal((html.match(/class="agent-stages"/g)||[]).length,1);
  const agentList=html.split('<ol class="agent-stages">')[1]?.split('</ol>')[0]||'';
  assert.equal((agentList.match(/<li><strong>/g)||[]).length,4);
  assert.match(html,/noindex,nofollow/);
 }
 const script=fs.readFileSync(path.join(dist,'agent-workspace.js'),'utf8');
+assert.match(script,/history\.replaceChildren\(\)/);
+assert.match(script,/yes\.disabled\|\|no\.disabled/);
 assert.ok(!/fetch\(|sendBeacon|WebSocket|XMLHttpRequest|localStorage/.test(script),'Simulation must not transmit data');
 console.log('PASS: bilingual four-agent illustrative approval workspace and no-network safeguards');
