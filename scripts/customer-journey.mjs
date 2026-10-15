@@ -145,7 +145,17 @@ for(const lang of ["no","en"])for(const [key,dest] of Object.entries(links)){
  // Avoid a duplicate generic full-width CTA on top of the new relevant next
  // step. Keep actual form and other product/user controls untouched.
  html=html.replace(/<section class="cta-band">[\s\S]*?<\/section>/g,"");
- html=html.replace("</main>",section+"</main>");
+ // Put the customer answer immediately after the hero on commercial pages.
+ // The previous sitewide pass appended it below tours and other long content,
+ // making the essential product explanation hard for buyers to find.
+ const leadFirstKeys = new Set(["home","products","offer","visibility","realtyflow","olivia","nexus","services","company"]);
+ if(leadFirstKeys.has(key)){
+   const heroPattern=key==="home"?/<section class="hero">[\\s\\S]*?<\\/section>/:/<section class="page-hero">[\\s\\S]*?<\\/section>/;
+   if(!heroPattern.test(html))throw Error("Missing semantic hero for intent-first placement: "+url);
+   html=html.replace(heroPattern,match=>match+section);
+ }else{
+   html=html.replace("</main>",section+"</main>");
+ }
  html=html.replace("</head>",'<link rel="stylesheet" href="/journey.css"></head>');
  fs.writeFileSync(file,html);
  n++;
