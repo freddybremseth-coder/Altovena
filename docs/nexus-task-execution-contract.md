@@ -14,6 +14,8 @@ Altovena public site is a sales and explanatory interface. RealtyFlow/Nexus rema
 ## Approval workflow
 Research -> review_required -> approve/reject. Approval requires a different authenticated principal from the proposer, evidence references, independent quality review and a server-verified brand permission. Approval must bind task ID, version, content hash, brand ID, action scope and expiry; never infer authorization from a browser token or demo click.
 
+Every execution, including read-only workflows, requires an unexpired approval bound to the exact action type and digest. This prototype cannot authenticate approvals, verify cryptographic signatures, or stop replay across workers.
+
 Execution worker must atomically consume a valid approval with compare-and-swap on the task version and a unique idempotency key. Maintain allowlisted action handlers; block sending, publishing, CRM changes, access changes, financial actions or deletes by default. Worker produces durable success/failure receipts and audit events.
 
 ## Security and operations prerequisites
