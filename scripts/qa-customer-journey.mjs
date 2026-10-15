@@ -20,6 +20,19 @@ for(const [key,paths] of Object.entries(links))for(const [index,lang] of ["no","
  const question=html.indexOf("<h2>"+copy[0]+"</h2>"),answer=html.indexOf('class="journey-answer"',question);
  assert.ok(question>=0&&answer>question&&answer-question<380,"Answer first after H2 "+url);
  assert.ok(html.includes("journey-limits"),"Visible honest limitations "+url);
+ if(["offer","visibility","realtyflow","olivia"].includes(key)){
+   assert.ok(html.includes("journey-faq"),"Relevant product FAQ "+url);
+   assert.ok((html.match(/class="journey-explain"/g)||[]).length>=3,"Three decision-ready product sections "+url);
+   assert.ok((html.match(/class="journey-faq"/g)||[]).length===1,"One product FAQ "+url);
+ }
+ if(key==="products"){
+   assert.ok(html.includes("journey-comparison"),"Product choice table "+url);
+   const table=html.match(/<div class="journey-table-scroll"[^>]*>([\s\S]*?)<\/div>/)?.[1]||"";
+   assert.equal((table.match(/<th scope="col">/g)||[]).length,3,"Exactly three product comparison columns "+url);
+   assert.equal((table.match(/<tr>/g)||[]).length,5,"Four options and one header "+url);
+   assert.equal((table.match(/<td data-label="/g)||[]).length,12,"Mobile product table labels "+url);
+ }
+
  assert.ok(html.includes('<link rel="stylesheet" href="/journey.css">'),"Mobile stylesheet "+url);
  assert.ok(html.includes('name="viewport"'),"Mobile viewport "+url);
  const title=html.match(/<title>([^<]+)<\/title>/i)?.[1],description=html.match(/<meta name="description" content="([^"]*)"/)?.[1];
