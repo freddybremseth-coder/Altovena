@@ -3,12 +3,14 @@ on:
   pull_request:
     paths:
       - "prototype/**"
+      - "command-demo/**"
       - ".github/workflows/command-prototype.yml"
   push:
     branches:
       - "feature/command-multi-agent-spec-v01"
     paths:
       - "prototype/**"
+      - "command-demo/**"
       - ".github/workflows/command-prototype.yml"
 permissions:
   contents: read
