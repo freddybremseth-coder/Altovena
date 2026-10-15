@@ -150,9 +150,12 @@ for(const lang of ["no","en"])for(const [key,dest] of Object.entries(links)){
  // making the essential product explanation hard for buyers to find.
  const leadFirstKeys = new Set(["home","products","offer","visibility","realtyflow","olivia","nexus","services","company"]);
  if(leadFirstKeys.has(key)){
-   const heroPattern=key==="home"?/<section class="hero">[\s\S]*?<\\/section>/:/<section class="page-hero">[\s\S]*?<\\/section>/;
-   if(!heroPattern.test(html))throw Error("Missing semantic hero for intent-first placement: "+url);
-   html=html.replace(heroPattern,match=>match+section);
+   const heroOpen=key==="home"?'<section class="hero">':'<section class="page-hero">';
+   const heroStart=html.indexOf(heroOpen);
+   const heroEnd=html.indexOf("</section>",heroStart);
+   if(heroStart<0||heroEnd<heroStart)throw Error("Missing semantic hero for intent-first placement: "+url);
+   const afterHero=heroEnd+"</section>".length;
+   html=html.slice(0,afterHero)+section+html.slice(afterHero);
  }else{
    html=html.replace("</main>",section+"</main>");
  }
