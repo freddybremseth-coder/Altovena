@@ -8,7 +8,7 @@ if(all.length!==32)throw Error(`Expected 32 translated pages, got ${all.length}`
 for(const f of all){const html=fs.readFileSync(f,'utf8');if(!html.includes('data-trust-footer-link'))throw Error('Missing trust link on '+f);if(!html.includes('/trust.css'))throw Error('Missing trust styles on '+f);if([...html.matchAll(/<h1\b/g)].length!==1)throw Error('Incorrect H1 on '+f);for(const m of html.matchAll(/href="(\/[^"?#]+)(?:\?[^"#]*)?(?:#[^"]*)?"/g)){const out=path.join(dist,m[1].slice(1));if(!fs.existsSync(out))throw Error(`${f} dead link: ${m[1]}`);}}
 for(const [lang,route,other] of [['en','trust-and-control','/no/tillit-og-kontroll/'],['no','tillit-og-kontroll','/en/trust-and-control/']]){
  const f=path.join(dist,lang,route,'index.html');const html=fs.readFileSync(f,'utf8');
- const expected=lang==='no'?['Anna Bremseth','Freddy Bremseth','Andrea Thorsnes Karlsen','Erlend Thorsnes Karlsen','Tillit bygges gjennom kontroll.']:['Anna Bremseth','Freddy Bremseth','Andrea Thorsnes Karlsen','Erlend Thorsnes Karlsen','Confidence is built into the process.'];
+ const expected=lang==='no'?['Anna Bremseth','Freddy Bremseth','Andrea Thorsnes Karlsen','Erlend Thorsnes Karlsen','Tillit, datakvalitet og menneskelig AI-kontroll']:['Anna Bremseth','Freddy Bremseth','Andrea Thorsnes Karlsen','Erlend Thorsnes Karlsen','Trust, evidence and human control in AI workflows'];
  for(const t of expected)if(!html.includes(t))throw Error('Missing trust content: '+t);
  if(!html.includes(other))throw Error('Language switch missing '+f);
  if([...html.matchAll(/<details\b/g)].length!==5)throw Error('FAQ requires five genuine questions: '+f);
