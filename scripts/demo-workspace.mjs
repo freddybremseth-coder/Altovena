@@ -29,7 +29,8 @@ for(const lang of ['no','en']){
  const body='<main id="main"><section class="section section-white"><div class="container"><h1>'+escape(t.title)+'</h1><p>'+escape(t.intro)+'</p><p><strong>'+escape(t.state)+'</strong></p><div data-altovena-demo><h2>'+escape(t.label)+'</h2><div class="demo-choices" role="group" aria-label="'+escape(t.label)+'">'+choices+'</div><section class="demo-outcome" aria-live="polite"><h2 data-demo-product>'+escape(t.choices[0][2])+'</h2><ol class="demo-stages">'+steps+'</ol><p><a data-demo-link href="'+t.ctaPath+'?product=visibility">'+escape(t.cta)+' →</a></p></section><script type="application/json" data-demo-data>'+JSON.stringify(t.choices).replaceAll('<','\\u003c')+'</script></div></div></section></main>';
  const inject='<title>'+escape(t.title)+' | Altovena</title><meta name="description" content="'+escape(t.desc)+'"><meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/demo-workspace.css">';
  // Intentionally no canonical or indexing for prelaunch demo.
- let html='<!doctype html><html lang="'+lang+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+inject+'</head><body>'+nav+body+footer+'<script src="/demo-workspace.js" defer></script></body></html>';
+ const siteStyles=[...original.matchAll(/<link[^>]+rel="stylesheet"[^>]*>/g)].map(m=>m[0]).join('');
+ let html='<!doctype html><html lang="'+(lang==='no'?'nb':lang)+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+inject+siteStyles+'</head><body>'+nav+body+footer+'<script src="/demo-workspace.js" defer></script></body></html>';
  fs.writeFileSync(dest,html);
  // Discoverable entry from existing product and portfolio pages without moving answer-first sections.
  const entryLabel=lang==='no'?'Utforsk demoarbeidsflaten':'Explore demo workspace';
