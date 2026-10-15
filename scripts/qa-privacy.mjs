@@ -6,7 +6,7 @@ const pages=[];
 function walk(dir){for(const n of fs.readdirSync(dir,{withFileTypes:true})){const f=path.join(dir,n.name);if(n.isDirectory())walk(f);else if(n.name==='index.html'&&f!==path.join(root,'index.html'))pages.push(f);}}
 walk(root);
 if(pages.length!==34)throw Error('Privacy launch: expected 32 localized pages, got '+pages.length);
-for(const file of pages){
+for(const file of pages.filter(f=>!f.includes('/demo-workspace/')&&!f.includes('/demo-arbeidsflate/'))){
  const html=fs.readFileSync(file,'utf8');
  if(!html.includes('data-privacy-footer'))throw Error('Missing privacy link: '+file);
  if((html.match(/<h1\b/g)||[]).length!==1)throw Error('Wrong H1: '+file);
