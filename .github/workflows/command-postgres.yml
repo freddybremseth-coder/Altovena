@@ -50,6 +50,8 @@ jobs:
         run: psql -v ON_ERROR_STOP=1 -f db/command/002_event_immutability_review.sql
       - name: Add atomic mission transition function
         run: psql -v ON_ERROR_STOP=1 -f db/command/003_atomic_transition_review.sql
+      - name: Enforce same mission task references
+        run: psql -v ON_ERROR_STOP=1 -f db/command/004_task_mission_integrity_review.sql
       - name: Validate tenant isolation and deny-by-default access
         run: psql -v ON_ERROR_STOP=1 -f db/command/tests/002_integration.sql
       - name: Validate persistence across connections and optimistic versioning
@@ -58,3 +60,5 @@ jobs:
         run: psql -v ON_ERROR_STOP=1 -f db/command/tests/004_event_immutability.sql
       - name: Validate atomic mission and evidence consistency
         run: psql -v ON_ERROR_STOP=1 -f db/command/tests/005_atomic_transition.sql
+      - name: Validate same-tenant cross-mission separation
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/006_same_mission_integrity.sql
