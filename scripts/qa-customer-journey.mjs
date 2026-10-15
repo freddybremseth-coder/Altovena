@@ -19,7 +19,16 @@ for(const [key,paths] of Object.entries(links))for(const [index,lang] of ["no","
  assert.ok(html.includes("<h2>"+copy[0]+"</h2>"),"The exact search intent must be visible in H2 "+url);
  const question=html.indexOf("<h2>"+copy[0]+"</h2>"),answer=html.indexOf('class="journey-answer"',question);
  assert.ok(question>=0&&answer>question&&answer-question<380,"Answer first after H2 "+url);
- assert.ok(html.includes("journey-limits"),"Visible honest limitations "+url);
+ assert.ok(html.includes("journey-limits"),"Visible honest limitations "+url); 
+ // The user must understand the product before illustrative demos/cases begin.
+ if(["home","products","offer","visibility","realtyflow","olivia","nexus","services","company"].includes(key)){
+  const position=html.indexOf('data-altovena-journey-v12="true"');
+  const heroClose=html.indexOf('</section>',html.indexOf('<main id="main">'));
+  assert.ok(position>heroClose&&position-heroClose<35,"Buyer explanation must follow the hero directly "+url);
+  const tour=html.indexOf('class="section tour-section"');
+  if(tour!==-1)assert.ok(position<tour,"Product intent must appear before illustrative tour "+url);
+ }
+
  if(["offer","visibility","realtyflow","olivia"].includes(key)){
    assert.ok(html.includes("journey-faq"),"Relevant product FAQ "+url);
    assert.ok((html.match(/class="journey-explain"/g)||[]).length>=3,"Three decision-ready product sections "+url);
