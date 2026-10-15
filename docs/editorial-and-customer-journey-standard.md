@@ -1,7 +1,7 @@
 # Altovena – redaksjonell standard for kundereise, SEO, AEO og GEO
 
 **Versjon:** 1.0 · 14. oktober 2026  
-**Grunnlag:** Brukerens «SEO · AEO · GEO · Kundereise – Prinsipp- og arbeidsmanual», versjon 1.2 (14. oktober 2026), basert på Andrea og Erlends metodikk og senere avtalte videreføringer.  
+**Grunnlag:** Brukerens «SEO · AEO · GEO · Kundereise – Prinsipp- og arbeidsmanual», versjon 1.2 (13. oktober 2026), basert på Andrea og Erlends metodikk og senere avtalte videreføringer.  
 **Omfang:** Altovena.com, både norsk og engelsk. Denne filen er en arbeidsstandard, ikke offentlig salgstekst.
 
 ## 1. Før en artikkel skrives
@@ -76,3 +76,7 @@ Rapporter separate trinn: visninger/klikk → engasjerte besøk → besøk på V
 ### Produksjonssperre for eget domene
 
 Altovena.com er knyttet til Vercel-prosjektet, men Vercel rapporterte 14.10.2026 DNS `misconfigured: true` og registrar-oppslag `available: true`. Før produksjonssetting må domenets eierskap/registrering bekreftes, DNS konfigureres og live HTTPS kontrolleres. Ikke markér en midlertidig vercel.app-preview som offentlig SEO-publisering.
+
+## Sitewide quality gate (15 October 2026)
+
+Every existing canonical route in both languages gets one search-intent-first section: the answer first, distinct deliverables and limitations, and useful links to the next decision. Product pages additionally explain the reason to choose the approach and address buyer FAQs; the product hub has an accessible mobile-first three-column comparison. No keyword-variant URLs are created. The authoritative map and approval state are documented in `docs/sitewide-seo-aeo-geo-customer-journey-audit.md`. These rules are enforced by `scripts/qa-customer-journey.mjs` on every build. Legal company registration and product readiness are always verified separately from good editorial quality.
