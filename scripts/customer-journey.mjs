@@ -38,12 +38,55 @@ const deeper={
  olivia:{why:["Why organise field records and seasonal work?","Traceable parcel records, observations and approved tasks are easier to review than scattered photos or memory. They support practical planning and accountability for work actually completed."],faq:[["Does Olivia OS replace an agronomist?","No. It supports records and decisions; the relevant people retain professional responsibility."],["Are sensors and cameras included?","Hardware and integrations must be assessed and agreed separately."]]}
  }
 };
+// Replace slogan-only hero headings with customer-searchable promises.
+// Titles describe the actual preview product direction, not an announced release.
+const semantic={
+no:{
+home:["AI-produkter som løser konkrete arbeidsoppgaver","Praktiske AI-produkter for bedrifter","Altovena utvikler AI-produkter for bedriftsresearch, SEO, eiendom og gårdsdrift. Se hva løsningene skal levere og hvilken arbeidsflyt de passer til."],
+products:["Fire AI-produkter for research, synlighet og drift","Fire AI-produkter – finn riktig løsning","Sammenlign Offer Intelligence, Visibility, RealtyFlow og Olivia OS. Se bruksområder, foreslåtte leveranser og hva bedriften bør vurdere først."],
+offer:["Offer Intelligence: bedre beslutninger om B2B-leads","Offer Intelligence – B2B-leads og research","Lær hvordan Offer Intelligence er tenkt brukt til kildebasert B2B-research, separat vurdering av datakvalitet og kjøpsinteresse og manuell godkjenning."],
+visibility:["Visibility: SEO, AEO og GEO med menneskelig kontroll","Visibility – SEO, AEO og GEO i praksis","Visibility skal hjelpe bedrifter med å prioritere søkeoptimalisering, tydelige svar, kilder og kvalitetssikrede innholdsendringer. Se leveranse og begrensninger."],
+realtyflow:["RealtyFlow: CRM og arbeidsflyt for eiendomsbedrifter","RealtyFlow – CRM og kundeoppfølging","RealtyFlow kobler kundehenvendelser, merkevarer, innhold og oppfølging. Slik er løsningen ment å gi kontroll på kunder, oppgaver og ansvar."],
+olivia:["Olivia OS: oversikt over olivengård og sesongoppgaver","Olivia OS – digital oversikt for olivengård","Olivia OS utvikles for parseller, dokumenter, feltobservasjoner og sesongplaner. Les om menneskelig godkjenning, praktiske eksempler og mulige integrasjoner."],
+nexus:["Nexus: teknologien som binder Altovenas produkter sammen","Nexus – felles teknologi bak AI-produkter","Nexus er Altovenas tekniske plattform for data, roller, godkjenning og arbeidsflyt. Se hvordan felles struktur støtter fire separate produkter."],
+services:["Innføring, integrasjon og opplæring i AI-systemer","AI-implementering, integrasjon og opplæring","Altovena vurderer behov, arbeidsflyt og datakilder før integrasjon, AI-relatert fagarbeid og opplæring. Forstå omfang, ansvar og neste steg."],
+company:["Møt menneskene bak Altovena og produktene","Om Altovena – team og arbeidsmetode","Se hvem som arbeider med Altovenas AI-produkter, hvilke praktiske problemer som ligger bak, og hvorfor vi prioriterer kvalitet og menneskelig kontroll."],
+demo:["Fortell oss hvilken arbeidsprosess du vil forbedre","Kontakt Altovena – diskuter et konkret behov","Beskriv hva bedriften vil forbedre, hvem som skal bruke løsningen og hvilke systemer som finnes. Start med en realistisk vurdering av riktig produkt."],
+applied:["Reell driftserfaring bak RealtyFlow og Olivia OS","Praktiske eksempler – Altovenas utvikling","ZenEcoHomes og Doña Anna viser konkrete arbeidskontekster som informerer RealtyFlow, Visibility og Olivia OS. Se forskjellen mellom erfaring og leverte funksjoner."],
+trust:["Tillit, datakvalitet og menneskelig AI-kontroll","Tillit og kontroll i Altovenas AI-produkter","Hvordan Altovena arbeider med kilder, tilgang, godkjenning, faglig vurdering og tydelige leveransegrenser før AI brukes i reelle arbeidsflyter."],
+insights:["Fagguider om SEO, AI-synlighet og B2B-research","Guider om SEO, AEO, GEO og B2B-leads","Lær om SEO, AEO og GEO, datakvalitet og B2B-kvalifisering. Få konkrete svar, forstå risiko og finn neste naturlige steg for virksomheten."]
+},
+en:{
+home:["Practical AI products for real business workflows","Practical AI products for business workflows","Altovena is developing AI products for company research, search visibility, property workflows and farm operations. Discover what each solution is intended to deliver."],
+products:["Four AI products for research, visibility and operations","Four AI products – find the right fit","Compare Offer Intelligence, Visibility, RealtyFlow and Olivia OS by business challenge, intended deliverables and practical next steps."],
+offer:["Offer Intelligence: evidence-led B2B lead decisions","Offer Intelligence – qualify B2B leads","Explore Offer Intelligence for source-aware B2B research, separate assessments of data quality and buying signals, and human review before outreach."],
+visibility:["Visibility: SEO, AEO and GEO with human oversight","Visibility – practical SEO, AEO and GEO","Visibility is designed to prioritise technical search improvements, clearer answers and reviewed content. Understand scope, limitations and next steps."],
+realtyflow:["RealtyFlow: property CRM and connected workflows","RealtyFlow – property CRM and follow-up","RealtyFlow connects property enquiries, brands, content and follow-up. Understand the intended CRM workflow, permissions and human responsibilities."],
+olivia:["Olivia OS: olive-farm records and seasonal work","Olivia OS – farm records and seasonal plans","Olivia OS is designed for parcel data, field observations, farm documents and approved seasonal tasks. Explore practical uses and integration limits."],
+nexus:["Nexus: shared technology behind Altovena products","Nexus – shared AI workflow technology","Nexus is Altovena's underlying technology for trusted data, roles, approval and workflow boundaries across four specialist products."],
+services:["AI implementation, integration and team training","AI implementation, integration and training","Altovena starts with business needs and approved data before implementation, integration and training. Learn how projects are scoped and delivered."],
+company:["The people and practical experience behind Altovena","About Altovena – people and principles","Meet the team developing Altovena's AI products, the real-world challenges informing the work and its approach to evidence and human control."],
+demo:["Tell us which business process you want to improve","Contact Altovena – discuss a real workflow","Describe your business process, intended users and existing systems. Discuss a realistic product fit and scoped next step without inflated AI promises."],
+applied:["Real operations informing RealtyFlow and Olivia OS","Real-world contexts for Altovena products","ZenEcoHomes and Doña Anna provide real operating contexts for RealtyFlow, Visibility and Olivia OS, without fabricated results or implied release claims."],
+trust:["Trust, evidence and human control in AI workflows","Trust and control in Altovena AI products","How Altovena approaches data quality, scoped access, human approvals and clear product delivery boundaries before AI affects real workflows."],
+insights:["Practical guides to SEO, AI visibility and B2B leads","Guides to SEO, AEO, GEO and B2B leads","Learn the differences between SEO, AEO and GEO and how to qualify B2B prospects using evidence. Clear answers and practical next steps."]
+}
+};
 let n=0;
 for(const lang of ["no","en"])for(const [key,dest] of Object.entries(links)){
  const url=dest[lang==="no"?0:1],file=path.join(root,url.slice(1),"index.html");
  if(!fs.existsSync(file))throw Error("Missing route for customer journey: "+url);
  let html=fs.readFileSync(file,"utf8"),data=journeys[lang][key];
  if(!data||data.length!==4)throw Error("Missing journey content: "+key+"/"+lang);
+ const seo=semantic[lang][key];
+ if(seo){
+   html=html.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/i,'<h1>'+esc(seo[0])+'</h1>');
+   html=html.replace(/<title>[\s\S]*?<\/title>/i,'<title>'+esc(seo[1])+' | Altovena</title>');
+   html=html.replace(/<meta name="description" content="[^"]*">/,'<meta name="description" content="'+esc(seo[2])+'">');
+   html=html.replace(/<meta property="og:title" content="[^"]*">/,'<meta property="og:title" content="'+esc(seo[1])+' | Altovena">');
+   html=html.replace(/<meta property="og:description" content="[^"]*">/,'<meta property="og:description" content="'+esc(seo[2])+'">');
+ }
+
  if(html.includes("data-altovena-journey-v12"))throw Error("Duplicate journey section");
  if(!/<main id="main">/.test(html))throw Error("Missing main: "+url);
  // Preserve exactly one canonical H1 in each existing document.
