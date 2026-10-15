@@ -1,0 +1,50 @@
+name: Command PostgreSQL integration
+on:
+  pull_request:
+    paths:
+      - "db/command/**"
+      - ".github/workflows/command-postgres.yml"
+  push:
+    branches:
+      - "feature/command-multi-agent-spec-v01"
+    paths:
+      - "db/command/**"
+      - ".github/workflows/command-postgres.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  postgres-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: command_ci
+          POSTGRES_PASSWORD: command_ci_password
+          POSTGRES_DB: command_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U command_ci -d command_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: command_ci
+      PGPASSWORD: command_ci_password
+      PGDATABASE: command_test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm Postgres client
+        run: psql --version
+      - name: Set up isolated test roles
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/001_roles.sql
+      - name: Create schema in temporary CI database
+        run: psql -v ON_ERROR_STOP=1 -f db/command/001_schema_review.sql
+      - name: Validate tenant isolation and deny-by-default access
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/002_integration.sql
