@@ -25,6 +25,7 @@ create table if not exists command.tasks (
  unique (tenant_id,mission_id,idempotency_key),
  foreign key (tenant_id,mission_id) references command.missions(tenant_id,id)
 );
+create unique index if not exists command_tasks_tenant_id_id_idx on command.tasks (tenant_id,id);
 create table if not exists command.events (
  id uuid primary key default gen_random_uuid(),
  tenant_id uuid not null,
@@ -36,7 +37,6 @@ create table if not exists command.events (
  foreign key (tenant_id,mission_id) references command.missions(tenant_id,id),
  foreign key (tenant_id,task_id) references command.tasks(tenant_id,id)
 );
-create unique index if not exists command_tasks_tenant_id_id_idx on command.tasks (tenant_id,id);
 create index if not exists command_events_mission_order_idx on command.events(tenant_id,mission_id,occurred_at,id);
 create table if not exists command.approvals (
  id uuid primary key default gen_random_uuid(),
