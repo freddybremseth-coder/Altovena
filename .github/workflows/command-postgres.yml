@@ -46,7 +46,11 @@ jobs:
         run: psql -v ON_ERROR_STOP=1 -f db/command/tests/001_roles.sql
       - name: Create schema in temporary CI database
         run: psql -v ON_ERROR_STOP=1 -f db/command/001_schema_review.sql
+      - name: Add append-only evidence guard in test database
+        run: psql -v ON_ERROR_STOP=1 -f db/command/002_event_immutability_review.sql
       - name: Validate tenant isolation and deny-by-default access
         run: psql -v ON_ERROR_STOP=1 -f db/command/tests/002_integration.sql
       - name: Validate persistence across connections and optimistic versioning
         run: psql -v ON_ERROR_STOP=1 -f db/command/tests/003_lifecycle.sql
+      - name: Validate evidence immutability
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/004_event_immutability.sql
