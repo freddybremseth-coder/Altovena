@@ -58,6 +58,10 @@ try{
  };
  const noTask=response();await handler(request(valid),noTask);
  assert.equal(noTask.statusCode,502);
+ const browserClient=(await import('node:fs')).readFileSync(new URL('../public/contact-form.js',import.meta.url),'utf8');
+ assert.match(browserClient,/form\.addEventListener\('input',resetPendingForEdits\)/);
+ assert.match(browserClient,/form\.addEventListener\('change',resetPendingForEdits\)/);
+ assert.match(browserClient,/delete form\.dataset\.pendingSubmissionId/);
  console.log('PASS: RealtyFlow bridge has a stable submission ID, scoped destination, privacy flags, disabled path and confirmed-work-item gate.');
 }finally{
   globalThis.fetch=initialFetch;
