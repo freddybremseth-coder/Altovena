@@ -64,18 +64,20 @@ export class CommandSqlRepository {
     return rows;
   }
 
-  async transitionMission({ missionId, from, to, version }) {
+  async transitionMission({ missionId, from, to, version, actorId, metadata = {} }) {
     requireUUID(missionId, "missionId");
+    requireUUID(actorId, "actorId");
     if (!TRANSITIONS[from]?.includes(to)) throw new TypeError("invalid state transition");
     if (!Number.isSafeInteger(version) || version < 1) throw new TypeError("invalid version");
+    if (!metadata || Array.isArray(metadata) || typeof metadata !== "object") {
+      throw new TypeError("transition metadata must be an object");
+    }
     const { rows } = await this.query(
-      `UPDATE command.missions
-       SET state=$3, version=version+1, updated_at=now()
-       WHERE tenant_id=$1 AND id=$2 AND state=$4 AND version=$5
-       RETURNING id,tenant_id,state,version,updated_at`,
-      [this.tenantId, missionId, to, from, version]
+      `SELECT mission_id AS id, state, version
+       FROM command.advance_mission($1,$2,$3,$4,$5,$6,$7::jsonb)`,
+      [this.tenantId, missionId, from, to, version, actorId, JSON.stringify(metadata)]
     );
-    return rows[0] ?? null; // null signals stale version or invalid current state.
+    return rows[0] ?? null; // null signals stale version or mismatched current state.
   }
 
   async appendEvidence({ missionId, taskId = null, eventType, payload = {} }) {
