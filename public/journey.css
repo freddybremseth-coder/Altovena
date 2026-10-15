@@ -21,3 +21,13 @@
 .journey-section .journey-faq h3{font-size:1.08rem;font-weight:700;margin:.9rem 0 .35rem}
 .journey-section .journey-faq p{margin:.3rem 0 1rem}
 .journey-section .journey-next-heading{font-size:1.1rem;font-weight:700;margin:0 0 .75rem}
+
+.journey-section .journey-comparison{margin:1.5rem 0}
+.journey-section .journey-table-scroll{width:100%;overflow-x:auto;overscroll-behavior-x:contain;border-radius:.5rem;border:1px solid #d2e1db}
+.journey-section .journey-table-scroll:focus-visible{outline:3px solid #477d74;outline-offset:3px}
+.journey-section .journey-comparison table{border-collapse:collapse;min-width:600px;width:100%;background:#fff;line-height:1.5}
+.journey-section .journey-comparison th,.journey-section .journey-comparison td{text-align:left;vertical-align:top;padding:.85rem;border-bottom:1px solid #d2e1db}
+.journey-section .journey-comparison th{font-weight:700;background:#e0eee8}
+.journey-section .journey-comparison td:first-child{font-weight:600}
+.journey-section .journey-comparison tr:last-child td{border-bottom:0}
+@media(max-width:700px){.journey-section .journey-table-scroll{overflow:visible;border:0}.journey-section .journey-comparison table{min-width:0;display:block;background:transparent}.journey-section .journey-comparison thead{position:absolute;width:1px;height:1px;clip:rect(0,0,0,0);overflow:hidden;white-space:nowrap}.journey-section .journey-comparison tbody{display:grid;gap:.8rem}.journey-section .journey-comparison tr{display:block;background:#fff;border:1px solid #d2e1db;border-radius:.5rem}.journey-section .journey-comparison td{display:block;border:0;padding:.45rem .85rem}.journey-section .journey-comparison td:before{content:attr(data-label);display:block;color:#4b6862;font-weight:700;font-size:.78rem;letter-spacing:.01em}.journey-section .journey-comparison td:first-child{padding-top:.85rem}.journey-section .journey-comparison td:last-child{padding-bottom:.85rem}}
