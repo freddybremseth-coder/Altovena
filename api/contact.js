@@ -9,13 +9,14 @@ export default async function handler(req,res){
  if(req.method!=='POST'){res.setHeader('Allow','POST');return reply(res,405,{ok:false,error:'METHOD_NOT_ALLOWED'});}
  const cfg=process.env;
  const mandatory=[
-  'PUBLIC_LAUNCH','CONTACT_FORM_ENABLED','PRIVACY_APPROVED','SITE_URL',
+  'PUBLIC_LAUNCH','SITEWIDE_EDITORIAL_APPROVED','CONTACT_FORM_ENABLED','PRIVACY_APPROVED','SITE_URL',
   'PRIVACY_CONTROLLER_NAME','PRIVACY_CONTACT_EMAIL','PRIVACY_RETENTION_NO',
   'PRIVACY_RETENTION_EN','TURNSTILE_SECRET_KEY','REALTYFLOW_ALTOVENA_INTAKE_URL',
   'REALTYFLOW_ALTOVENA_INTAKE_KEY'
  ];
  const ready=mandatory.every(k=>Boolean(cfg[k]))&&cfg.PUBLIC_LAUNCH==='true'&&
- cfg.CONTACT_FORM_ENABLED==='true'&&cfg.PRIVACY_APPROVED==='true';
+ cfg.CONTACT_FORM_ENABLED==='true'&&cfg.PRIVACY_APPROVED==='true'&&
+ cfg.SITEWIDE_EDITORIAL_APPROVED==='true';
  if(!ready)return reply(res,503,{ok:false,error:'REALTYFLOW_INTAKE_NOT_READY'});
  let destination;
  try{destination=new URL(cfg.REALTYFLOW_ALTOVENA_INTAKE_URL);}catch{return reply(res,503,{ok:false,error:'INVALID_INTAKE_URL'});}
@@ -27,8 +28,13 @@ export default async function handler(req,res){
  const requestOrigin=clean(req.headers.origin);
  if(!sourceOrigin.startsWith('https://')||requestOrigin!==sourceOrigin ||
  clean(req.headers.host)!==new URL(sourceOrigin).host)return reply(res,403,{ok:false,error:'ORIGIN_REJECTED'});
+ const contentType=clean(req.headers['content-type']).toLowerCase().split(';')[0];
+ if(contentType!=='application/json')return reply(res,415,{ok:false,error:'UNSUPPORTED_MEDIA_TYPE'});
  const length=Number(req.headers['content-length']||0);
- if(length>12000)return reply(res,413,{ok:false,error:'TOO_LARGE'});
+ if(!Number.isFinite(length)||length<0||length>12000)return reply(res,413,{ok:false,error:'TOO_LARGE'});
+ // Content-Length is optional and client-controlled. Validate actual payload size too.
+ const rawSize=typeof req.body==='string'?Buffer.byteLength(req.body,'utf8'):Buffer.byteLength(JSON.stringify(req.body??null),'utf8');
+ if(rawSize>12000)return reply(res,413,{ok:false,error:'TOO_LARGE'});
  let v=req.body;if(typeof v==='string'){try{v=JSON.parse(v);}catch{return reply(res,400,{ok:false,error:'INVALID_JSON'});}}
  if(!v||typeof v!=='object'||Array.isArray(v))return reply(res,400,{ok:false,error:'INVALID_REQUEST'});
  if(clean(v.website))return reply(res,422,{ok:false,error:'INVALID_REQUEST'});
