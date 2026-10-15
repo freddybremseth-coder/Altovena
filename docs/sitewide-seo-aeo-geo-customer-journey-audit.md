@@ -63,10 +63,12 @@ Visuell kontroll på faktisk mobil/desktop av forsiden, alle fire produktene, pr
 
 ## Etterkontroll 15. oktober 2026 – kundens førsteinntrykk
 
-- Flyttet de unike svar- og leveranseblokkene opp **rett etter hero** på forsiden, produktoversikten, de fire produktsidene, Nexus, tjenester og Om oss. Dermed ser kunden svar og relevant neste steg før lange, illustrative demoer, scenarioer og øvrig bakgrunnsstoff.
+- Flyttet de unike svar- og leveranseblokkene opp **rett etter hero** på forsiden, produktoversikten, de fire produktsidene, Nexus, tjenester, Om oss, praktiske eksempler, Tillit og Innsikt. Dermed ser kunden svar og relevant neste steg før lange, illustrative demoer, scenarioer og øvrig bakgrunnsstoff.
 - Alle 32 lokaliserte sider (16 NO + 16 EN) ble kontrollert mot faktisk Vercel-preview: HTTP 200, én H1, lesbare titler/beskrivelser, direkte svarseksjon og `noindex`. De fire produktsidene har relevante FAQ-er, og produktoversikten har en tilgjengelig sammenligning. Dette er en **HTML- og byggkontroll**, ikke en fullført manuell visuell nettlesertest.
 - Forskutterte/salgsmessig for sterke formuleringer er tonet ned slik at det er tydelig at Altovena utvikler produkter, og at reell tilgjengelighet må avklares. Kortet ned enkelte søkebeskrivelser i tråd med normal anbefalt lengde.
 - Byggeprosessen krever nå `SITEWIDE_EDITORIAL_APPROVED=true` **i tillegg til** eksisterende personvern- og tekniske kontroller før `PUBLIC_LAUNCH=true` kan fullføres. Den enkeltgodkjente SEO/AEO/GEO-guiden gir ikke generell tillatelse til å offentliggjøre hele nettstedet.
 - Kjørbar regresjonstest simulerer `PUBLIC_LAUNCH=true` uten redaksjonell godkjenning og bekrefter at publisering avbrytes. Alle preview-sider skal forbli `noindex` uansett om `SITE_URL` er satt eller ikke.
+
+**Produksjonskontroll:** Testkjøring på siste kode etter flytting av svarblokkene er bestått. En separat byggekontroll hindrer offentlig lansering uten `SITEWIDE_EDITORIAL_APPROVED=true`.
 
 **Fortsatt åpent:** Full visuell kontroll på 390/768/1440 px med skjermbilder, faktisk fokus-/tastaturnavigasjon, verifiserte juridiske selskapsopplysninger og en godkjent ende-til-ende-test av RealtyFlow-kontaktskjema. Ikke oppgi disse punktene som ferdigverifisert.
