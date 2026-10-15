@@ -62,3 +62,9 @@ jobs:
         run: psql -v ON_ERROR_STOP=1 -f db/command/tests/005_atomic_transition.sql
       - name: Validate same-tenant cross-mission separation
         run: psql -v ON_ERROR_STOP=1 -f db/command/tests/006_same_mission_integrity.sql
+      - name: Install CI-only Auth fixture
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/007_auth_shim.sql
+      - name: Enable review-only membership-based read policies
+        run: psql -v ON_ERROR_STOP=1 -f db/command/005_authenticated_read_rls_review.sql
+      - name: Validate JWT-subject tenancy, anonymous denial and read-only access
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/008_membership_rls.sql
