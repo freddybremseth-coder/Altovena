@@ -7,7 +7,7 @@
  */
 function validUUID(x) {
   return typeof x === "string" &&
-    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(x);
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(x);
 }
 export class AccessError extends Error {
   constructor(status, code) { super(code); this.name = "AccessError"; this.status = status; this.code = code; }
