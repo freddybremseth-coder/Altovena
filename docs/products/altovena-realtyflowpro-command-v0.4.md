@@ -58,3 +58,20 @@ The GET endpoint expects an authenticated RealtyflowPRO/Supabase user session pa
 ## Future SaaS and installations
 
 Run `db/altovena/001_embedded_platform_schema.sql` and versioned generic access migrations on each customer's own Supabase/PostgreSQL instance. Do not run the host-specific internal-tenant seed. Customer Auth, entitlements, rate limits, secrets, storage, backups and service deployment must be provisioned independently. The future distribution remains portable; RealtyflowPRO is simply the current shared hosting environment.
+
+## RealtyFlow-native Command integration — 2026-10-16
+
+RealtyFlow source repository: `freddybremseth-coder/realtyflow-pro`, **PR #1426** successfully merged into main as `d4fda272b6288eef8256751c740d92d4b1e028d7`. A new internal, owner-session-only interface lives at `/altovena/command` and is grouped in Platform / Operations. It is distinct from the standalone Altovena Vercel demo.
+
+Database migration `altovena_internal_owner_command_gateway_v01` has been successfully applied to RealtyflowPRO. It adds:
+- `altovena.internal_mission_requests` for idempotent internal draft submissions
+- two `public` RPC functions callable exclusively with server-only `service_role`, hard-scoped to the internal tenant
+- transactional `draft` mission creation + append-only evidence event
+
+Normal API roles cannot invoke these RPCs. The owner-only Next.js API uses RealtyFlow's verified signed owner cookie, **not** a client-provided email or Supabase token. It restricts writes to same-origin requests and limits input length; no side effects beyond persisting drafts.
+
+The deployment was run through a full isolated PostgreSQL 17 test suite plus RealtyFlow's Build Check, Build Validation and other PR checks (all seven green). Vercel preview READY at `https://realtyflow-ux1rfwsoq-freddy-bremseths-projects.vercel.app`. Production deploy from merge has been triggered; its final state must be confirmed independently.
+
+A production SQL smoke test of draft creation/listing executed within `BEGIN … ROLLBACK` confirmed functioning lookup by the configured owner email while leaving **zero** missions, request records and evidence events persisted.
+
+Important: the embedded RealtyFlow owner's signed admin session and an actual Supabase Auth JWT remain different identity mechanisms. Internal gateway access is strictly owner-only. The standalone Command SaaS tenant membership and cross-domain login flow still require separate integration work. Do not describe this initial owner-draft functionality as autonomous multi-agent execution.
