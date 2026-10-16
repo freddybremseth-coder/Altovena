@@ -1,0 +1,55 @@
+name: Altovena embedded schema
+on:
+  pull_request:
+    paths:
+      - "db/altovena/**"
+      - ".github/workflows/altovena-schema.yml"
+  push:
+    branches: ["feature/command-multi-agent-spec-v01"]
+    paths:
+      - "db/altovena/**"
+      - ".github/workflows/altovena-schema.yml"
+permissions:
+  contents: read
+jobs:
+  verify-schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: altovena_ci
+          POSTGRES_PASSWORD: altovena_ci_password
+          POSTGRES_DB: altovena_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U altovena_ci -d altovena_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: altovena_ci
+      PGPASSWORD: altovena_ci_password
+      PGDATABASE: altovena_test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create isolated CI roles
+        run: |
+          psql -v ON_ERROR_STOP=1 -c "CREATE ROLE anon NOLOGIN;"
+          psql -v ON_ERROR_STOP=1 -c "CREATE ROLE authenticated NOLOGIN;"
+          psql -v ON_ERROR_STOP=1 -c "CREATE ROLE service_role NOLOGIN;"
+      - name: Install portable Altovena schema
+        run: psql -v ON_ERROR_STOP=1 -f db/altovena/001_embedded_platform_schema.sql
+      - name: Assert tenant boundaries, privileges and event immutability
+        run: psql -v ON_ERROR_STOP=1 -f db/altovena/tests/001_schema_integration.sql
+      - name: Add host-specific Altovena Internal tenant
+        run: psql -v ON_ERROR_STOP=1 -f db/altovena/002_realtyflowpro_internal_tenant.sql
+      - name: Install disposable Auth fixture (never deployed to Supabase)
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/007_auth_shim.sql
+      - name: Enable read-only Command REST views and tenant RLS
+        run: psql -v ON_ERROR_STOP=1 -f db/altovena/003_authenticated_command_reads.sql
+      - name: Assert member, tenant and product read boundaries
+        run: psql -v ON_ERROR_STOP=1 -f db/altovena/tests/002_command_read_rls.sql

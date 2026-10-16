@@ -1,0 +1,74 @@
+name: Command PostgreSQL integration
+on:
+  pull_request:
+    paths:
+      - "db/command/**"
+      - ".github/workflows/command-postgres.yml"
+  push:
+    branches:
+      - "feature/command-multi-agent-spec-v01"
+    paths:
+      - "db/command/**"
+      - ".github/workflows/command-postgres.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  postgres-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: command_ci
+          POSTGRES_PASSWORD: command_ci_password
+          POSTGRES_DB: command_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U command_ci -d command_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: command_ci
+      PGPASSWORD: command_ci_password
+      PGDATABASE: command_test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm Postgres client
+        run: psql --version
+      - name: Set up isolated test roles
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/001_roles.sql
+      - name: Create schema in temporary CI database
+        run: psql -v ON_ERROR_STOP=1 -f db/command/001_schema_review.sql
+      - name: Add append-only evidence guard in test database
+        run: psql -v ON_ERROR_STOP=1 -f db/command/002_event_immutability_review.sql
+      - name: Add atomic mission transition function
+        run: psql -v ON_ERROR_STOP=1 -f db/command/003_atomic_transition_review.sql
+      - name: Enforce same mission task references
+        run: psql -v ON_ERROR_STOP=1 -f db/command/004_task_mission_integrity_review.sql
+      - name: Validate tenant isolation and deny-by-default access
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/002_integration.sql
+      - name: Validate persistence across connections and optimistic versioning
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/003_lifecycle.sql
+      - name: Validate evidence immutability
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/004_event_immutability.sql
+      - name: Validate atomic mission and evidence consistency
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/005_atomic_transition.sql
+      - name: Validate same-tenant cross-mission separation
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/006_same_mission_integrity.sql
+      - name: Install CI-only Auth fixture
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/007_auth_shim.sql
+      - name: Enable review-only membership-based read policies
+        run: psql -v ON_ERROR_STOP=1 -f db/command/005_authenticated_read_rls_review.sql
+      - name: Validate JWT-subject tenancy, anonymous denial and read-only access
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/008_membership_rls.sql
+      - name: Create security-invoker REST views (disposable database)
+        run: psql -v ON_ERROR_STOP=1 -f db/command/006_public_rest_views_review.sql
+      - name: Verify read-only REST view tenant isolation
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/009_public_view_rls.sql

@@ -1,0 +1,27 @@
+name: Command prototype checks
+on:
+  pull_request:
+    paths:
+      - "prototype/**"
+      - "command-demo/**"
+      - ".github/workflows/command-prototype.yml"
+  push:
+    branches:
+      - "feature/command-multi-agent-spec-v01"
+    paths:
+      - "prototype/**"
+      - "command-demo/**"
+      - ".github/workflows/command-prototype.yml"
+permissions:
+  contents: read
+jobs:
+  node-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run isolated prototype tests
+        run: node --test prototype/*.test.mjs
