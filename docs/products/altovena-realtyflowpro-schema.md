@@ -47,3 +47,23 @@ The Altovena schema has a schema-local `products` catalog rather than assumption
 ## Portability
 
 The migration uses PostgreSQL UUID, timestamptz, jsonb, FKs, checks, RLS and standard plpgsql. On a standalone install, target platform roles (`anon`, `authenticated`, `service_role`) must already exist or be adapted, and any Supabase auth/gateway functionality must be supplied separately. This is not yet a one-click installation package.
+
+## Installation status — verified 16 October 2026
+
+**Installed** through the connected Supabase migration action in RealtyflowPRO, project ref `ereapsfcsqtdmzosgnnn`, migration `altovena_embedded_platform_core_v01` (recorded version `20261016174242`).
+
+Verified after deployment:
+- 8 new `altovena` tables, all with RLS enabled
+- 0 memberships, 0 tenants, 0 missions, and 1 seeded Command product
+- no access to the new schema for `anon`, `authenticated` or `service_role`
+- no API table grants to those roles
+- 0 foreign-key references from Altovena to other schemas
+- append-only events DML trigger exists
+- migration present in Supabase history
+- portable migration + cross-tenant security tests passed in separate PostgreSQL 17 GitHub Actions, run #38941554507
+
+Supabase's security advisor lists `rls_enabled_no_policy` for the eight Altovena tables. This is **expected at the schema-only stage**: access is deliberately denied through both schema/table privileges and RLS. Introduce audited policies only with verified identity and product authorization.
+
+The `command` prototype API is **not yet connected** to this schema and does not have read/write access. No real jobs or customer communications were started.
+
+For standalone customers, apply the portable schema (and future versioned migrations) to a separate database/project; then provision its own Auth, roles, storage, secrets, entitlements and monitoring. Avoid re-applying this exact migration to RealtyflowPRO; Supabase migration history already records it.
