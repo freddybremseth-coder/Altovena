@@ -153,12 +153,13 @@ ALTER TABLE altovena.tasks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE altovena.events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE altovena.approvals ENABLE ROW LEVEL SECURITY;
 
--- Default privileges are constrained to this schema, not public.
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA altovena
+-- Set schema-scoped defaults for the migration role. Global default grants,
+-- if any, must still be considered when creating later tables; review grants.
+ALTER DEFAULT PRIVILEGES IN SCHEMA altovena
   REVOKE ALL ON TABLES FROM PUBLIC, anon, authenticated, service_role;
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA altovena
+ALTER DEFAULT PRIVILEGES IN SCHEMA altovena
   REVOKE ALL ON SEQUENCES FROM PUBLIC, anon, authenticated, service_role;
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA altovena
+ALTER DEFAULT PRIVILEGES IN SCHEMA altovena
   REVOKE ALL ON FUNCTIONS FROM PUBLIC, anon, authenticated, service_role;
 
 INSERT INTO altovena.products(slug,display_name)
