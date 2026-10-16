@@ -3,7 +3,7 @@
  * Provider-backed verification: GET /auth/v1/user with the supplied Bearer
  * token. Every REST call also uses that token so Supabase RLS is enforced.
  *
- * Requires an explicitly configured separate Command Supabase project,
+ * Runs against the Altovena schema in RealtyflowPRO initially (or customer project later),
  * review-only invoker views, and publishable key (NEVER a service_role key).
  * No network requests until a service method is invoked.
  */
@@ -20,7 +20,7 @@ export function makeSupabaseCommandReadDependencies({
   if (base.protocol !== "https:" || base.username || base.password ||
       base.pathname !== "/" || base.search || base.hash ||
       !/^[a-z0-9-]+\.supabase\.co$/.test(base.hostname)) {
-    fail("A dedicated HTTPS Supabase project URL is required");
+    fail("A trusted HTTPS Supabase project URL is required");
   }
   if (typeof publishableKey !== "string" ||
       !/^sb_publishable_[A-Za-z0-9_-]+$/.test(publishableKey)) {
@@ -69,7 +69,7 @@ export function makeSupabaseCommandReadDependencies({
     },
     isActiveMember: async ({ userId, tenantId, accessToken }) => {
       if (!safeId(userId) || !safeId(tenantId)) return false;
-      const rows = await readView("command_memberships_read", accessToken, {
+      const rows = await readView("altovena_my_memberships_read", accessToken, {
         select: "tenant_id,user_id,active",
         tenant_id: "eq." + tenantId,
         user_id: "eq." + userId,
@@ -86,7 +86,7 @@ export function makeSupabaseCommandReadDependencies({
           if (!Number.isInteger(limit) || limit < 1 || limit > 100) {
             fail("Invalid list limit");
           }
-          const rows = await readView("command_missions_read", accessToken, {
+          const rows = await readView("altovena_command_missions_read", accessToken, {
             select: "id,tenant_id,goal,state,version,created_at,updated_at",
             tenant_id: "eq." + tenantId,
             order: "updated_at.desc,id.desc",
@@ -96,7 +96,7 @@ export function makeSupabaseCommandReadDependencies({
         },
         getMission: async (missionId) => {
           if (!safeId(missionId)) fail("Invalid mission ID");
-          const rows = await readView("command_missions_read", accessToken, {
+          const rows = await readView("altovena_command_missions_read", accessToken, {
             select: "id,tenant_id,goal,state,version,created_at,updated_at",
             tenant_id: "eq." + tenantId,
             id: "eq." + missionId,
