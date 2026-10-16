@@ -19,11 +19,11 @@ function harness({ authStatus=200, isMember=true }={}) {
       return {ok:authStatus===200,status:authStatus,
         json:async()=>({id:userId})};
     }
-    if(parsed.pathname==="/rest/v1/command_memberships_read"){
+    if(parsed.pathname==="/rest/v1/altovena_my_memberships_read"){
       return {ok:true,status:200,json:async()=>isMember ?
         [{tenant_id:tenant,user_id:userId,active:true}]:[]};
     }
-    if(parsed.pathname==="/rest/v1/command_missions_read"){
+    if(parsed.pathname==="/rest/v1/altovena_command_missions_read"){
       const id=parsed.searchParams.get("id");
       return {ok:true,status:200,json:async()=>id
         ? [{id:missionId,tenant_id:tenant,goal:"Test",state:"draft",version:1}]
@@ -45,8 +45,8 @@ test("Supabase auth endpoint is used before membership and mission reads",async(
   assert.equal(data[0].tenant_id,tenant);
   assert.deepEqual(requests.map(r=>r.url.pathname),[
     "/auth/v1/user",
-    "/rest/v1/command_memberships_read",
-    "/rest/v1/command_missions_read"
+    "/rest/v1/altovena_my_memberships_read",
+    "/rest/v1/altovena_command_missions_read"
   ]);
   assert.ok(requests.every(r=>r.opts.method==="GET"));
   assert.ok(requests.every(r=>r.opts.redirect==="error"));
@@ -70,7 +70,7 @@ test("verified nonmember cannot access mission views",async()=>{
     accessToken:"verified-test-jwt",tenantId:tenant
   }),e=>e.status===403);
   assert.deepEqual(requests.map(r=>r.url.pathname),[
-    "/auth/v1/user","/rest/v1/command_memberships_read"
+    "/auth/v1/user","/rest/v1/altovena_my_memberships_read"
   ]);
 });
 test("single mission is read with tenant AND mission ID filters",async()=>{
