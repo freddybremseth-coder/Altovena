@@ -39,13 +39,13 @@ export class CommandReadService {
     // Do not rely on role values supplied by the request or editable JWT
     // user_metadata. Membership revocation must take effect on next request.
     const active = await this.isActiveMember({
-      userId: identity.userId, tenantId
+      userId: identity.userId, tenantId, accessToken
     });
     if (active !== true) throw new AccessError(403, "access_denied");
 
     // The factory MUST create a tenant-scoped client with RLS enforced,
     // never a browser-exposed service_role or unrestricted admin client.
-    const repo = await this.repositoryFactory({ tenantId, userId: identity.userId });
+    const repo = await this.repositoryFactory({ tenantId, userId: identity.userId, accessToken });
     return action(repo);
   }
   async listMissions({ accessToken, tenantId, limit = 20 }) {
