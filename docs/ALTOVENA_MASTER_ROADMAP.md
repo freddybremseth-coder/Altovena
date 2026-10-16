@@ -28,6 +28,13 @@ This document is the coordinating index for Altovena products derived from Realt
 - Treat the original PRs and integration PR as dependent work; avoid merging all three independently. Verify latest-head combined CI and staging security gates first.
 - Master roadmap remains a review-only draft until PR #6 is approved and merged.
 
+## Command analysis preparation (17 October 2026)
+- Draft [RealtyFlow PR #1428](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1428) now includes a **preparation-only** step after saving a routing proposal.
+- Owner-only Command API stores and retrieves an immutable analysis preparation record under `altovena`, tied to verified actor, mission ID, original routing digest and validated mission goal digest.
+- Explicit hard limits at this stage: **zero model calls, zero cost, zero external actions**, no agent execution, no Nexus task creation. UI must never call this a completed analysis.
+- Added cross-schema PostgreSQL fixture and contract tests for unauthorized access, proposal spoofing, idempotency and audit; final-head CI and staging review determine readiness. No runtime activation or live migration.
+- Next gated work: verified tenant→brand mapping; safe analysis-only worker and evidence records; independent human review before any write or external action.
+
 ## Technical boundaries
 1. **One source of truth per domain:** no copied Nexus agent authorization or execution policy inside each product.
 2. **Versioned interfaces:** define mission, proposal, capability, approval, action request, dispatch receipt, and audit event contracts. Validate authorization at the API and database layers.
