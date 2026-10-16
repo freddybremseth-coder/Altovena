@@ -31,7 +31,7 @@ export class CommandReadService {
     // the provider. A mere parsed or decoded JWT must never be accepted.
     let identity;
     try { identity = await this.verifySession(accessToken); }
-    catch { throw new AccessError(401, "invalid_session"); }
+    catch { throw new AccessError(503, "authentication_provider_unavailable"); }
     if (!identity || !validUUID(identity.userId)) {
       throw new AccessError(401, "invalid_session");
     }
