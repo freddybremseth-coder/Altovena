@@ -22,6 +22,12 @@ This document is the coordinating index for Altovena products derived from Realt
 - Both PRs target RealtyFlow `main`; they must be retested together on a fresh integration branch. Do not assume separately green CI proves end-to-end readiness.
 - Multiple Altovena site and RealtyFlow product branches exist. Audit open PRs and deployment references before updating the release register.
 
+## Integration track update — 16 October 2026
+- [RealtyFlow PR #1428](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1428) is the **draft integration branch** combining Nexus PR #1423 and Command PR #1427 for validation, with no production activation. It includes read-only Command → Nexus handoff readiness, fail-closed contract checks, and a combined CI run.
+- The integration **does not yet create or execute Nexus tasks** from Command missions. Verified `altovena` tenant → `core` brand mapping, reviewed evidence and independent action approval are still required.
+- Treat the original PRs and integration PR as dependent work; avoid merging all three independently. Verify latest-head combined CI and staging security gates first.
+- Master roadmap remains a review-only draft until PR #6 is approved and merged.
+
 ## Technical boundaries
 1. **One source of truth per domain:** no copied Nexus agent authorization or execution policy inside each product.
 2. **Versioned interfaces:** define mission, proposal, capability, approval, action request, dispatch receipt, and audit event contracts. Validate authorization at the API and database layers.
