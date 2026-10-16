@@ -9,7 +9,7 @@ function setup({active=true,verified=true}={}) {
  const service=new CommandReadService({
   verifySession: async token => {
    calls.push("verify");
-   if(!verified || token!=="trusted-token") throw Error("invalid");
+   if(!verified || token!=="trusted-token") return null;
    return {userId:userA};
   },
   isActiveMember:async ({tenantId})=>{
