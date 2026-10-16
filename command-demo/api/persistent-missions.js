@@ -4,7 +4,8 @@ import { makeSupabaseCommandReadDependencies } from "../../prototype/command-sup
 /**
  * Read-only draft Vercel route. Not deployed or configured for real customers.
  * Uses caller's token + publishable key, never service_role privileges.
- * Requires a separate reviewed Command Supabase environment.
+ * Uses Altovena's private schema and RLS-backed public read views on RealtyflowPRO,
+ * or the same portable tables in a customer's own Supabase project.
  */
 export function createPersistentMissionsHandler({
   env = process.env,
@@ -18,8 +19,8 @@ export function createPersistentMissionsHandler({
       res.setHeader("Allow", "GET");
       return res.status(405).json({ error: "method_not_allowed" });
     }
-    const url = env.COMMAND_SUPABASE_URL;
-    const key = env.COMMAND_SUPABASE_PUBLISHABLE_KEY;
+    const url = env.ALTOVENA_SUPABASE_URL || env.COMMAND_SUPABASE_URL;
+    const key = env.ALTOVENA_SUPABASE_PUBLISHABLE_KEY || env.COMMAND_SUPABASE_PUBLISHABLE_KEY;
     if (!url || !key) {
       return res.status(503).json({ error: "persistent_storage_not_configured" });
     }
