@@ -50,10 +50,10 @@ test("verified member receives persisted read-only missions",async()=>{
     urls.push(u.pathname);
     assert.equal(opts.method,"GET");
     if(u.pathname==="/auth/v1/user")return {ok:true,status:200,json:async()=>({id:userId})};
-    if(u.pathname.endsWith("command_memberships_read"))return {
+    if(u.pathname.endsWith("altovena_my_memberships_read"))return {
       ok:true,status:200,json:async()=>[{tenant_id:tenantId,user_id:userId,active:true}]
     };
-    if(u.pathname.endsWith("command_missions_read"))return {
+    if(u.pathname.endsWith("altovena_command_missions_read"))return {
       ok:true,status:200,json:async()=>[{id:"11111111-1111-1111-1111-111111111111",
         tenant_id:tenantId,goal:"Mission saved",state:"draft",version:1}]
     };
@@ -66,8 +66,8 @@ test("verified member receives persisted read-only missions",async()=>{
   assert.equal(res.body.mode,"PERSISTENT_READ_ONLY");
   assert.equal(res.body.count,1);
   assert.deepEqual(urls,[
-    "/auth/v1/user", "/rest/v1/command_memberships_read",
-    "/rest/v1/command_missions_read"
+    "/auth/v1/user", "/rest/v1/altovena_my_memberships_read",
+    "/rest/v1/altovena_command_missions_read"
   ]);
   assert.match(res.headers["Cache-Control"],/no-store/);
 });
