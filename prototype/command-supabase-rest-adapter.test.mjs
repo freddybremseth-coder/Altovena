@@ -42,7 +42,7 @@ test("Supabase auth endpoint is used before membership and mission reads",async(
   const {service,requests}=harness();
   const data=await service.listMissions({accessToken:"verified-test-jwt",tenantId:tenant});
   assert.equal(data.length,1);
-  assert.equal(data[0].tenantId,tenant);
+  assert.equal(data[0].tenant_id,tenant);
   assert.deepEqual(requests.map(r=>r.url.pathname),[
     "/auth/v1/user",
     "/rest/v1/command_memberships_read",
