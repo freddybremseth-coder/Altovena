@@ -68,3 +68,7 @@ jobs:
         run: psql -v ON_ERROR_STOP=1 -f db/command/005_authenticated_read_rls_review.sql
       - name: Validate JWT-subject tenancy, anonymous denial and read-only access
         run: psql -v ON_ERROR_STOP=1 -f db/command/tests/008_membership_rls.sql
+      - name: Create security-invoker REST views (disposable database)
+        run: psql -v ON_ERROR_STOP=1 -f db/command/006_public_rest_views_review.sql
+      - name: Verify read-only REST view tenant isolation
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/009_public_view_rls.sql
