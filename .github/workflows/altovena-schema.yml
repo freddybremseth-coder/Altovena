@@ -45,3 +45,11 @@ jobs:
         run: psql -v ON_ERROR_STOP=1 -f db/altovena/001_embedded_platform_schema.sql
       - name: Assert tenant boundaries, privileges and event immutability
         run: psql -v ON_ERROR_STOP=1 -f db/altovena/tests/001_schema_integration.sql
+      - name: Add host-specific Altovena Internal tenant
+        run: psql -v ON_ERROR_STOP=1 -f db/altovena/002_realtyflowpro_internal_tenant.sql
+      - name: Install disposable Auth fixture (never deployed to Supabase)
+        run: psql -v ON_ERROR_STOP=1 -f db/command/tests/007_auth_shim.sql
+      - name: Enable read-only Command REST views and tenant RLS
+        run: psql -v ON_ERROR_STOP=1 -f db/altovena/003_authenticated_command_reads.sql
+      - name: Assert member, tenant and product read boundaries
+        run: psql -v ON_ERROR_STOP=1 -f db/altovena/tests/002_command_read_rls.sql
