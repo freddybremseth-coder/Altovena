@@ -75,8 +75,8 @@ test("provider failures do not expose upstream error text",async()=>{
   const handler=createPersistentMissionsHandler({env,fetchImpl:async()=>{throw Error("private provider detail");}});
   const res=reply();
   await handler(req(),res);
-  assert.equal(res.statusCode,502);
-  assert.deepEqual(res.body,{error:"command_provider_unavailable"});
+  assert.equal(res.statusCode,503);
+  assert.deepEqual(res.body,{error:"authentication_provider_unavailable"});
 });
 test("invalid query and duplicate tenant reject before provider calls",async()=>{
   let calls=0;
