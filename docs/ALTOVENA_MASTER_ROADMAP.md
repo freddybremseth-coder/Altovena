@@ -156,6 +156,15 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Kontaktskjemaet og produksjonsmigreringen forblir avskrudd, og in-app polling må **ikke** omtales som dokumentert e-post- eller pushvarsel.
 - Fortsett med autorisert, begrenset nettverkstest og kontroll av reelle arbeidsrettigheter **før** eiergodkjent publisering. Ikke slå sammen øvrige Altovena Command/Visibility-produktgrener kun for å «samle» programmet.
 
+### CRM-oppgave → riktig Altovena-kundekort (17. oktober 2026)
+
+- Fortsettelse av [RealtyFlow PR #1400](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1400). Fra en Altovena-webhenvendelse kan medarbeideren nå velge **«Åpne kundekort»** på oppgaven og åpne kontaktens eksisterende CRM-kort, ikke bare gå til en generell CRM-oversikt. Oppgaven lagrer ikke en separat kundekopi.
+- Ny serverrute `/api/workspaces/altovena/lead-contact?contactId=<uuid>` krever aktiv Altovena-`crm.read` og verifisert rolle/identitet på hver forespørsel, filtrerer på `brand_id='altovena'`, `brand='altovena'` og eksakt `id`. Bare navn, e-post, telefon, status og ordinær CRM-metadata returneres; aldri notater, aktiviteter eller økonomi.
+- Valgt kundekort nullstilles ved merkevarebytte, og ventende forespørsler fra en tidligere merkevare ignoreres. Ugyldige/sperrede kunde-ID-er åpner ikke andre merkevarers CRM.
+- Sikkerhetstester for direkteoppslag (5) og oppgave→kundekort-navigasjon (3) er lagt til eksisterende medarbeider-/eiertester (6) i Altovena-intake-CI. [GitHub-kjøring #39036287556](https://github.com/freddybremseth-coder/realtyflow-pro/actions/runs/39036287556) kjørte begge nye testgruppene grønt; siste samordnede `main`-versjon `b9cccb0d4e39c218bba914a8b67f7552ca51603b` fikk ny samlet CI og en separat Vercel-forhåndsvisning.
+- Ingen produksjonsmigrering eller reell kundekontakt er aktivert. Dette er en intern navigasjonsforbedring og er fortsatt **ikke** en godkjent offentlig Altovena-kundereise.
+- Fortsatt lanseringssperre: godkjent kontroller-/personverngrunnlag, Vercel-nøkler, reell test mellom Altovena-nettsiden og isolert RealtyFlow-mottak, bekreftet faktisk Andrea-medlemskap og varsling/oppfølging under menneskelig kontroll.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
