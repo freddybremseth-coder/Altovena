@@ -59,6 +59,13 @@ This document is the coordinating index for Altovena products derived from Realt
 - **Blocked before live use:** authenticated reviewer issuance and revocation UI, actual tenant source authorization, worker credential design, provider account spend enforcement/reconciliation, crash-safe review packet persistence, staging and full final-head CI.
 - All four RealtyFlow PRs are dependent and must be integrated in order. Provider activation remains OFF.
 
+## Independent analysis approval boundary (17 October 2026)
+- [RealtyFlow PR #1432](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1432) is a stacked **draft** targeting PR #1431; CI/staging and security review are mandatory.
+- Added private request and independent reviewer decision functions for **read-only** analysis permits. The requester and reviewer must differ; approval rechecks tenant membership, active product entitlement, unchanged mission and routing digests, cost availability and a matching verified evidence attestation.
+- Review decisions have append-only audit events; a second insertion fence prevents reservations when an evidence attestation has expired or been revoked.
+- **Not live:** no production migration, authorized source-attestation ingestion, authenticated review UI, narrowly privileged worker role, real AI call or public route. The provider flag remains OFF.
+- Dependency chain: #1428 → #1429 → #1430 → #1431 → #1432, with each PR needing fresh latest-head tests and explicit staging approval.
+
 ## Technical boundaries
 1. **One source of truth per domain:** no copied Nexus agent authorization or execution policy inside each product.
 2. **Versioned interfaces:** define mission, proposal, capability, approval, action request, dispatch receipt, and audit event contracts. Validate authorization at the API and database layers.
