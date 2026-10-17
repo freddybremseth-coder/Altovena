@@ -75,6 +75,17 @@ try{
  };
  const noTask=response();await handler(request(valid),noTask);
  assert.equal(noTask.statusCode,502);
+ // A successful upstream HTTP response must carry valid persisted CRM IDs.
+ // Do not acknowledge simulated strings or a missing work-item UUID.
+ seen.length=0;
+ globalThis.fetch=async(url)=>{
+  if(String(url).includes('turnstile'))return {ok:true,json:async()=>({success:true,hostname:'altovena.com'})};
+  return {ok:true,json:async()=>({ok:true,accepted:true,leadId:'not-a-uuid',workItemId:'also-invalid'})};
+ };
+ const malformedReceipt=response();await handler(request(valid),malformedReceipt);
+ assert.equal(malformedReceipt.statusCode,502);
+ assert.equal(malformedReceipt.body?.error,'REALTYFLOW_NOT_CONFIRMED');
+
  const browserClient=(await import('node:fs')).readFileSync(new URL('../public/contact-form.js',import.meta.url),'utf8');
  assert.match(browserClient,/form\.addEventListener\('input',resetPendingForEdits\)/);
  assert.match(browserClient,/form\.addEventListener\('change',resetPendingForEdits\)/);
