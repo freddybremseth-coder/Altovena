@@ -2,6 +2,7 @@
 // belong in RealtyFlow. This is a server-side bridge, NEVER an independent lead database.
 // The route fails closed until RealtyFlow's dedicated Altovena intake is deployed and verified.
 const allowedProducts=new Set(['offer','visibility','realtyflow','olivia','other']);
+const receiptUuid=/^[a-f\d]{8}-[a-f\d]{4}-[1-8][a-f\d]{3}-[89ab][a-f\d]{3}-[a-f\d]{12}$/i;
 const clean=x=>String(x||'').trim();
 const valid=(x,max)=>typeof x==='string'&&x.trim().length>0&&x.trim().length<=max;
 function reply(res,status,body){res.setHeader('Cache-Control','no-store');res.setHeader('Content-Type','application/json; charset=utf-8');return res.status(status).json(body);}
@@ -72,7 +73,9 @@ export default async function handler(req,res){
   if(!response.ok)return reply(res,502,{ok:false,error:'REALTYFLOW_DELIVERY_FAILED'});
   const outcome=await response.json().catch(()=>null);
   // No success for simulated/ignored ingestion, spam-discard or empty response.
-  if(outcome?.ok!==true||outcome?.accepted!==true||!outcome?.leadId||!outcome?.workItemId)
+  if(outcome?.ok!==true||outcome?.accepted!==true||
+   typeof outcome.leadId!=='string'||!receiptUuid.test(outcome.leadId)||
+   typeof outcome.workItemId!=='string'||!receiptUuid.test(outcome.workItemId))
    return reply(res,502,{ok:false,error:'REALTYFLOW_NOT_CONFIRMED'});
   return reply(res,200,{ok:true,received:true});
  }catch{
