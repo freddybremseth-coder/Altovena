@@ -132,6 +132,14 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Når RealtyFlow `main` flyttes senere må ferskhet og integrasjon kontrolleres på nytt. En tidligere grønn test er ikke permanent godkjenning.
 - Endringskontrakt: Identisk UUID + identisk innhold = samme kvittering; UUID + endret innhold = hard avvisning. Kvitteringen krever ekte format på både CRM-kontakt- og oppfølgingsoppgave-ID.
 
+### Syntetisk HTTP→SQL-kontrakt bekreftet (17. oktober 2026)
+
+- [RealtyFlow PR #1400](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1400) inkluderer nå en *faktisk HTTP-handler → Supabase-klient → PostgreSQL-funksjon → CRM-kontakt + oppfølgingsoppgave*-test i en egen, lokal PostgreSQL 17-database. Alt går i en rollback-transaksjon med syntetiske identiteter og uten reelle API-kall til produksjon.
+- GitHub Actions [kjøring #39025572023](https://github.com/freddybremseth-coder/realtyflow-pro/actions/runs/39025572023), SQL-jobb, **SUCCESS**. Både ny HTTP→SQL-test og eksisterende migrerings-/databasetest logget PASS.
+- Kontrollerte forventninger: Avvis feil nøkkel/merkevare, opprett én lead + én manuell oppfølging, gjenbruk identisk kvittering, avvis endret innhold med gammel UUID, avvis falske kvitterings-ID-er, behold fremmede merkevarer adskilt og AI-autooppfølging av.
+- Dette er ikke en *reell nettverkstest* fra Altovena-nettstedet til RealtyFlow. Faktisk RealtyflowPRO-migrering, delte hemmeligheter, Andrea-tilgang, kontrollert varsling og personvern/Turnstile skal fortsatt bekreftes før eier kan godkjenne offentlig skjema.
+- RealtyflowPRO-produksjon var kontrollert uten `altovena_receive_lead`, `altovena_intake_health` og mottakskvitteringstabell. Vercel RealtyFlow manglet bevisst Altovena-aktivering, nøkkel og operatør-ID. Disse fraværene er korrekte **lanseringssperrer**, ikke signal om at mottak allerede er aktivt.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
