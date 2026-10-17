@@ -181,6 +181,14 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Den offentlige nettsiden har fortsatt ikke godkjent formaktivering, og produksjons-RealtyFlow mangler fortsatt de bevisst blokkerte mottaksfunksjonene. Ekte staging nettverkstest, verifisert Andrea-grant, varsling til begge operatører og eiergodkjent lov/retention review gjenstår.
 - Når nettsidens kontaktkode endres må **den fastlåste testversjonen oppdateres** og hele testkjeden kjøres på nytt før release. Vær presis: Denne offline testen er ikke en live nettverks- eller ende-til-ende-test av produksjonsmiljøet.
 
+### Cross-repo CRM- og nettstedstest er oppdatert med siste oppfølging (17. oktober 2026)
+
+- [RealtyFlow PR #1446](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1446) er nå teknisk samordnet med nyeste kjent [CRM PR #1400](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1400) i merge-commit `05efe9f4f8d8f512c4f58ddf497c13fc420dd38f`. Sammenligning: **0 commits bak overordnet CRM-gren**, og bare tre egne test-/dokumentasjonsfiler i test-PR.
+- CRM-grenen inneholder nye interne visuelle indikatorer for henvendelser som ankommer mens et arbeidsområde er åpent, varsling etter minst 24 timer uten startet oppfølging, og en grenseindikator når 40 oppgaver kan skjule flere oppgaver. Dette er kun *in-app*, ikke e-post-/pushvarsler.
+- De fem egne indikator-/24t-testene er **5 av 5 bestått**, og den omfattende `Altovena intake validation` på den samordnede PR #1446-commiten er **SUCCESS**, inkludert reell nettsidehandler → RealtyFlow-handler → faktisk syntetisk lokal PostgreSQL-funksjon.
+- Vercel-forhåndsvisningen for samme commit ble startet separat uten produksjonsmål. Fullbygg og Vercel-status må kontrolleres før man hevder at UI kan testes i forhåndsvisning. Ikke aktiver skjemaet eller SQL-migreringene med en grønn forhåndsvisning som eneste grunnlag.
+- Ingen faktisk CRM-kontakt/operatørtilgang er opprettet. Det er fortsatt sperre for ekte nettverkstest, rettigheter til Andrea og Freddy, personvern, Turnstile, varslingskanaler og kontrollert offentlig aktivering.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
