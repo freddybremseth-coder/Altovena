@@ -114,7 +114,7 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
 - [RealtyFlow #1436](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1436) er et **lite tillegg til #1435** med obligatorisk rettighetssjekk etter innhenting og før lagring. Den tester tilbakekalt tilgang og feilet autorisasjon.
-- [RealtyFlow #1434](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1434) var et parallelt overlappende kildekontraktspor. Det skal **ikke** merges ved siden av #1435; behold eventuelle unike krav gjennom #1436 og avklar/avslutt duplikat-PR-en.
+- [RealtyFlow #1434](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1434) var et parallelt kildekontraktspor som nå er **stengt som duplikat, ikke merget**. Kravet om ny rettighetskontroll før lagring er overført til #1436. Fremtidig arbeid må i tillegg binde *kilderevisjon og kortvarig autorisasjonsgrant* til varig dokumentasjon, og kontrollere gjeldende kildetilgang igjen ved modellopptak. Dette er ennå ikke implementert i kanonisk stack.
 - Ingen av disse PR-ene inneholder en godkjent tilkobling til virkelige CRM/Drive-kilder eller aktivert AI-kjøring. `#1433` er et separat Visibility-spor.
 
 ### Protokoll ved «fortsett» – også på tvers av chatter
