@@ -42,6 +42,13 @@ This document is the coordinating index for Altovena products derived from Realt
 - Only reports `awaiting_human_review`; content accuracy needs independent human and semantic review.
 - Do not merge #1429 independently of #1428. Latest-head CI and dedicated staging remain blocking.
 
+## Guarded real-model adapter (17 October 2026)
+- [RealtyFlow PR #1430](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1430) is a **stacked draft** based on analysis evidence PR #1429, itself based on integration PR #1428.
+- Adds a new, disabled-by-default OpenAI Responses API adapter, constrained to a single no-tools/no-fallback read-only candidate analysis request.
+- Requires a distinct analysis permit and a trusted **atomic quota/cost reservation repository** before sending; model responses are checked against server-authorized evidence. Tests inject mocks: no live model invocation has occurred.
+- **Blocker:** the production reservation repository, issuance/revocation workflow, provider precharge & reconciliation, actual source-access authorization, reviewer workflow and staging are not implemented. Current persisted Command preparations still enforce **0 model calls / 0 spend**.
+- PR order: merge only after resolving CI/build checks, security review and dependency branches. Keep production flags off until the full admission and billing lifecycle is proven.
+
 ## Technical boundaries
 1. **One source of truth per domain:** no copied Nexus agent authorization or execution policy inside each product.
 2. **Versioned interfaces:** define mission, proposal, capability, approval, action request, dispatch receipt, and audit event contracts. Validate authorization at the API and database layers.
