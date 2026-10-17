@@ -189,6 +189,14 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Vercel-forhåndsvisningen for samme commit ble startet separat uten produksjonsmål. Fullbygg og Vercel-status må kontrolleres før man hevder at UI kan testes i forhåndsvisning. Ikke aktiver skjemaet eller SQL-migreringene med en grønn forhåndsvisning som eneste grunnlag.
 - Ingen faktisk CRM-kontakt/operatørtilgang er opprettet. Det er fortsatt sperre for ekte nettverkstest, rettigheter til Andrea og Freddy, personvern, Turnstile, varslingskanaler og kontrollert offentlig aktivering.
 
+### Automatisk kontroll mot forskjellig nettsideversjon (17. oktober 2026)
+
+- [RealtyFlow PR #1446](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1446) tester nå både *pinned* Altovena-nettsidecommit og **gjeldende kandidatgren** `feature/v1-3-contact-gate-hardening`. GitHub Actions sammenligner `api/contact.js` og `public/contact-form.js` byte-for-byte og stopper dersom de er forskjellige.
+- Begge filene hadde identiske GitHub-blob-hasher ved kontroll 17.10.2026. Dermed er nettsidens gjeldende innsending og versjonen i den isolerte CRM-testen sammenfallende på disse feltene.
+- Ny testversjon i RealtyFlow `afd37170fce392175736fe9f600519fa19fd5abc` har **grønn Altovena intake validation og Customer Email Admission**. Oppdatert Vercel-preview fra foregående, kodeidentiske commit `05efe9f4` var `READY` og ikke-innlogget visning ble sendt til innlogging. Full GitHub Build validation på siste commit var fortsatt under kjøring ved denne oppdateringen.
+- Dette er en **samordningskontroll ved GitHub-kjøring**, ikke automatisk bakgrunnsarbeid. Dersom nettsiden endres må testpinnen oppdateres og hele kjeden testes på nytt. PR #1400 må også være oppdatert mot `main` før godkjent release.
+- Verken offentlig skjema, produksjonsmigrering eller nye brukergrants er aktivert. Nettverkstest med gyldige staginghemmeligheter og autentiserte operatører er fortsatt et eget release-krav.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
