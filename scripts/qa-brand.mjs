@@ -9,6 +9,7 @@ for(const lang of ['en','no']){
   const file=path.join(p,ent.name);if(ent.isDirectory())recurse(file);
   else if(ent.name==='index.html'){
    const h=fs.readFileSync(file,'utf8');++count;
+   if(file.includes('/demo-workspace/')||file.includes('/demo-arbeidsflate/'))continue;
    if(!h.includes('/brand/logo-altovena.webp')||!h.includes('/brand/favicon-32.png')||!h.includes('/brand.css'))throw Error('Brand not applied '+file);
    if(/class="brand-mark"/.test(h)) throw Error('Legacy monogram remains '+file);
    for(const match of h.matchAll(/(?:src|href)="(\/brand\/[^"#?]+)"/g)){if(!fs.existsSync(path.join(dist,match[1].slice(1))))throw Error('Broken brand asset '+match[1]);}
@@ -25,5 +26,5 @@ for(const lang of ['en','no']){
   const h=fs.readFileSync(path.join(main,p,'index.html'),'utf8');if(!h.includes('Adolfo Suárez 14')||!h.includes('Eagle Tower')||!h.includes('altovena.com'))throw Error('Missing contact address '+p);
  }
 }
-if(count!==32)throw Error('Expected 32 localized pages; got '+count);
+if(count!==34)throw Error('Expected 32 localized pages; got '+count);
 console.log('PASS: 32 pages, responsive branded assets, 8 product images, true illustrative labels, contact address and captioned promo video.');

@@ -1,13 +1,13 @@
 import assert from 'node:assert/strict';
 import handler from '../api/contact.js';
 
-const keys=['PUBLIC_LAUNCH','CONTACT_FORM_ENABLED','PRIVACY_APPROVED','SITE_URL',
+const keys=['PUBLIC_LAUNCH','SITEWIDE_EDITORIAL_APPROVED','CONTACT_FORM_ENABLED','PRIVACY_APPROVED','SITE_URL',
 'PRIVACY_CONTROLLER_NAME','PRIVACY_CONTACT_EMAIL','PRIVACY_RETENTION_NO',
 'PRIVACY_RETENTION_EN','TURNSTILE_SECRET_KEY','REALTYFLOW_ALTOVENA_INTAKE_URL',
 'REALTYFLOW_ALTOVENA_INTAKE_KEY'];
 
 function request(body,overrides={}){
-  return {method:'POST',headers:{host:'altovena.com',origin:'https://altovena.com','content-length':'600',...overrides},body};
+  return {method:'POST',headers:{host:'altovena.com',origin:'https://altovena.com','content-type':'application/json','content-length':'600',...overrides},body};
 }
 function response(){return {statusCode:200,headers:{},setHeader(k,v){this.headers[k]=v;return this;},status(n){this.statusCode=n;return this;},json(body){this.body=body;return this;}};}
 const valid={name:'Preview Test',email:'preview@example.invalid',company:'Example Ltd',needs:'Please discuss workflow integration',product:'offer',
@@ -15,7 +15,7 @@ const valid={name:'Preview Test',email:'preview@example.invalid',company:'Exampl
 const originals=Object.fromEntries(keys.map(k=>[k,process.env[k]]));
 const initialFetch=globalThis.fetch;
 for(const [k,v] of Object.entries({
-PUBLIC_LAUNCH:'true',CONTACT_FORM_ENABLED:'true',PRIVACY_APPROVED:'true',
+PUBLIC_LAUNCH:'true',SITEWIDE_EDITORIAL_APPROVED:'true',CONTACT_FORM_ENABLED:'true',PRIVACY_APPROVED:'true',
 SITE_URL:'https://altovena.com',PRIVACY_CONTROLLER_NAME:'Verified Test Operator',
 PRIVACY_CONTACT_EMAIL:'privacy@example.invalid',PRIVACY_RETENTION_NO:'test',
 PRIVACY_RETENTION_EN:'test',TURNSTILE_SECRET_KEY:'test-only',
@@ -45,6 +45,23 @@ try{
  assert.equal(seen.length,0);
 
  seen.length=0;
+ process.env.SITEWIDE_EDITORIAL_APPROVED='false';
+ const noEditorial=response();await handler(request(valid),noEditorial);
+ assert.equal(noEditorial.statusCode,503);
+ assert.equal(seen.length,0);
+ process.env.SITEWIDE_EDITORIAL_APPROVED='true';
+
+ seen.length=0;
+ const wrongMedia=response();await handler(request(valid,{'content-type':'text/plain'}),wrongMedia);
+ assert.equal(wrongMedia.statusCode,415);
+ assert.equal(seen.length,0);
+
+ seen.length=0;
+ const oversized=response();await handler(request({...valid,needs:'x'.repeat(13000)},{'content-length':'0'}),oversized);
+ assert.equal(oversized.statusCode,413);
+ assert.equal(seen.length,0);
+
+ seen.length=0;
  process.env.CONTACT_FORM_ENABLED='false';
  const resOff=response();await handler(request(valid),resOff);
  assert.equal(resOff.statusCode,503);
@@ -58,11 +75,22 @@ try{
  };
  const noTask=response();await handler(request(valid),noTask);
  assert.equal(noTask.statusCode,502);
+ // A successful upstream HTTP response must carry valid persisted CRM IDs.
+ // Do not acknowledge simulated strings or a missing work-item UUID.
+ seen.length=0;
+ globalThis.fetch=async(url)=>{
+  if(String(url).includes('turnstile'))return {ok:true,json:async()=>({success:true,hostname:'altovena.com'})};
+  return {ok:true,json:async()=>({ok:true,accepted:true,leadId:'not-a-uuid',workItemId:'also-invalid'})};
+ };
+ const malformedReceipt=response();await handler(request(valid),malformedReceipt);
+ assert.equal(malformedReceipt.statusCode,502);
+ assert.equal(malformedReceipt.body?.error,'REALTYFLOW_NOT_CONFIRMED');
+
  const browserClient=(await import('node:fs')).readFileSync(new URL('../public/contact-form.js',import.meta.url),'utf8');
  assert.match(browserClient,/form\.addEventListener\('input',resetPendingForEdits\)/);
  assert.match(browserClient,/form\.addEventListener\('change',resetPendingForEdits\)/);
  assert.match(browserClient,/delete form\.dataset\.pendingSubmissionId/);
- console.log('PASS: RealtyFlow bridge has a stable submission ID, scoped destination, privacy flags, disabled path and confirmed-work-item gate.');
+ console.log('PASS: RealtyFlow bridge has a stable submission ID, editorial launch gate, payload limits, scoped destination, privacy flags, disabled path and confirmed-work-item gate.');
 }finally{
   globalThis.fetch=initialFetch;
   for(const k of keys)if(originals[k]===undefined)delete process.env[k];else process.env[k]=originals[k];

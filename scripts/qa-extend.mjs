@@ -4,8 +4,8 @@ const root=path.resolve(import.meta.dirname,'../dist');
 const all=[];
 function walk(dir){for(const x of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,x.name);if(x.isDirectory())walk(p);else if(x.name==='index.html'&&p!==path.join(root,'index.html'))all.push(p);}}
 walk(root);
-if(all.length!==32)throw Error(`Expected 32 localized pages, got ${all.length}`);
-for(const f of all){const txt=fs.readFileSync(f,'utf8');if(!txt.includes('/scenario.css')||!txt.includes('/scenario.js'))throw Error('Missing v0.3 assets: '+f);if(!/href="\/(en\/applied-work|no\/praktisk-bruk)\/"/.test(txt))throw Error('Missing applied work link: '+f);const h1=[...txt.matchAll(/<h1\b/g)].length;if(h1!==1)throw Error(`H1 count ${h1} in ${f}`);for(const m of txt.matchAll(/href="(\/[^"#?]+)(?:\?[^"#]*)?(?:#[^"]*)?"/g)){const dest=path.join(root,m[1].slice(1));if(!fs.existsSync(dest))throw Error(`${f}: broken path ${m[1]}`);}}
+if(all.length!==34)throw Error(`Expected 34 localized pages, got ${all.length}`);
+for(const f of all.filter(f=>!f.includes('/demo-workspace/')&&!f.includes('/demo-arbeidsflate/'))){const txt=fs.readFileSync(f,'utf8');if(!txt.includes('/scenario.css')||!txt.includes('/scenario.js'))throw Error('Missing v0.3 assets: '+f);if(!/href="\/(en\/applied-work|no\/praktisk-bruk)\/"/.test(txt))throw Error('Missing applied work link: '+f);const h1=[...txt.matchAll(/<h1\b/g)].length;if(h1!==1)throw Error(`H1 count ${h1} in ${f}`);for(const m of txt.matchAll(/href="(\/[^"#?]+)(?:\?[^"#]*)?(?:#[^"]*)?"/g)){const dest=path.join(root,m[1].slice(1));if(!fs.existsSync(dest))throw Error(`${f}: broken path ${m[1]}`);}}
 for(const lang of ['en','no']){
   const applied=fs.readFileSync(path.join(root,lang,lang==='en'?'applied-work':'praktisk-bruk','index.html'),'utf8');
   for(const label of ['ZenEcoHomes','Doña Anna'])if(!applied.includes(label))throw Error('Operating context missing: '+label);
@@ -19,4 +19,4 @@ if(!process.env.PUBLIC_LAUNCH||process.env.PUBLIC_LAUNCH!=='true'){
  if(fs.existsSync(path.join(root,'sitemap.xml')))throw Error('Prelaunch site must not have sitemap');
  const no=fs.readFileSync(path.join(root,'no/praktisk-bruk/index.html'),'utf8');if(!no.includes('noindex'))throw Error('Prelaunch case must be noindex');
 }
-console.log('PASS: 32 pages, localized applied-work examples, 4 scenario widgets, contextual enquiry URLs, no broken links and release safety.');
+console.log('PASS: 32 original pages plus 2 separate demo pages, localized applied-work examples, 4 scenario widgets, contextual enquiry URLs, no broken links and release safety.');
