@@ -148,6 +148,14 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Før drift kreves aktivering av verifisert Altovena-medlemskap for Andrea, separat eier- og medarbeidertest i et autorisert miljø, etterprøvbar levering av henvendelse og synlig oppgave for begge. Ingen faktiske konto-/tilgangsendringer ble gjort i denne runden.
 - Offentlig nettsideintegrasjon og produksjonsmigrering forblir sperret inntil egne godkjente release-gates.
 
+### RealtyFlow CRM QA synkronisert med Visibility (17. oktober 2026)
+
+- Etter å ha avdekket at RealtyFlow `main` var blitt oppdatert med 11 Visibility-kø/ledger-filer, sammenlignet vi den felles basen med CRM-grenen og fant **ingen overlappende filer**. Gjennomført 2-foreldre samordning `40d744039cb88543c13128a848f63970ddd996f2` med alle 11 nyere Visibility-filer bevart. Verifisert `behind_by=0` rett etter samordning.
+- CRM-grenens nye kontraktstest gir faktisk **6/6 beståtte** eier/medarbeider/tilbakekalling/brand-gjennomgangstester. Den komplette syntetiske HTTP→ekte lokal PostgreSQL-flyten er fortsatt grønn i GitHub Actions. Verken reell Andrea-konto eller produksjonsrettigheter ble benyttet.
+- På siste samordningscommit var Altovena intake validation, Main Freshness Guard, Command gateway, Customer Email Admission, Carousel og statiske skjemakontroller **grønne**; full Build Check og Build validation kjørte fortsatt ved dokumentering.
+- Kontaktskjemaet og produksjonsmigreringen forblir avskrudd, og in-app polling må **ikke** omtales som dokumentert e-post- eller pushvarsel.
+- Fortsett med autorisert, begrenset nettverkstest og kontroll av reelle arbeidsrettigheter **før** eiergodkjent publisering. Ikke slå sammen øvrige Altovena Command/Visibility-produktgrener kun for å «samle» programmet.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
