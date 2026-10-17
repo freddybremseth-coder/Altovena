@@ -112,11 +112,17 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 
 ### Intern produktoversikt i RealtyFlow (17. oktober 2026)
 
-- [RealtyFlow PR #1439](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1439) er det **samlede Altovena-panelet** på `/altovena`, med owner-only innlogging, eksisterende lenker til Command (`/altovena/command`), Visibility (`/visibility`) og Corporate/Intelligence (`/sales/corporate-homes`). Olivia OS vises som separat produkt uten falsk integrasjonslenke.
+- [RealtyFlow PR #1439](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1439) bygde et **samlet internt Altovena-panel** på `/altovena`, med owner-only innlogging og lenker til Command, Visibility og Corporate/Intelligence; Olivia OS ble vist som separat løp. **PR-en ble lukket uten merge 17. oktober 2026**, så denne nye siden er **IKKE tilgjengelig i produksjon**. Funksjonen må vurderes mot nyere RealtyFlow-endringer før eventuell ny, kontrollert integrasjon.
 - Panelkatalogen eies inntil videre av RealtyFlow som **internt navigasjons- og fase-register**, ikke som produksjonsstatus, live driftsovervåking, betalte SaaS-rettigheter eller eksternt API. Den utfører ingen handlinger og endrer ingen databasetabeller.
 - Katalogen må senere flyttes til et **versjonert, felles SaaS-produktmanifest** når salgs-/rettighetsmodellen er verifisert på tvers av Altovena-nettsiden og RealtyFlow. Ikke kopier kode blindt mellom repoene.
 - Status for visning/kundelansering kan først heves etter kombinerte tester med Altovena Website PR #2/#5 og RealtyFlow Altovena Workspace PR #1400, samt riktig rolle-/kundeskille og personvern.
-- PR #1439 er en **uavhengig, avgrenset intern UI-PR** fra RealtyFlow `main`, og skal ikke blandes inn i den uferdige Command/Nexus-analyse-PR-stakken (#1428–#1437).
+- Produktpanelet er en **avgrenset intern UI-funksjon** og må ikke blandes inn i Command/Nexus-analyse-PR-stakken (#1428–#1437). Den lukkede PR #1439 er utviklingsreferanse, ikke godkjent release.
+
+### Altovena → RealtyFlow kundehenvendelser – kollisjonssikker innsending (17. oktober 2026)
+
+- Den kanoniske nettside–CRM-linjen er [Altovena PR #5](https://github.com/freddybremseth-coder/Altovena/pull/5) sammen med [RealtyFlow PR #1400](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1400). Fortsett der, ikke opprett en parallell CRM/lead-database.
+- Nye endringer i RealtyFlow PR #1400 knytter hver mottakskvittering (`submission_id`) til en SHA-256-digest av aksepterte skjemafelter. Bare en **identisk** innsending kan returnere samme kvittering; endret innhold med gammel UUID avvises. Testet i isolert PostgreSQL-CI, med produksjon fortsatt sperret.
+- Offentlig kontaktflyt er ennå ikke aktivert. Lovgrunnlag/personvern, innloggede brand-grants, delt serverhemmelighet, Turnstile, varsling, reell Ende-til-ende-test og grønn samlet CI er release-gates. En ferdig API-/migrerings-PR er ikke det samme som publisert kontaktskjema.
 
 ### Kollisjonskontroll: kildeinnhenting
 
