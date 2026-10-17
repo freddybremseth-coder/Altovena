@@ -73,6 +73,12 @@ This document is the coordinating index for Altovena products derived from Realt
 - Only a separate authorized reviewer can attest a stored, matching source bundle for a pending permit. No stored bundle means no legitimate evidence attestation; invalidated attestations block future reservation.
 - **Blocked before release:** verified source connector credentials and access controls, narrowly scoped worker and reviewer identities, user-facing evidence review, privacy/retention controls, end-to-end staging and production spend reconciliation. Provider remains OFF, no Nexus tasks or external actions.
 
+## Owner-visible Command analysis readiness (17 October 2026)
+- [RealtyFlow PR #1437](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1437) is a stacked **draft** on top of source snapshot PR #1435.
+- Adds `Se analysestatus` on the owner-only Command mission page: real read-only DB status for preparation, source snapshots, independent evidence attestation, analysis permit and reviewer decision. No fake completion states or approval button.
+- Narrow GET-only server API requires signed platform `owner-session`; backend validates confirmed actor and mission ownership before returning metadata. No raw documents, model keys, approval changes or Nexus execution calls.
+- **Production blocker:** status UI depends on not-yet-deployed stacked migrations and source connectors; actual reviewer authentication and action workflow remain unimplemented. Full latest-head CI and staging are mandatory; no production activation.
+
 ## Technical boundaries
 1. **One source of truth per domain:** no copied Nexus agent authorization or execution policy inside each product.
 2. **Versioned interfaces:** define mission, proposal, capability, approval, action request, dispatch receipt, and audit event contracts. Validate authorization at the API and database layers.
