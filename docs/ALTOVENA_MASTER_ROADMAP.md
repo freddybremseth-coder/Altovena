@@ -55,6 +55,7 @@ This document is the coordinating index for Altovena products derived from Realt
 - Atomic PostgreSQL tenant-month row lock prevents multiple simultaneous reservations from exceeding the configured ceiling. Zero configured budget means deny. Completed/uncertain calls conservatively retain the full reservation amount.
 - Permits bind the exact original prepared mission/agent, current tenant membership, independent reviewer, approved model, goal/routing/source digest, token ceilings and reservation limit. SQL checks all submitted values against the persisted permit.
 - CI uses an isolated PostgreSQL instance, including a race between two separately permitted analyses for a single remaining budget slot. No real model call or production schema migration.
+- A typed private PostgreSQL `AnalysisAdmissionRepository` adapter now maps verified permit parameters and settlement to these SQL functions; it is not connected to a worker, HTTP endpoint or production DB connection.
 - **Blocked before live use:** authenticated reviewer issuance and revocation UI, actual tenant source authorization, worker credential design, provider account spend enforcement/reconciliation, crash-safe review packet persistence, staging and full final-head CI.
 - All four RealtyFlow PRs are dependent and must be integrated in order. Provider activation remains OFF.
 
