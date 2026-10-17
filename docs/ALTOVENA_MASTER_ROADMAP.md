@@ -110,6 +110,14 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 
 **Ingen automatisk synkronisering av utviklingsgrener betyr at alt er ferdig.** Det felles programmet sikres ved å koble *kontrakter, PR-avhengigheter, miljøverifisering og lanseringskontroller*, ikke ved at ChatGPT fortsetter usett mellom samtalene.
 
+### Intern produktoversikt i RealtyFlow (17. oktober 2026)
+
+- [RealtyFlow PR #1439](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1439) er det **samlede Altovena-panelet** på `/altovena`, med owner-only innlogging, eksisterende lenker til Command (`/altovena/command`), Visibility (`/visibility`) og Corporate/Intelligence (`/sales/corporate-homes`). Olivia OS vises som separat produkt uten falsk integrasjonslenke.
+- Panelkatalogen eies inntil videre av RealtyFlow som **internt navigasjons- og fase-register**, ikke som produksjonsstatus, live driftsovervåking, betalte SaaS-rettigheter eller eksternt API. Den utfører ingen handlinger og endrer ingen databasetabeller.
+- Katalogen må senere flyttes til et **versjonert, felles SaaS-produktmanifest** når salgs-/rettighetsmodellen er verifisert på tvers av Altovena-nettsiden og RealtyFlow. Ikke kopier kode blindt mellom repoene.
+- Status for visning/kundelansering kan først heves etter kombinerte tester med Altovena Website PR #2/#5 og RealtyFlow Altovena Workspace PR #1400, samt riktig rolle-/kundeskille og personvern.
+- PR #1439 er en **uavhengig, avgrenset intern UI-PR** fra RealtyFlow `main`, og skal ikke blandes inn i den uferdige Command/Nexus-analyse-PR-stakken (#1428–#1437).
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
