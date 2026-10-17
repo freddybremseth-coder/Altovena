@@ -79,6 +79,40 @@ This document is the coordinating index for Altovena products derived from Realt
 - Narrow GET-only server API requires signed platform `owner-session`; backend validates confirmed actor and mission ownership before returning metadata. No raw documents, model keys, approval changes or Nexus execution calls.
 - **Production blocker:** status UI depends on not-yet-deployed stacked migrations and source connectors; actual reviewer authentication and action workflow remain unimplemented. Full latest-head CI and staging are mandatory; no production activation.
 
+## Ett koordinert program – to utviklingsløp (17 October 2026)
+
+**Ja, arbeidet hører til ett Altovena-program, men har to ulike leveranseløp:**
+
+1. **Altovena-produktlaget** i [`freddybremseth-coder/Altovena`](https://github.com/freddybremseth-coder/Altovena): merkevare, nettsted, produktpresentasjon, kundeinnsikt/konvertering, felles SaaS-kontrakter og portabel Command-demo. PR #2 (nettside og kundereise), #4 (Command-produktprototype), #5 (kontaktskjema/RealtyFlow-intake) og #6 (denne hoved-roadmapen) må videreføres som egne review-gated spor.
+2. **RealtyFlow/Nexus-produktmotoren** i [`freddybremseth-coder/realtyflow-pro`](https://github.com/freddybremseth-coder/realtyflow-pro): faktisk innlogget intern arbeidsflate, private `altovena`-tabeller i RealtyflowPRO, agentregister, Command/Nexus-integrasjon, Intelligence, Visibility, styrt analyse og interne API. Kommersielle Altovena-produkter skal etter hvert kobles via versjonerte grensesnitt – ikke ved å kopiere datatabeller eller løs kobling mellom Git-grener.
+
+Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeierskap, mens Nexus er felles motor og RealtyFlow er innledende intern vert. Før SaaS-installasjoner må vi bevise at hver kunde kan bruke en separat database og sikker identitets-/rettighetsmodell. Overfør først kontrakter og migreringer, ikke ukritisk hele RealtyFlow-koden.
+
+### Produktkoordinering og faktisk fullføring
+
+| Produkt | Utvikles primært i | Felles integrasjon | Foreløpig leveransestatus |
+| --- | --- | --- | --- |
+| Command | RealtyFlow/Nexus og Altovena-prototype | `altovena` oppdrag, Nexus-agentregister og kontrollert plan | Intern utkastside; analyse- og arbeidsmotor i stablet, ikke-aktivert PR-rekke |
+| Visibility | RealtyFlow Sam/SEO-moduler; Altovena-nettside viser produktet | Synlighet → foreslått tiltak → eksplisitt godkjenning → verifisert publisering | Egen utviklingslinje; ikke del av Command-analyse-PR-ene |
+| Intelligence / Offer Intelligence | RealtyFlow signaler/salgsdatamodell; Altovena produktflate | Separate vurderinger av datakvalitet og kjøpsinteresse; menneskelig godkjenning | Må verifiseres i egne kode-/releasekontroller; ikke erklær SaaS-klar uten dette |
+| Olivia OS | Olivia-repoet | Revisjon av farmdata/roller mot felles Nexus via begrenset API | Selvstendig SaaS-kandidat, adskilt fra Doña Anna B2B |
+| Altovena kommersielt nettsted | Altovena-repoet | Ingen parallell CRM; leads går til kontrollert RealtyFlow-mottak | Website, SEO/AEO/GEO og kontaktskjema på egne PR-spor |
+
+### Kollisjonskontroll: kildeinnhenting
+
+- [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
+- [RealtyFlow #1436](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1436) er et **lite tillegg til #1435** med obligatorisk rettighetssjekk etter innhenting og før lagring. Den tester tilbakekalt tilgang og feilet autorisasjon.
+- [RealtyFlow #1434](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1434) var et parallelt overlappende kildekontraktspor. Det skal **ikke** merges ved siden av #1435; behold eventuelle unike krav gjennom #1436 og avklar/avslutt duplikat-PR-en.
+- Ingen av disse PR-ene inneholder en godkjent tilkobling til virkelige CRM/Drive-kilder eller aktivert AI-kjøring. `#1433` er et separat Visibility-spor.
+
+### Protokoll ved «fortsett» – også på tvers av chatter
+
+1. Finn fersk `main`, åpne PR-er, seneste commit/tester og Supabase/Vercel-tilstand for **begge** repoene før arbeid.
+2. Velg produkt og eksisterende kanonisk PR-stakk. Legg ny funksjon på toppen av riktig avhengighet; opprett ikke en parallellduplikat.
+3. Dokumenter konkret hva som er implementert, testet og *ikke* aktivert, og oppdater denne roadmapen bare etter kontroll av GitHub.
+4. Ikke slå sammen separate produktgrener eller publiser til produksjon på grunnlag av en muntlig status eller grønn enkelt-PR. Kombinert CI, staging, data-/rolleisolasjon og publiseringsgodkjenning gjelder.
+5. ChatGPT fortsetter **ikke av seg selv mellom chatter**. En ny beskjed starter neste arbeidsrunde; GitHub/PR-er sørger for kontinuiteten, ikke en automatisk chat-jobb.
+
 ## Technical boundaries
 1. **One source of truth per domain:** no copied Nexus agent authorization or execution policy inside each product.
 2. **Versioned interfaces:** define mission, proposal, capability, approval, action request, dispatch receipt, and audit event contracts. Validate authorization at the API and database layers.
