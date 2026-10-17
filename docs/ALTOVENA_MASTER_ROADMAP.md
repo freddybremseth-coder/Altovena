@@ -206,6 +206,15 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Under **skrivebeskyttet** kontroll av tilkoblet Supabase-prosjekt **RealtyflowPRO**, 17. oktober, ble 0 `altovena`-merkevarer, ingen `altovena_intake_receipts`-tabell og ingen `altovena_receive_lead`/`altovena_mark_lead_task`-RPC funnet. Vanlig workspace-grant-RPC-signatur finnes. Dermed er offentlig Altovena-intake **ikke produksjonsinstallert**. Ingen kundedata ble lest eller endret i kontrollen.
 - Ferdigstilling krever én godkjent produksjons-/staging-migreringsplan, kontrollert opprettelse av merkevare, to faktiske signerte brukerøkter (Freddy/Andrea), verifiserte aktive og tilbaketrukne grants, fullstendig henvendelse→kundekort→oppgave-test med syntetiske data og særskilt varslingskanal- og personverngodkjenning. Ingen aktivering uten uttrykkelig eiergodkjenning.
 
+### Serverbasert varslingskø – eget avhengig utkast (17. oktober 2026)
+
+- [RealtyFlow PR #1456](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1456) er stablet som **draft** på #1454 → #1446 → CRM #1400, og introduserer en separat, intern Altovena-varsellogg uten kundetekster eller mottakerinformasjon.
+- Ny additiv SQL-migrasjon definerer `public.altovena_lead_alerts` med service-role-only RPC `altovena_reconcile_lead_alerts()`: `NOT_STARTED_15M`, `NOT_STARTED_24H` og `IN_PROGRESS_48H`. Unik (oppgave, type), transaksjonslås, merkevaremessig filtrering, automatisk oppløsning når oppgavestatus endres og `ON DELETE CASCADE` ved lovlig sletting. Ingen kundefunksjoner oppdateres av skanneren.
+- Separat GitHub CI-skript tester faktisk migrasjon i engangs-PostgreSQL 17, samt rolle-ACL, idempotens, 15m/24t/48t, feil merkevare, stans og sletting. En cron-rute er definert og lagt til Vercels `*/15`-plan, men **starter ikke** databasearbeid uten `ALTOVENA_LEAD_ALERT_SCAN_ENABLED=true` og korrekt `Bearer CRON_SECRET`. Nødstopper/Nexus kan blokkere.
+- Ved første kontroll var `Altovena intake validation` **SUCCESS**, inkludert database-test og cron-autentisering; flere generelle CI-kontroller var grønne, men siste komplette build og migrering kjørte fremdeles. Kontroller final-head før merge.
+- Dette gjør det mulig å **lage varige interne varsler selv om ingen har RealtyFlow åpent**, men det er **ikke e-post, SMS, push eller annen faktisk levering til ansatte**. Dette må implementeres og valideres separat, med verifiserte mottakere, tillatelser, leveringskvitteringer, rate limiting og avmeldings- og feilhåndtering.
+- Altovena-migrasjon, offentlig kontaktflyt, ny reell medarbeidertilgang, faktiske cron-jobber og provider-utsendelser er fortsatt **ikke aktivert i produksjon**. Ingen eiergodkjent lansering er registrert.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
