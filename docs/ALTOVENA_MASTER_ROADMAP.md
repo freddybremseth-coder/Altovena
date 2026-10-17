@@ -172,6 +172,15 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Vercel-forhåndsvisning av samme commit (`dpl_EopCaG8rve27jCdEXYh2nkZbieiQ`) ble opprettet; den var fortsatt i byggefasen ved dokumentering. Ingen produksjonsdeploy.
 - Ikke merge PR #1400 eller skru på offentlig Altovena-skjema før denne build-sperren og de tidligere personvern-, tilgangs-, varslings- og eksterne end-to-end-sperrene er avklart.
 
+### Faktisk kode fra begge repo testet i én isolert E2E (17. oktober 2026)
+
+- [RealtyFlow PR #1446](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1446) er et **stablet testspor på eksisterende CRM PR #1400**, og **tester faktisk Altovena.com-kode (PR #5, pinned commit `ded27cde`) sammen med faktisk RealtyFlow API og faktisk lokal PostgreSQL-rutine**. Ikke en ekstra CRM eller alternativ innsendingsmotor.
+- Testen sjekker `api/contact.js` → `POST /api/public/altovena-leads` → `altovena_receive_lead` → en kontakt og en manuell oppfølgingsoppgave. Turnstile/HTTPS/Supabase HTTP transport erstattes av strengt tillatte in-memory simulerte svar og lokal SQL. **Ingen nettverkskall til produksjon.**
+- Verifisert [GitHub Actions #39036712085](https://github.com/freddybremseth-coder/realtyflow-pro/actions/runs/39036712085): **SUCCESS** med eksplisitte `PASS cross-repo`, `PASS synthetic HTTP` og `PASS real Altovena SQL`-logger.
+- Kontroller inkluderer form-sperre, feil Origin, avvist CAPTCHA, feil servernøkkel, identisk retry med nytt CAPTCHA-token, redigert skjematekst med gammel UUID, separat merkevare og deaktivert automatisk kundeoppfølging.
+- Den offentlige nettsiden har fortsatt ikke godkjent formaktivering, og produksjons-RealtyFlow mangler fortsatt de bevisst blokkerte mottaksfunksjonene. Ekte staging nettverkstest, verifisert Andrea-grant, varsling til begge operatører og eiergodkjent lov/retention review gjenstår.
+- Når nettsidens kontaktkode endres må **den fastlåste testversjonen oppdateres** og hele testkjeden kjøres på nytt før release. Vær presis: Denne offline testen er ikke en live nettverks- eller ende-til-ende-test av produksjonsmiljøet.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
