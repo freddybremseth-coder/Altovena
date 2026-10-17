@@ -35,6 +35,13 @@ This document is the coordinating index for Altovena products derived from Realt
 - Added cross-schema PostgreSQL fixture and contract tests for unauthorized access, proposal spoofing, idempotency and audit; final-head CI and staging review determine readiness. No runtime activation or live migration.
 - Next gated work: verified tenant→brand mapping; safe analysis-only worker and evidence records; independent human review before any write or external action.
 
+## Evidence gate for future analysis agents (17 October 2026)
+- [RealtyFlow PR #1429](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1429) is a **stacked draft** targeting integration PR #1428, not production `main`.
+- Adds source/tenant-bound validation of analysis candidates: trusted captured evidence snapshots, SHA-256 excerpt digests, actual cited quotes, no unreviewed action permissions.
+- Adds a separate GitHub CI-only mock-model harness to exercise one analysis callback and reported usage ceilings. **No real AI provider, no released worker, no source-retrieval authorization or production spending enforcement yet.**
+- Only reports `awaiting_human_review`; content accuracy needs independent human and semantic review.
+- Do not merge #1429 independently of #1428. Latest-head CI and dedicated staging remain blocking.
+
 ## Technical boundaries
 1. **One source of truth per domain:** no copied Nexus agent authorization or execution policy inside each product.
 2. **Versioned interfaces:** define mission, proposal, capability, approval, action request, dispatch receipt, and audit event contracts. Validate authorization at the API and database layers.
