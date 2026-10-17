@@ -66,6 +66,13 @@ This document is the coordinating index for Altovena products derived from Realt
 - **Not live:** no production migration, authorized source-attestation ingestion, authenticated review UI, narrowly privileged worker role, real AI call or public route. The provider flag remains OFF.
 - Dependency chain: #1428 → #1429 → #1430 → #1431 → #1432, with each PR needing fresh latest-head tests and explicit staging approval.
 
+## Authorized source evidence snapshots (17 October 2026)
+- [RealtyFlow PR #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) is a **stacked draft** after #1432, with separate, private tenant- and mission-scoped source capture and immutable PostgreSQL snapshots.
+- New source-ID-only connector interface rejects arbitrary URLs, mismatched tenants/actors, expired captures and source-content tampering. **No real customer/Drive/CRM connector has been installed**; CI uses synthetic sources.
+- SHA-256 hashes of individual captured excerpts combine into a canonical manifest digest, independently recalculated in PostgreSQL. The read-only model adapter's budget admission now uses this same digest rather than a transient JSON representation.
+- Only a separate authorized reviewer can attest a stored, matching source bundle for a pending permit. No stored bundle means no legitimate evidence attestation; invalidated attestations block future reservation.
+- **Blocked before release:** verified source connector credentials and access controls, narrowly scoped worker and reviewer identities, user-facing evidence review, privacy/retention controls, end-to-end staging and production spend reconciliation. Provider remains OFF, no Nexus tasks or external actions.
+
 ## Technical boundaries
 1. **One source of truth per domain:** no copied Nexus agent authorization or execution policy inside each product.
 2. **Versioned interfaces:** define mission, proposal, capability, approval, action request, dispatch receipt, and audit event contracts. Validate authorization at the API and database layers.
