@@ -140,6 +140,14 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Dette er ikke en *reell nettverkstest* fra Altovena-nettstedet til RealtyFlow. Faktisk RealtyflowPRO-migrering, delte hemmeligheter, Andrea-tilgang, kontrollert varsling og personvern/Turnstile skal fortsatt bekreftes før eier kan godkjenne offentlig skjema.
 - RealtyflowPRO-produksjon var kontrollert uten `altovena_receive_lead`, `altovena_intake_health` og mottakskvitteringstabell. Vercel RealtyFlow manglet bevisst Altovena-aktivering, nøkkel og operatør-ID. Disse fraværene er korrekte **lanseringssperrer**, ikke signal om at mottak allerede er aktivt.
 
+### Freddy/Andrea oppfølging – testet, ikke live (17. oktober 2026)
+
+- RealtyFlow CRM PR #1400 har nå **seks faktiske** `lead-tasks`-rute-tester med grønt resultat i [GitHub Actions #39034195919](https://github.com/freddybremseth-coder/realtyflow-pro/actions/runs/39034195919). Eier, verifisert syntetisk medarbeider, tilbakekalt tilgang, `crm.read`/`crm.write`, avvisning av andre merkevarer og skrivebeskyttet medarbeider-forhåndsvisning er kontrollert.
+- En tidligere testdiscovery-feil med `[brandKey]` ble rettet ved å flytte testen til `tests/altovena/lead-tasks-authorization.test.ts`. GitHub-loggen bekrefter **6 kjørte / 6 beståtte tester**, ikke bare grønn workflow-status.
+- Realtid: Altovena-arbeidsflaten har kun poll-basert *intern* oppfølgingsoversikt, ingen e-post- eller pushvarsel. Den skal ikke omtales som testet varsling til Freddy og Andrea uten en faktisk signert brukerøkt og kontrollert driftstest.
+- Før drift kreves aktivering av verifisert Altovena-medlemskap for Andrea, separat eier- og medarbeidertest i et autorisert miljø, etterprøvbar levering av henvendelse og synlig oppgave for begge. Ingen faktiske konto-/tilgangsendringer ble gjort i denne runden.
+- Offentlig nettsideintegrasjon og produksjonsmigrering forblir sperret inntil egne godkjente release-gates.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
