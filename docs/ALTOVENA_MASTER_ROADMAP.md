@@ -98,6 +98,18 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 | Olivia OS | Olivia-repoet | Revisjon av farmdata/roller mot felles Nexus via begrenset API | Selvstendig SaaS-kandidat, adskilt fra Doña Anna B2B |
 | Altovena kommersielt nettsted | Altovena-repoet | Ingen parallell CRM; leads går til kontrollert RealtyFlow-mottak | Website, SEO/AEO/GEO og kontaktskjema på egne PR-spor |
 
+### Samlet leveransekjede i RealtyFlow – hva som må kobles
+
+| Kundereise / funksjon | Altovena repo | RealtyFlow repo | Releaseavhengighet |
+| --- | --- | --- | --- |
+| Produktsider, SEO/AEO/GEO, tillit, kontakt | [Altovena PR #2](https://github.com/freddybremseth-coder/Altovena/pull/2) + [#5](https://github.com/freddybremseth-coder/Altovena/pull/5) | [RealtyFlow PR #1400](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1400), Altovena CRM/markedsføringsarbeidsområde | Kontakt må gi ett rettighetsstyrt lead med bekreftet kvittering; brand permission, personvern og alarmer testes før offentlig aktivering |
+| Command produktpresentasjon/demo | [Altovena PR #4](https://github.com/freddybremseth-coder/Altovena/pull/4) | [RealtyFlow Command/Nexus PR #1428](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1428) + stablet analysesikkerhet | Ingen påstand om faktisk agentutførelse før godkjente permits, kilder, budsjett, brukerroller og kontrollert runtime |
+| Visibility produktpresentasjon | Altovena-sider i nettsteds-PR | Egen Visibility-produktkonsoll, Sam/SEO-oppgavekø og godkjenning (se egne Visibility-PR-er) | Faktisk funn → godkjent tiltak → verifisert resultat. Visibility-køen er ikke Command-køen |
+| Intelligence / Offer Intelligence | Produktløfte, demo og prising må samsvare med motor | Corporate lead/signalprodukt og beslutningsgrunnlag | Human approval og atskilt data quality/interesse-score før kommersielt salg |
+| Olivia OS | Produktpresentasjon, integrasjonskontrakt | Kundetilgang/kobling bare gjennom versjonert, avgrenset API | Egen farm-SaaS og egen dataisolasjon; ikke overta Doña Anna B2B-roller |
+
+**Ingen automatisk synkronisering av utviklingsgrener betyr at alt er ferdig.** Det felles programmet sikres ved å koble *kontrakter, PR-avhengigheter, miljøverifisering og lanseringskontroller*, ikke ved at ChatGPT fortsetter usett mellom samtalene.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
