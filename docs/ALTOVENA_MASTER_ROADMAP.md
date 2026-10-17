@@ -124,6 +124,14 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Nye endringer i RealtyFlow PR #1400 knytter hver mottakskvittering (`submission_id`) til en SHA-256-digest av aksepterte skjemafelter. Bare en **identisk** innsending kan returnere samme kvittering; endret innhold med gammel UUID avvises. Testet i isolert PostgreSQL-CI, med produksjon fortsatt sperret.
 - Offentlig kontaktflyt er ennå ikke aktivert. Lovgrunnlag/personvern, innloggede brand-grants, delt serverhemmelighet, Turnstile, varsling, reell Ende-til-ende-test og grønn samlet CI er release-gates. En ferdig API-/migrerings-PR er ikke det samme som publisert kontaktskjema.
 
+### RealtyFlow CRM-gren synkronisert med main (17. oktober 2026)
+
+- [RealtyFlow PR #1400](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1400) er samordnet med siste kjente `main` gjennom en ordinær **to-foreldre merge-commit** `3b5406e58416135caf589f9ba7f7e335cf0a39e8`. Sammenligningen ved samordning var **0 commits bak**. Dette bevarer nye Visibility, Command, Workspace og eksisterende CRM-endringer fra `main`, samt Altovena-merkevare, CRM API og SQL fra arbeidsgrenen. `package.json` og `src/lib/constants.ts` var de eneste overlappende filene og ble eksplisitt kombinert.
+- GitHub-testene **Main Freshness Guard, Altovena intake validation, Customer Email Admission, Re-Master schema contract, Carousel contract, Re-Master migration integration** var grønne på den eksakte merge-commiten. Full Build Check/Build validation og Vercel preview må bekreftes uavhengig før review/merge.
+- En separat Vercel-forhåndsvisning ble startet for eksakt samme merge-commit; den har **ingen** produksjons- eller kundekontaktaktivering. Nettsidens klient/adapter-gate er fortsatt OFF.
+- Når RealtyFlow `main` flyttes senere må ferskhet og integrasjon kontrolleres på nytt. En tidligere grønn test er ikke permanent godkjenning.
+- Endringskontrakt: Identisk UUID + identisk innhold = samme kvittering; UUID + endret innhold = hard avvisning. Kvitteringen krever ekte format på både CRM-kontakt- og oppfølgingsoppgave-ID.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
