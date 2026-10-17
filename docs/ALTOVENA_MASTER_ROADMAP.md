@@ -49,6 +49,15 @@ This document is the coordinating index for Altovena products derived from Realt
 - **Blocker:** the production reservation repository, issuance/revocation workflow, provider precharge & reconciliation, actual source-access authorization, reviewer workflow and staging are not implemented. Current persisted Command preparations still enforce **0 model calls / 0 spend**.
 - PR order: merge only after resolving CI/build checks, security review and dependency branches. Keep production flags off until the full admission and billing lifecycle is proven.
 
+## Tenant budget ledger (17 October 2026)
+- [RealtyFlow PR #1431](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1431) is a **draft**, stacked on #1430 → #1429 → #1428.
+- Private `altovena` SQL tables: tenant-month spending envelopes, separately reviewed per-mission permits, one-use durable reservations and append-only audit events. No public APIs or Data API grants; RLS enabled.
+- Atomic PostgreSQL tenant-month row lock prevents multiple simultaneous reservations from exceeding the configured ceiling. Zero configured budget means deny. Completed/uncertain calls conservatively retain the full reservation amount.
+- Permits bind the exact original prepared mission/agent, current tenant membership, independent reviewer, approved model, goal/routing/source digest, token ceilings and reservation limit. SQL checks all submitted values against the persisted permit.
+- CI uses an isolated PostgreSQL instance, including a race between two separately permitted analyses for a single remaining budget slot. No real model call or production schema migration.
+- **Blocked before live use:** authenticated reviewer issuance and revocation UI, actual tenant source authorization, worker credential design, provider account spend enforcement/reconciliation, crash-safe review packet persistence, staging and full final-head CI.
+- All four RealtyFlow PRs are dependent and must be integrated in order. Provider activation remains OFF.
+
 ## Technical boundaries
 1. **One source of truth per domain:** no copied Nexus agent authorization or execution policy inside each product.
 2. **Versioned interfaces:** define mission, proposal, capability, approval, action request, dispatch receipt, and audit event contracts. Validate authorization at the API and database layers.
