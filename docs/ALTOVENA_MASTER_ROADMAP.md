@@ -197,6 +197,15 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Dette er en **samordningskontroll ved GitHub-kjøring**, ikke automatisk bakgrunnsarbeid. Dersom nettsiden endres må testpinnen oppdateres og hele kjeden testes på nytt. PR #1400 må også være oppdatert mot `main` før godkjent release.
 - Verken offentlig skjema, produksjonsmigrering eller nye brukergrants er aktivert. Nettverkstest med gyldige staginghemmeligheter og autentiserte operatører er fortsatt et eget release-krav.
 
+### Varsel utenfor 40-visningsgrensen og produksjonsstatus (17. oktober 2026)
+
+- [RealtyFlow PR #1454](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1454) er en **ny draft stablet på #1446 → CRM #1400**. Den reparerer et operasjonelt varselhull: 24-timers «ikke startet»-indikator ble beregnet fra de 40 nyeste oppgavene, og kunne overse eldre åpne henvendelser.
+- Nye `GET /api/workspaces/altovena/lead-tasks` returnerer nå serverberegnet, eksakt `totalOpen` for alle åpne Altovena-weboppgaver og `overdueNotStarted` for alle `TO_DO`/`REVIEW` som har ligget i minst 24 timer, også utenfor visningslisten. Ved feil eller manglende count returnerer API 503 fremfor falsk null.
+- Både eierøkt og bekreftet ansatt-grant har egne isolerte API-tester for samme oppgavetelling og grenseisolasjon. React-oversikten viser full antallsinformasjon, men kun siste oppgaver. **Dette er kun et internt panel**, ingen e-post, push eller bakgrunnsvarslingsgaranti. Oppgaver som allerede er under arbeid og ikke avsluttes trenger en egen SLA-/eskaleringspolicy.
+- Første CI-kjøring traff en eldre statisk kontrakttest for klientberegnet 24t; den er korrigert i #1454. På siste commit `43cc6d4` er Altovena intake validation, Command gateway og Customer Email Admission **SUCCESS**; Build validation var ennå ikke avsluttet ved registrering. Sluttstatus må kontrolleres før merge.
+- Under **skrivebeskyttet** kontroll av tilkoblet Supabase-prosjekt **RealtyflowPRO**, 17. oktober, ble 0 `altovena`-merkevarer, ingen `altovena_intake_receipts`-tabell og ingen `altovena_receive_lead`/`altovena_mark_lead_task`-RPC funnet. Vanlig workspace-grant-RPC-signatur finnes. Dermed er offentlig Altovena-intake **ikke produksjonsinstallert**. Ingen kundedata ble lest eller endret i kontrollen.
+- Ferdigstilling krever én godkjent produksjons-/staging-migreringsplan, kontrollert opprettelse av merkevare, to faktiske signerte brukerøkter (Freddy/Andrea), verifiserte aktive og tilbaketrukne grants, fullstendig henvendelse→kundekort→oppgave-test med syntetiske data og særskilt varslingskanal- og personverngodkjenning. Ingen aktivering uten uttrykkelig eiergodkjenning.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
