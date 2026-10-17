@@ -165,6 +165,13 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Ingen produksjonsmigrering eller reell kundekontakt er aktivert. Dette er en intern navigasjonsforbedring og er fortsatt **ikke** en godkjent offentlig Altovena-kundereise.
 - Fortsatt lanseringssperre: godkjent kontroller-/personverngrunnlag, Vercel-nøkler, reell test mellom Altovena-nettsiden og isolert RealtyFlow-mottak, bekreftet faktisk Andrea-medlemskap og varsling/oppfølging under menneskelig kontroll.
 
+### Åpen byggsperre: annen RealtyFlow-modul (17. oktober 2026)
+
+- Nyeste samordnede RealtyFlow PR #1400-commit `b9cccb0d4e39c218bba914a8b67f7552ca51603b` har **8 av 9 GitHub-kontroller bestått**, inkludert den fulle `Build Check`, Altovena-intake, Command-gateway og Main Freshness Guard (`behind_by=0` ved kontroll).
+- Det ene røde kravet er `Build validation`: `src/lib/publishing/epub-export.test.ts` feilet på «canonical EPUB is deterministic» fordi de to genererte EPUB-buffernes tids-/ZIP-bytes ikke var identiske. Dette er **bokdistribusjon**, ikke Altovena kundekort eller CRM-integrasjon. Rett/avklar i separat ansvarsspor; ikke omgå en påkrevd sjekk eller endre EPUB-kode inne i Altovena-CRM-PR-en.
+- Vercel-forhåndsvisning av samme commit (`dpl_EopCaG8rve27jCdEXYh2nkZbieiQ`) ble opprettet; den var fortsatt i byggefasen ved dokumentering. Ingen produksjonsdeploy.
+- Ikke merge PR #1400 eller skru på offentlig Altovena-skjema før denne build-sperren og de tidligere personvern-, tilgangs-, varslings- og eksterne end-to-end-sperrene er avklart.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
