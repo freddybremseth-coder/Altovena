@@ -215,6 +215,15 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Dette gjør det mulig å **lage varige interne varsler selv om ingen har RealtyFlow åpent**, men det er **ikke e-post, SMS, push eller annen faktisk levering til ansatte**. Dette må implementeres og valideres separat, med verifiserte mottakere, tillatelser, leveringskvitteringer, rate limiting og avmeldings- og feilhåndtering.
 - Altovena-migrasjon, offentlig kontaktflyt, ny reell medarbeidertilgang, faktiske cron-jobber og provider-utsendelser er fortsatt **ikke aktivert i produksjon**. Ingen eiergodkjent lansering er registrert.
 
+### Personlige Altovena-varsler (18. oktober 2026)
+
+- [RealtyFlow PR #1457](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1457) er ny **draft stablet på #1456 → #1454 → #1446 → #1400**; den legger et internt personligt varslingssenter i Altovena-arbeidsområdet (ikke et parallelt CRM).
+- Felles pending-varsler beholdes i `altovena_lead_alerts`, og lesekvitteringer er **per identitet** i `altovena_alert_reads` (hvert varsel og hver operatør unikt). Freddy kan markere ett varsel som lest uten at det markeres lest for Andrea, og uten at oppgave/kundestatus endres.
+- Backend krever uavhengig verifisert eier-/medarbeiderøkt, brand-`crm.read`, fersk aktiv medarbeidergrant og verifisert Auth-ID; owner-preview/proxy avvises. Serveren oppretter HMAC-pseudonym fra verifisert identitet med separat hemmelighet `ALTOVENA_ALERT_RECEIPT_HMAC_KEY`. Nettleseren kan ikke velge mottakeridentitet. SQL-RPC-ene er service-role-only, og samme-origin POST får bare UUID som oppgave.
+- Varselvisningen prioriterer **ulest foran lest**, deretter 24t og 48t-escalering foran 15-minuttersvarsel; maks 20 elementer per lesing, med full telling. Dermed vil eldre uleste varsler komme frem når operatøren kvitterer.
+- Beskyttelse: `ALTOVENA_ALERT_INBOX_ENABLED` er **av som standard**, atskilt fra scheduler-flagget. Lesekvittering er IKKE en provider-delivery receipt: fortsatt ingen e-post, push, SMS, WhatsApp eller automatisk kundesvar. Gjenstående: ekte tobruker-test i isolert staging, personvern-/UI-godkjenning, eksterne varslingskanaler og dokumentert produksjonsgodkjenning.
+- Isolerte HTTP-/PostgreSQL-tester dekker grant, revokering, preview, ugyldig origin, dobbeltkvittering, merkevareisolasjon, prioritert leserekkefølge og sletting. Teststatus skal kontrolleres på **siste head** før merge.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
