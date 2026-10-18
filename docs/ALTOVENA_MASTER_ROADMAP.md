@@ -233,6 +233,16 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - CI inkluderer isolert PostgreSQL-test for tilgangsbegrensning, unike kandidater, feil merkevare, sperret 15-minuttskanal, kansellering og sletting, i tillegg til mottaker-/autentiseringstester. Siste SHA må bestå samlet CI før en eventuell merge.
 - Produksjon er uendret: Altovena som merkevare er ennå ikke provisjonert, de nye SQL-tabellene er ikke installert, ingen faktisk Freddy/Andrea-Supabase-Auth-test er gjennomført. Neste utviklingssteg: velge separat intern meldingsleverandør, dokumentere aksept/ukjent resultat uten blind retry, tilgangskontroll umiddelbart før send, og teste ekstern kanal i staging før eksplisitt eiergodkjenning.
 
+### SMTP-mottak og uavklarte forsøk – isolert forhåndsvisning (18. oktober 2026)
+
+- [RealtyFlow PR #1461](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1461) er ny draft stablet på #1458 → #1457 → #1456 → #1454 → #1446 → #1400.
+- Tilleggstabellen `altovena_delivery_attempts` gir én irreversibel claim per forberedt varselkandidat. Statusene er `ATTEMPTING`, `SMTP_ACCEPTED` (bare SMTP-serverens aksept) og `OUTCOME_UNKNOWN`; det finnes ingen `DELIVERED`-tilstand. Ved krasj, nettverksfeil eller uavklart provider-resultat skal det **aldri sendes automatisk på nytt** for samme kandidat. Forsøk er individuelle per verifiserte operatør, isolerte til Altovena-website-leads og slettes med den tilhørende oppgaven.
+- Egen `/api/cron/altovena-smtp-staging` bygger på eksisterende brand-email SMTP, men har **hard `VERCEL_ENV=preview`-sperre**, i tillegg til separat `ALTOVENA_EMAIL_STAGING_SEND_ENABLED=true`, begge eldre opt-in-flagg, korrekt `Bearer CRON_SECRET`, eksplisitt aktivert Nexus-kontroll, korrekt HTTPS-portal og oppdatert Auth/brand-grant for eier og medarbeider. **Ingen Vercel Cron-kjøring er registrert for denne senderen**; staging-test krever bevisst manuel aktivering.
+- Sikkerhetskritisk siste kontroll rett før SMTP: om en operatør har mistet aktiv tilgang etter den irreversible claim-en, blir det ikke sendt e-post, utfallet registreres som ukjent og videre kjøring stoppes.
+- E-postinnhold er bevisst generisk uten kundeopplysninger. SMTP Message-ID er dokumentasjon på *SMTP-aksept*, ikke innbokslevering. Operatørpanelet har nå særskilt status for startet forsøk, SMTP-aksept og ukjent utfall, og kan ikke vise «levert» basert på ren SMTP-aksept.
+- Isolert PostgreSQL 17-test for reelle ACL/RPC-er og no-retry/krasj, pluss session-/flaggrutetester og test-dobbel for SMTP, ligger i RealtyFlow CI. Ingen reelle e-poster er sendt under utvikling eller test.
+- Krever fortsatt samlet full grønn CI på siste SHA, real staging-brukertest for Freddy/Andrea, kontrollert test SMTP-konto/mottaker, personvern, provider-leveringshendelser/returmeldinger og egen eksplisitt produksjonsgodkjenning før en separat PR kan åpne for faktiske produksjonsutsendelser.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
