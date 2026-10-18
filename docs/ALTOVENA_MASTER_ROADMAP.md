@@ -224,6 +224,15 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Beskyttelse: `ALTOVENA_ALERT_INBOX_ENABLED` er **av som standard**, atskilt fra scheduler-flagget. Lesekvittering er IKKE en provider-delivery receipt: fortsatt ingen e-post, push, SMS, WhatsApp eller automatisk kundesvar. Gjenstående: ekte tobruker-test i isolert staging, personvern-/UI-godkjenning, eksterne varslingskanaler og dokumentert produksjonsgodkjenning.
 - Isolerte HTTP-/PostgreSQL-tester dekker grant, revokering, preview, ugyldig origin, dobbeltkvittering, merkevareisolasjon, prioritert leserekkefølge og sletting. Teststatus skal kontrolleres på **siste head** før merge.
 
+### Sikker forberedelse til e-postvarsling – ingen faktisk utsending (18. oktober 2026)
+
+- [RealtyFlow PR #1458](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1458) er en **ny draft stablet på #1457 → #1456 → #1454 → #1446 → #1400**. Nå finnes en egen, service-role-only `altovena_delivery_candidates`-kø i kode. Den har bare `PREPARED` eller `CANCELLED` og ingen `SENT`/SMTP/provider-funksjon: **ingen e-post sendes eller påstås sendt**.
+- Kun Altovena-`website_lead`-hendelser `NOT_STARTED_24H` og `IN_PROGRESS_48H` kan gi framtidige e-postkandidater; 15-minuttersvarsel er kun i appen. Kandidatene begrenses per operatør, er idempotente og kanselleres dersom oppgaven ikke lenger trenger varsling.
+- Mottakervalidering skjer server-side mot **to** eksplisitte interne e-postadresser: en aktivt konfigurert eier/administrator, samt en medarbeider med uavhengig verifisert Supabase Auth-ID, aktivt Altovena-`crm.read`-grant og identisk e-post. Feil hos én blokkerer hele kjøringen; andre merkevarer er sperret. I varselkøen lagres bare en HMAC-avledet identitetsnøkkel, ikke person- eller kontaktdata.
+- Planlagt Vercel-cron er definert, men bakgrunnskjøringen trenger **to separate opt-in-miljøvariabler**, korrekt `Bearer CRON_SECRET` og en **eksplisitt aktivert Nexus runtime-kontroll** (manglende kontroll blokkerer). Den kan kun opprette kandidater, aldri sende SMS, e-post, WhatsApp eller push.
+- CI inkluderer isolert PostgreSQL-test for tilgangsbegrensning, unike kandidater, feil merkevare, sperret 15-minuttskanal, kansellering og sletting, i tillegg til mottaker-/autentiseringstester. Siste SHA må bestå samlet CI før en eventuell merge.
+- Produksjon er uendret: Altovena som merkevare er ennå ikke provisjonert, de nye SQL-tabellene er ikke installert, ingen faktisk Freddy/Andrea-Supabase-Auth-test er gjennomført. Neste utviklingssteg: velge separat intern meldingsleverandør, dokumentere aksept/ukjent resultat uten blind retry, tilgangskontroll umiddelbart før send, og teste ekstern kanal i staging før eksplisitt eiergodkjenning.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
