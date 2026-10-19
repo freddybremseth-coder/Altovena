@@ -280,6 +280,15 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Ingen staging Supabase-ressurs, Vercel-nøkler, data eller ekte brukere er opprettet. Reell verifikasjon krever en kostnadsgodkjent separat Supabase-instans/branch, branch-spesifikke Vercel-secrets og ekte Auth-/grant-test uten produksjonsdata. CI-status på siste PR #1466-commit må bekreftes før sammenslåing.
 - Både #1465 og #1466 er **draft**. Ingen automatisk produksjonsaktivering eller reelle e-poster er tillatt.
 
+### Intern aktiveringskontroll med konkrete neste handlinger (19. oktober 2026)
+
+- [RealtyFlow PR #1400](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1400) har videreutviklet den eierbeskyttede, skrivebeskyttede Altovena-kontrollen `/altovena-launch`. Den viser nå de **tre første uavklarte kontrollpunktene**, ansvarlig rolle, hva som konkret må gjøres og om punktet kontrolleres teknisk eller manuelt.
+- Tekniske kontroller omfatter merkevare, database/RPC-sikkerhet, verifisert eierøkt, operatoridentitet, merkevarespesifikke rettigheter og serverkonfigurasjon. **Personvern, Turnstile/nettside, faktisk staging-innsending og domene må fortsatt verifiseres manuelt**, uansett resultat av tekniske CI-tester.
+- API-en er fortsatt eierbegrenset, utleverer ingen hemmeligheter eller personopplysninger og returnerer **alltid `readyForPublicForm: false`**. Ingen aktiveringsknapp, databasemigrering, sending eller automatisk godkjenning ble innført.
+- Testpakken verifiserer at riktig neste handling tilbys når noe mangler, og at de fire manuelle kontrollene gjenstår selv når tekniske tilstander simuleres som grønne.
+- [PR #1446](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1446), med fastlåst nettstedskode → RealtyFlow API → lokal PostgreSQL-test, er **synkronisert med PR #1400** igjen (merge `086a8c8d`, `behind_by=0`). Endringer fra Command/Visibility kopieres ikke inn i separate konkurrerende løsninger.
+- Offentlig innsending er fortsatt deaktivert, og ingen reelle kundehenvendelser eller operatørrettigheter er endret. Før lansering må de faktiske nettsidene og to legitime brukerøkter testes i et autorisert testmiljø, med særskilt godkjenning av sikkerhet/personvern.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
