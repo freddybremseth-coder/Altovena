@@ -1,0 +1,10 @@
+.product-grid>.product-card{overflow:hidden}
+.altovena-card-media{margin:-1px -1px 18px;background:#102743}
+.altovena-card-media img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
+.altovena-card-media figcaption{background:#edf4f1;padding:9px 15px;color:#355968;font-size:.7rem;line-height:1.5}
+.altovena-video-transcript{grid-column:1/-1;border-top:1px solid #cfdedc;padding-top:14px;color:#344f62}
+.altovena-video-transcript summary{cursor:pointer;font-weight:700;font-size:.9rem}
+.altovena-video-transcript summary:focus-visible{outline:3px solid #247d7a;outline-offset:4px}
+.altovena-video-transcript ol{margin:16px 0 0;padding-left:23px;line-height:1.7}
+.altovena-video-transcript li+li{margin-top:6px}
+@media(max-width:700px){.altovena-card-media{margin:-1px -1px 16px}.altovena-card-media figcaption{font-size:.74rem}}
