@@ -289,6 +289,14 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - [PR #1446](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1446), med fastlåst nettstedskode → RealtyFlow API → lokal PostgreSQL-test, er **synkronisert med PR #1400** igjen (merge `086a8c8d`, `behind_by=0`). Endringer fra Command/Visibility kopieres ikke inn i separate konkurrerende løsninger.
 - Offentlig innsending er fortsatt deaktivert, og ingen reelle kundehenvendelser eller operatørrettigheter er endret. Før lansering må de faktiske nettsidene og to legitime brukerøkter testes i et autorisert testmiljø, med særskilt godkjenning av sikkerhet/personvern.
 
+### Altovena staging: arbeidsområde og medarbeidermeny isolert (19. oktober 2026)
+
+- I [RealtyFlow PR #1466](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1466) er ytterligere to faktiske tilkoblingshull lukket: `/api/workspaces/altovena/capabilities` (første oppslag fra arbeidsområdet) og `/api/workspaces/available` (medarbeiderens liste over merkevarer).
+- Første API-oppslag krever nå riktig staging-prosjekt **før** den forsøker å lese Altovena-brandgrant eller Auth. Kun `getAltovenaSupabase()` er tillatt i Altovena-preview; de øvrige brandene bruker fremdeles plattformdatabasen.
+- I preview blir eventuelle **Altovena-tilganger i produksjonslisten filtrert ut**. Bare en aktiv, uavhengig verifisert Altovena-grant med samsvarende staging Auth-konto får legge inn «Altovena · testmiljø» i listen. Tilbakekalt grant og manglende staging-konfigurasjon gir ingen Altovena-visning – aldri fallback til produksjonsgrants.
+- Nye syntetiske tester dokumenterer begge rutene, verifisert eier/medarbeider, avvisning ved tilbakekall og at Pinoso EcoLife fortsetter uendret. Den isolerte PostgreSQL-testen er fortsatt en del av CI. Samlet Build validation på den nyeste #1466-commit må bestås før videre utrulling.
+- Merk begrensningen: felles innlogging og øvrige RealtyFlow-moduler bruker fortsatt eksisterende plattformautentisering. Vi har isolert **Altovenas merkevaredata**, ikke opprettet et frittstående Altovena SaaS-innloggingssystem. Ekte tobruker-test forutsetter fortsatt separat Supabase-testdatabase og eksplisitt bruker-/kostnadsgodkjenning.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
