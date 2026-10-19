@@ -305,6 +305,14 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Viktig identifisert restoppgave: RealtyFlows **felles innlogging** verifiserer fortsatt medarbeider mot plattformens Supabase Auth og brukerkatalog. Et individ som bare ligger i separat Altovena-testdatabase, kan derfor ikke gjennomføre selvstendig testinnlogging uten en egen, revidert staging-Auth-/session-flyt. Vi skal **ikke kopiere produksjonsbrukere, senke innloggingssikkerheten eller kalle staging fullt isolert** før dette er løst.
 - Ingen staging database/branch eller Vercel secrets er opprettet, og ingen produksjonsflagg eller utsendelser er aktivert. Neste steg er grønn CI på #1469, separat design for trygg testinnlogging og konkret kostnadsavklaring med godkjenning før opprettelse av Supabase-staging.
 
+### Altovena isolert staging-sesjon (19. oktober 2026)
+
+- [RealtyFlow PR #1470](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1470) er ny **draft** på #1469 → #1466 → #1465 → integrasjon #1464. Den introduserer en særskilt staging-only HMAC-signert identitetsbevis-token med `altovena:staging-only:v1`-audience, eksakt Altovena-brand og staging-prosjektref, staging-Auth UUID, verifisert e-post og **15 minutters levetid**.
+- Nøkkelen `ALTOVENA_STAGING_SESSION_SECRET` må være separat fra RealtyFlows plattformcookie-nøkkel og Supabase service keys. Sesjonen avvises uten korrekt isolert Vercel Preview-kontekst og kan aldri gjenbrukes som `realtyflow_admin`-cookie, owner-tilgang eller produksjonsøkt.
+- **Viktig:** Dette er *kun en testbar sesjonsgrense*, ikke ferdig pålogging. Tokenet er ikke koblet til globalt `getRequestAccessContext`, plattformmiddleware eller API-tilgang. Ingen ekte staging-identitet får nye rettigheter via #1470.
+- Neste nødvendige arbeid: separat staging Auth-innlogging mot egen **publishable/anon-key**, uavhengig bekreftet medarbeideridentitet og aktivt Altovena-grant før sesjon, HttpOnly/Secure/CSRF, per-request revokeringskontroll, logout og isolerte syntetiske E2E-tester. Krever også kostnadsgodkjent separat Supabase staging-prosjekt, som fortsatt ikke er opprettet.
+- Unit-tester dekker separat signatur, tampering, utløp, feil prosjekt, produksjonssperre og uforenlighet med RealtyFlows eksisterende cookie. Siste GitHub CI-head må bestås før videre utviklingsmerge.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
