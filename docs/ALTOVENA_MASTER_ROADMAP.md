@@ -243,6 +243,15 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Isolert PostgreSQL 17-test for reelle ACL/RPC-er og no-retry/krasj, pluss session-/flaggrutetester og test-dobbel for SMTP, ligger i RealtyFlow CI. Ingen reelle e-poster er sendt under utvikling eller test.
 - Krever fortsatt samlet full grønn CI på siste SHA, real staging-brukertest for Freddy/Andrea, kontrollert test SMTP-konto/mottaker, personvern, provider-leveringshendelser/returmeldinger og egen eksplisitt produksjonsgodkjenning før en separat PR kan åpne for faktiske produksjonsutsendelser.
 
+### Altovena samlet med RealtyFlow main — isolert kodeintegrasjon (19. oktober 2026)
+
+- **Ny integrasjons-PR:** [RealtyFlow #1464](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1464), fortsatt **draft**. Den er ikke sammenslått med produksjonsgrenen og påvirker ikke opprinnelige PR-er #1400, #1446, #1454, #1456, #1457, #1458 og #1461.
+- En særskilt integrasjonsgren `integration/altovena-reconcile-main-20261019` ble opprettet fra toppen av Altovena-stakken `78a1e756`, og de fem nye `main`-commitene ble bevart i en **toforelders merge-commit `543ee6b`**. Sammenlignet med felles forfader endret Altovena 64 filer og main 22 forskjellige filer; **null overlappende filnavn**. Filer fra main ble lagt inn med eksakte Git blob-SHA-er. GitHub bekrefter **0 commits bak main**.
+- **CI:** Alle 13 kontroller på `543ee6b` er `SUCCESS`, inkludert omfattende Build validation, Altovena intake med isolert PostgreSQL, Nexus, Marketing, Revenue, publisering og Re-Master-integrasjon.
+- **Vercel forhåndsvisning:** `https://realtyflow-20jos6ynw-freddy-bremseths-projects.vercel.app`, deployment `dpl_G9tTh2XzNQXFvaA62Lmr5i2zMHrJ`; Git SHA `543ee6b`, status **READY**, preview uten produksjonsalias, Vercel SSO-beskyttelse er aktiv. Ingen promotering eller produksjonsutrulling er utført.
+- **VIKTIG STAGING-SPERRE:** Vercel-konfigurasjonen har samme Supabase-env-oppføringer målrettet mot `preview` og `production`, blant annet `NEXT_PUBLIC_SUPABASE_URL` og `SUPABASE_SERVICE_ROLE_KEY`. **Det er ikke bekreftet at preview har separat database.** I tillegg har Supabase RealtyflowPRO ingen utviklingsgren. Reelle tobrukertester, syntetisk web-intake i cloud og eventuelle SMTP-forsøk må derfor **ikke** kjøres mot denne URL-en før database og miljøhemmeligheter er isolert og verifisert.
+- **Neste sperrer:** separat økonomisk godkjent Supabase-staging, eksplisitt preview-only konfigurasjon, opprettelse av to verifiserte testbrukere/grants, full arbeidsflyt- og revoke-test, godkjent mail-test med testmottakere, personvern-/sikkerhetskontroll og eksplisitt eierbeslutning. Ingen av Altovena sine produksjonsflagg, kundeskjemaer, nye SQL-migrasjoner eller e-postutsendelser er slått på.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
