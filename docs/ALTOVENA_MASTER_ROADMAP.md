@@ -252,6 +252,16 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - **VIKTIG STAGING-SPERRE:** Vercel-konfigurasjonen har samme Supabase-env-oppføringer målrettet mot `preview` og `production`, blant annet `NEXT_PUBLIC_SUPABASE_URL` og `SUPABASE_SERVICE_ROLE_KEY`. **Det er ikke bekreftet at preview har separat database.** I tillegg har Supabase RealtyflowPRO ingen utviklingsgren. Reelle tobrukertester, syntetisk web-intake i cloud og eventuelle SMTP-forsøk må derfor **ikke** kjøres mot denne URL-en før database og miljøhemmeligheter er isolert og verifisert.
 - **Neste sperrer:** separat økonomisk godkjent Supabase-staging, eksplisitt preview-only konfigurasjon, opprettelse av to verifiserte testbrukere/grants, full arbeidsflyt- og revoke-test, godkjent mail-test med testmottakere, personvern-/sikkerhetskontroll og eksplisitt eierbeslutning. Ingen av Altovena sine produksjonsflagg, kundeskjemaer, nye SQL-migrasjoner eller e-postutsendelser er slått på.
 
+
+### Samordning og versjonsvakt, 19. oktober 2026
+
+- RealtyFlow [Altovena CRM PR #1400](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1400) er synkronisert med hovedgrenen i to-foreldre merge `6995e1c`; nye Visibility/annonser-koder er bevart etter filkontroll.
+- Den avhengige [cross-repo E2E PR #1446](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1446) er synkronisert med CRM-grenen i merge `15a1b58`, og GitHub bekreftet **0 commits bak parent**.
+- Ny CI-sperre i `#1446`: Aktivt Altovena-nettsted (PR #5) må ha **samme commit-SHA** som fastlåst nettsidekode i E2E-testen (`ded27cde`). Eldre kontroll av `api/contact.js` og `public/contact-form.js` beholdes. Dette hindrer at tester fortsetter grønt etter parallell videreutvikling av nettstedet uten kontrollert synkronisering.
+- Verifisert isolert PostgreSQL-test etter denne endringen: `PASS` for nettside-SHA, skjemafiler, virkelig handler→virkelig RealtyFlow handler→lokal database og CRM-kontakt/oppfølgingsoppgave.
+- RealtyflowPRO-produksjonsmiljø er kontrollert på nytt: `altovena_receive_lead`, `altovena_intake_health` og mottakstabell finnes **ikke** ennå. Nødvendige Vercel-nøkler for kontaktmottak og spesifikk Andrea-bruker er fortsatt ikke konfigurert. Dette er bevisste lanseringssperrer.
+- Fortsatt **ikke godkjent**: Reell nettverkstest mellom miljøene, faktisk Freddy-/Andrea-brukerrettighet, innsendingsvarsling, bekreftet personvern/retensjon, Turnstile og produksjonspublisering. Ikke påstå at en grønn offline CI erstatter disse kontrollene.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
