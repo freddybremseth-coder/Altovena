@@ -270,6 +270,16 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Sperren verifiserer konfigurasjon/URL, **ikke** at en nøkkel er korrekt eller at Auth og migrasjoner faktisk er isolert. Ekte test av Freddy og Andrea krever separat Supabase staging-prosjekt/branch (kan koste penger), sikre gren-spesifikke Vercel-variabler og syntetiske brukere. Ingen slik ressurs eller reelle utsendelser er opprettet.
 - GitHub test- og byggstatus for siste #1465-head skal verifiseres før arbeidet vurderes for merge; alle eksisterende Altovena-produksjonsflagg forblir av.
 
+### Altovena egen staging-tilkobling uten felles RealtyFlow-endringer (19. oktober 2026)
+
+- **Ny PR:** [RealtyFlow #1466](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1466), utkast stablet på #1465 → samordnet #1464.
+- Forrige #1465 innførte en aktiv blokkering av Altovena på ikke-isolert preview. #1466 løser et viktig arkitekturproblem før aktivering: **andre merkevarer skal ikke måtte få endret felles `NEXT_PUBLIC_SUPABASE_URL` og `SUPABASE_SERVICE_ROLE_KEY` for at Altovena skal kunne testes.**
+- En egen servermodul `getAltovenaSupabase()` bruker ved **Altovena Preview** bare `ALTOVENA_STAGING_SUPABASE_URL` og `ALTOVENA_STAGING_SUPABASE_SERVICE_ROLE_KEY` sammen med eksplisitt staging-opt-in og en prosjekt-ID som ikke er RealtyflowPRO sin produksjons-ID. Ingen fallback til produksjonsnøkkel eller felles klient.
+- Hele Altovena-løpet styres til denne klienten: verifisert brand-CRM/medarbeidertilgang, sikkert kundemottak, eierens aktiveringskontroll, intern varslingsskanner, leveringsforberedelse og manuell preview-SMTP. Produksjonsklient og andre brands er uendret.
+- Testene inkluderer syntetisk faktisk RPC-kall der **felles RealtyFlow-variabler fortsatt peker mot produksjonslignende adresse**, men Altovena må bruke bare staging-URL og nøkkel. Manglende staging-hemmelighet må ikke falle tilbake til felles klient. Isolerte PostgreSQL-tester benytter fortsatt tilbakerullet syntetisk database.
+- Ingen staging Supabase-ressurs, Vercel-nøkler, data eller ekte brukere er opprettet. Reell verifikasjon krever en kostnadsgodkjent separat Supabase-instans/branch, branch-spesifikke Vercel-secrets og ekte Auth-/grant-test uten produksjonsdata. CI-status på siste PR #1466-commit må bekreftes før sammenslåing.
+- Både #1465 og #1466 er **draft**. Ingen automatisk produksjonsaktivering eller reelle e-poster er tillatt.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
