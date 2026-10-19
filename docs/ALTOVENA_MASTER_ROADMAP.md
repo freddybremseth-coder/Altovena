@@ -297,6 +297,14 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Nye syntetiske tester dokumenterer begge rutene, verifisert eier/medarbeider, avvisning ved tilbakekall og at Pinoso EcoLife fortsetter uendret. Den isolerte PostgreSQL-testen er fortsatt en del av CI. Samlet Build validation på den nyeste #1466-commit må bestås før videre utrulling.
 - Merk begrensningen: felles innlogging og øvrige RealtyFlow-moduler bruker fortsatt eksisterende plattformautentisering. Vi har isolert **Altovenas merkevaredata**, ikke opprettet et frittstående Altovena SaaS-innloggingssystem. Ekte tobruker-test forutsetter fortsatt separat Supabase-testdatabase og eksplisitt bruker-/kostnadsgodkjenning.
 
+### Altovena aktiveringskontroll – konkret neste handling (19. oktober 2026)
+
+- [RealtyFlow PR #1469](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1469) ligger som **draft** oppå #1466, #1465 og #1464. Eierens `/altovena-launch` forklarer nå eksakt hvorfor staging er blokkert og gir **én konkret neste handling**, istedenfor bare generelle feil.
+- Den skrivebeskyttede sjekklisten skiller separat Supabase-prosjekt-ID, eksplisitt staging-valg, egen serveradresse, hemmelig servernøkkel, reelle testidentiteter og syntetisk ende-til-ende-test. Den viser aldri faktiske nøkler, prosjektreferanser, e-poster eller kundedata.
+- **Merk:** En riktig konfigurert URL er *ikke* bevis på separat database med korrekt servernøkkel og aktive brukere; `stagingReadyForHumanTest` er fortsatt `false`, og offentlig kundeskjema står på `readyForPublicForm:false`.
+- Viktig identifisert restoppgave: RealtyFlows **felles innlogging** verifiserer fortsatt medarbeider mot plattformens Supabase Auth og brukerkatalog. Et individ som bare ligger i separat Altovena-testdatabase, kan derfor ikke gjennomføre selvstendig testinnlogging uten en egen, revidert staging-Auth-/session-flyt. Vi skal **ikke kopiere produksjonsbrukere, senke innloggingssikkerheten eller kalle staging fullt isolert** før dette er løst.
+- Ingen staging database/branch eller Vercel secrets er opprettet, og ingen produksjonsflagg eller utsendelser er aktivert. Neste steg er grønn CI på #1469, separat design for trygg testinnlogging og konkret kostnadsavklaring med godkjenning før opprettelse av Supabase-staging.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
