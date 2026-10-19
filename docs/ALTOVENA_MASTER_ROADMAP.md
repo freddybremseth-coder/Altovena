@@ -262,6 +262,14 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - RealtyflowPRO-produksjonsmiljø er kontrollert på nytt: `altovena_receive_lead`, `altovena_intake_health` og mottakstabell finnes **ikke** ennå. Nødvendige Vercel-nøkler for kontaktmottak og spesifikk Andrea-bruker er fortsatt ikke konfigurert. Dette er bevisste lanseringssperrer.
 - Fortsatt **ikke godkjent**: Reell nettverkstest mellom miljøene, faktisk Freddy-/Andrea-brukerrettighet, innsendingsvarsling, bekreftet personvern/retensjon, Turnstile og produksjonspublisering. Ikke påstå at en grønn offline CI erstatter disse kontrollene.
 
+### Sikker databaseseparasjon før Altovena-test (19. oktober 2026)
+
+- [RealtyFlow PR #1465](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1465), en **draft** stablet på den samlede integrasjonen #1464, implementerer en egen **fail-closed Altovena staging-sperre**. Produksjon og øvrige brands er uendret.
+- På Vercel Preview/utviklingsmiljø er Altovena CRM-lesing, kundemottak, varslingsscan, leveringsforberedelse og SMTP-testkall blokkert før Supabase-kall med mindre `ALTOVENA_STAGING_ISOLATION_ENABLED=true` og en separat `ALTOVENA_STAGING_SUPABASE_PROJECT_REF` er konfigurert. `NEXT_PUBLIC_SUPABASE_URL` må peke nøyaktig til den verifiserte, separate `https://<ref>.supabase.co`-hosten. Den bekreftede RealtyflowPRO-produksjonsrefen `ereapsfcsqtdmzosgnnn` er alltid forbudt som testdatabase.
+- Eierens Altovena-aktiveringsside viser blokkert staging-status **uten å slå opp levende CRM- eller Auth-data**. Regressiontester simulerer at alle tidligere automasjonsflagg er aktivert samtidig som databasen fremdeles er produksjonsdatabasen, og krever at alle rutene avviser forespørslene.
+- Sperren verifiserer konfigurasjon/URL, **ikke** at en nøkkel er korrekt eller at Auth og migrasjoner faktisk er isolert. Ekte test av Freddy og Andrea krever separat Supabase staging-prosjekt/branch (kan koste penger), sikre gren-spesifikke Vercel-variabler og syntetiske brukere. Ingen slik ressurs eller reelle utsendelser er opprettet.
+- GitHub test- og byggstatus for siste #1465-head skal verifiseres før arbeidet vurderes for merge; alle eksisterende Altovena-produksjonsflagg forblir av.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
