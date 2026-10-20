@@ -320,6 +320,13 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Sikrer HTTPS origin/samsvarende host og `x-forwarded-host` for å motvirke CSRF/host-spoofing, JSON-only input, og utsteder *kun* `altovena_staging_session`-cookie med Secure, HttpOnly, SameSite Strict, maksimalt 15 min og begrenset path. Den gir **ikke** tilgang til RealtyFlows globale sesjon eller ordinære arbeidsområder. Logout sletter bare staging-cookie.
 - Ruten er **ikke aktivert**, ingen reell staging-instans/testbruker er opprettet og ingen produksjonskonfigurasjon eller SMTP er endret. Før aktivering trengs distribusjonssikker hastighetsbegrensning mot passordgjetting, virkelig CSRF/reverse-proxy-verifisering, separate staging-kontoer og live grant-kontroll for hver beskyttede staging-rute. Full CI på siste commit må fortsatt bekreftes.
 
+### Staging-passordforsøk og tilbakekalling – PR #1475 (20. oktober 2026)
+
+- [RealtyFlow PR #1475](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1475) er draft på #1474 og resten av Altovena-kjeden. Ny distribusjonssikker PostgreSQL-grense for staging-login med atomisk oppdatering av 15-minutters budsjett (globalt 300 og per konto 5 forsøk). Oppbevarer bare HMAC-identifikatorer, aldri klartekst-e-post eller IP. Manglende nøkkel, RPC, migrasjon eller database innebærer at passordautentisering blir **avvist før Auth-kall**.
+- Ny `GET /api/altovena/staging-auth` krever gyldig staging-only-cookie og sjekker aktuell staging Auth UUID/e-post og aktiv Altovena `crm.read`-grant på nytt **hver gang**. Tilbaketrukket tilgang skal avvises, aldri løftes til ordinære RealtyFlow-rettigheter.
+- Ingen staging-database, produksjonsmigrasjon eller Vercel-nøkkel er konfigurert. Login er AV som standard og Preview-only. CI må bestå på siste commit før videre merge.
+- Gjenstående lanseringssperrer: isolert PostgreSQL-test av konkurrerende forsøk og ACL, reell test av auth-/revokeringsflyt i kostnadsgodkjent staging, MFA/abuse-håndtering, og egne beskyttede staging-arbeidsruter. Ingen produksjonsinnlogging eller kundekommunikasjon er aktivert.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
