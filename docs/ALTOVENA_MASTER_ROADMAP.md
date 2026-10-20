@@ -313,6 +313,13 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Neste nødvendige arbeid: separat staging Auth-innlogging mot egen **publishable/anon-key**, uavhengig bekreftet medarbeideridentitet og aktivt Altovena-grant før sesjon, HttpOnly/Secure/CSRF, per-request revokeringskontroll, logout og isolerte syntetiske E2E-tester. Krever også kostnadsgodkjent separat Supabase staging-prosjekt, som fortsatt ikke er opprettet.
 - Unit-tester dekker separat signatur, tampering, utløp, feil prosjekt, produksjonssperre og uforenlighet med RealtyFlows eksisterende cookie. Siste GitHub CI-head må bestås før videre utviklingsmerge.
 
+### Altovena avgrenset testinnlogging – PR #1474 (20. oktober 2026)
+
+- [RealtyFlow PR #1474](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1474) er ny **draft** på #1470 og den øvrige Altovena-kjeden. Utviklet separat staging-only `POST/DELETE /api/altovena/staging-auth` med streng Vercel Preview-sperre og `ALTOVENA_STAGING_LOGIN_ENABLED` som er AV som standard.
+- Innloggingen benytter bare Supabase Auth for den separate staging-databasen og krever uavhengig verifisering av staging UUID/e-post samt aktivt Altovena-grant med `crm.read`. Ugyldige innloggingsforsøk gir generell feilmelding.
+- Sikrer HTTPS origin/samsvarende host og `x-forwarded-host` for å motvirke CSRF/host-spoofing, JSON-only input, og utsteder *kun* `altovena_staging_session`-cookie med Secure, HttpOnly, SameSite Strict, maksimalt 15 min og begrenset path. Den gir **ikke** tilgang til RealtyFlows globale sesjon eller ordinære arbeidsområder. Logout sletter bare staging-cookie.
+- Ruten er **ikke aktivert**, ingen reell staging-instans/testbruker er opprettet og ingen produksjonskonfigurasjon eller SMTP er endret. Før aktivering trengs distribusjonssikker hastighetsbegrensning mot passordgjetting, virkelig CSRF/reverse-proxy-verifisering, separate staging-kontoer og live grant-kontroll for hver beskyttede staging-rute. Full CI på siste commit må fortsatt bekreftes.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
