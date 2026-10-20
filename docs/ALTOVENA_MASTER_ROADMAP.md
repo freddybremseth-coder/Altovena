@@ -335,6 +335,12 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Alle de nyere endringene i `workspaces`, `social-studio` og Control Center sine tester/workflows er integrert. CI kjører på ny eksakt commit; **ikke regn løsningen som klar for merge før alle sjekkene er grønne**.
 - Prod uendret, ingen Supabase staging/prod migrasjoner, ingen e-poster, ingen merkevare-Autopublish, ingen login-brytere aktivert.
 
+### Produksjonssperre for Altovena-tidsplaner (20. oktober 2026)
+
+- Integrasjons-PR [#1476](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1476) inneholdt tidligere tidsplaner for `/api/cron/altovena-lead-alerts` (hvert 15. minutt) og `/api/cron/altovena-delivery-preflight` (fire ganger i timen). Begge er fjernet fra `vercel.json` i integrasjonsgrenen, slik at en framtidig kodemerge ikke automatisk registrerer disse jobbene.
+- Jobbkoden og sikkerhetsbryterne er beholdt. Ny test `tests/altovena/no-production-cron-activation.test.mjs` er koblet til Altovenas CI og avviser registrering av varslings-, preflight- eller SMTP-cron før en separat, godkjent lansering.
+- Dette er bare et utkast, ikke en produksjonsendring. Siste commit må bestå full CI før videre tiltak.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
