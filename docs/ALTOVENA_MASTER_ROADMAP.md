@@ -327,6 +327,14 @@ Altovena er **ikke én monolittisk Git-gren**. Produktene har egne kode-/dataeie
 - Ingen staging-database, produksjonsmigrasjon eller Vercel-nøkkel er konfigurert. Login er AV som standard og Preview-only. CI må bestå på siste commit før videre merge.
 - Gjenstående lanseringssperrer: isolert PostgreSQL-test av konkurrerende forsøk og ACL, reell test av auth-/revokeringsflyt i kostnadsgodkjent staging, MFA/abuse-håndtering, og egne beskyttede staging-arbeidsruter. Ingen produksjonsinnlogging eller kundekommunikasjon er aktivert.
 
+### Samordning med siste RealtyFlow main – Control Center (20. oktober 2026)
+
+- **Ny integrasjons-PR:** [RealtyFlow #1476](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1476), draft, commit `a708abbbb93f8fd9bf3c7987d0afbc539817eb88`. Kombinerer hele Altovena-utviklingskjeden gjennom #1475 med fire nyere commits fra `main`; GitHub bekrefter **0 commits bak main**.
+- Den nyere `main`-siden for **Altovena Control Center** har et datert, statisk produktregister med eierkontroll, videreførte produkt-ID-er og lenker. Dette er bevart sammen med Altovenas dynamiske `AltovenaLaunchReadiness` i en egen, tydelig merket seksjon. De to statuskildene skal ikke fremstilles som én liveoversikt eller gi ubegrunnet lanseringsgodkjenning.
+- Nyeste `main`-versjon av SoMe Studio er bevart: kildelenke for Facebook, mens rene URL-er fjernes fra organisk Instagram-tekst. Eldre kontrakttest er justert for faktisk kanalspesifikk oppførsel.
+- Alle de nyere endringene i `workspaces`, `social-studio` og Control Center sine tester/workflows er integrert. CI kjører på ny eksakt commit; **ikke regn løsningen som klar for merge før alle sjekkene er grønne**.
+- Prod uendret, ingen Supabase staging/prod migrasjoner, ingen e-poster, ingen merkevare-Autopublish, ingen login-brytere aktivert.
+
 ### Kollisjonskontroll: kildeinnhenting
 
 - [RealtyFlow #1435](https://github.com/freddybremseth-coder/realtyflow-pro/pull/1435) er **kanonisk arbeid** for kildeinnhenting, private dokumentasjonskopier og kildeattestering. Stablet på #1432.
