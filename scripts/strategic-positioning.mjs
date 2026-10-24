@@ -46,7 +46,13 @@ for (const locale of ['no','en']) {
   html = html.replace(/(<section class="hero">[\s\S]*?<p class="lede">)[\s\S]*?(<\/p>)/, '$1' + escapeHtml(x.intro) + '$2');
   const cards = x.cards.map(([name,description,href,cta]) => '<article class="card"><h3>' + escapeHtml(name) + '</h3><p>' + escapeHtml(description) + '</p><a class="card-link" href="' + href + '">' + escapeHtml(cta) + ' ↗</a></article>').join('');
   const section = '<section class="section section-white" data-altovena-strategy="2026"><div class="container"><div class="section-heading"><span class="eyebrow">' + escapeHtml(x.eyebrow) + '</span><h2>' + escapeHtml(x.section) + '</h2><p class="section-intro">' + escapeHtml(x.sectionIntro) + '</p></div><div class="product-grid">' + cards + '</div></div></section>';
-  html = html.replace(/(<section class="hero">[\s\S]*?<\/section>)/, '$1' + section);
+  // Keep the answer-first customer journey immediately after the hero.
+  // Position the strategic customer pathways after that existing section.
+  const journeyStart = html.indexOf('data-altovena-journey-v12="true"');
+  const journeyEnd = html.indexOf('</section>', journeyStart);
+  if (journeyStart < 0 || journeyEnd < journeyStart) throw new Error('Missing homepage journey: ' + locale);
+  const afterJourney = journeyEnd + '</section>'.length;
+  html = html.slice(0, afterJourney) + section + html.slice(afterJourney);
   html = html.replace(/<title>[^<]*<\/title>/, '<title>' + escapeHtml(x.title) + ' | Altovena</title>');
   fs.writeFileSync(homePath, html);
 
