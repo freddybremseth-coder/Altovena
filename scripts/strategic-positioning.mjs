@@ -122,6 +122,7 @@ for (const locale of ['no', 'en']) {
   const newCommandLink = 'href="' + commandPath + '">' + (norwegian ? 'Se Command' : 'Explore Command');
   if (!productsHtml.includes(oldCommandLink)) throw new Error('Missing Command card link: ' + locale);
   productsHtml = productsHtml.replace(oldCommandLink, newCommandLink);
+  productsHtml = productsHtml.replace(/<h1>[\s\S]*?<\/h1>/, '<h1>' + (norwegian ? 'AI-produkter, plattformer og bransjeløsninger' : 'AI products, platforms and industry solutions') + '</h1>');
   fs.writeFileSync(productsFile, productsHtml);
 
   const intelligenceFile = path.join(dist, base.slice(1), norwegian ? 'produkter/offer-intelligence/index.html' : 'products/offer-intelligence/index.html');
