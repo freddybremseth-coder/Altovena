@@ -4,7 +4,7 @@ const root=path.resolve(import.meta.dirname,'../dist');
 const all=[];
 const walk=d=>{for(const a of fs.readdirSync(d,{withFileTypes:true})){const f=path.join(d,a.name);if(a.isDirectory())walk(f);else if(a.name==='index.html'&&f!==path.join(root,'index.html'))all.push(f);}};
 walk(root);
-if(all.length!==32)throw Error('Expected 32 localized pages; got '+all.length);
+if(all.length!==34)throw Error('Expected 32 localized pages; got '+all.length);
 for(const lang of ['en','no']){
  const route=lang==='no'?'no/innsikt/kvalifisere-b2b-leads':'en/insights/b2b-lead-qualification';
  const file=path.join(root,route,'index.html'),html=fs.readFileSync(file,'utf8');
