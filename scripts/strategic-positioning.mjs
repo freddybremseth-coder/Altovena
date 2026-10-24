@@ -63,24 +63,28 @@ for (const locale of ['no', 'en']) {
   const norwegian = locale === 'no';
   const file = norwegian ? path.join(dist, 'no', 'produkter', 'index.html') : path.join(dist, 'en', 'products', 'index.html');
   let html = fs.readFileSync(file, 'utf8');
-  const productGroups = norwegian ? [
-    ['Altovena Intelligence', 'B2B-analyse og mulighetsvurdering med kildebelegg, datakvalitet og menneskelig vurdering.', 'Under utvikling – betalte piloter er ikke bekreftet', '/no/produkter/offer-intelligence/'],
-    ['Altovena Visibility', 'Fra dokumenterte synlighetsfunn til foreslåtte tiltak, verifiserte endringer og senere effektmåling.', 'Intern prototype – full arbeidsflyt ikke sluttverifisert', '/no/produkter/visibility/'],
-    ['Altovena Command', 'Koordinering av mennesker, oppgaver og AI-agenter med ansvar og godkjenning før utførelse.', 'Under utvikling – ikke et selvstendig salgsprodukt', '/no/teknologi/nexus/'],
-    ['RealtyFlow', 'Sammenhengende eiendomsdrift med salg, markedsføring, innhold og kundearbeid.', 'Internt drifts- og referansemiljø – ikke generell SaaS', '/no/produkter/realtyflow/'],
-    ['Olivia OS', 'Dokumentasjon, sesongplanlegging og operativ støtte for landbruk.', 'Prototype og utviklingsmiljø', '/no/produkter/olivia/']
-  ] : [
-    ['Altovena Intelligence', 'B2B opportunity research with source evidence, data quality and human review.', 'In development – paid pilots not yet confirmed', '/en/products/offer-intelligence/'],
-    ['Altovena Visibility', 'From evidenced visibility findings to proposed tasks, verified changes and subsequent impact measurement.', 'Internal prototype – full workflow not yet verified', '/en/products/visibility/'],
-    ['Altovena Command', 'Coordination of people, tasks and AI agents, with accountability and approval before execution.', 'In development – not a standalone commercial product', '/en/technology/nexus/'],
-    ['RealtyFlow', 'Connected real estate operations spanning sales, marketing, content and customer work.', 'Internal operating reference – not general-purpose SaaS', '/en/products/realtyflow/'],
-    ['Olivia OS', 'Records, seasonal planning and operational support for agriculture.', 'Prototype and development environment', '/en/products/olivia/']
-  ];
-  const heading = norwegian ? 'Produktporteføljen og hva som er klart' : 'Our portfolio and current readiness';
-  const intro = norwegian ? 'Vi skiller mellom programvare i faktisk drift, interne prototyper og produkter som kan bli kommersielle SaaS-løsninger. Dette er et veikart – ikke en katalog med ferdige abonnementer.' : 'We distinguish software in actual operation, internal prototypes and products that may become commercial SaaS offerings. This is a roadmap, not a catalogue of available subscriptions.';
-  const cards = productGroups.map(([name,description,status,href]) => '<article class="card"><span class="pill">' + escapeHtml(status) + '</span><h3>' + escapeHtml(name) + '</h3><p>' + escapeHtml(description) + '</p><a class="card-link" href="' + href + '">' + (norwegian ? 'Les mer' : 'Learn more') + ' ↗</a></article>').join('');
-  const section = '<section class="section section-white" data-altovena-portfolio="2026"><div class="container"><div class="section-heading"><span class="eyebrow">ALTOVENA</span><h2>' + escapeHtml(heading) + '</h2><p class="section-intro">' + escapeHtml(intro) + '</p></div><div class="product-grid">' + cards + '</div></div></section>';
-  html = html.replace('</main>', section + '</main>');
+  const statuses = norwegian ? {
+    'Offer Intelligence': 'Under utvikling – kommersiell pilot ikke bekreftet',
+    'Altovena Visibility': 'Intern prototype – ikke ferdig fullautomatisering',
+    'RealtyFlow': 'Internt referansemiljø – ikke generell SaaS',
+    'Olivia OS': 'Prototype og utviklingsmiljø'
+  } : {
+    'Offer Intelligence': 'In development – commercial pilot not confirmed',
+    'Altovena Visibility': 'Internal prototype – not fully automated',
+    'RealtyFlow': 'Internal operating reference – not general SaaS',
+    'Olivia OS': 'Prototype and development environment'
+  };
+  for (const [product, status] of Object.entries(statuses)) {
+    const title = '<h3>' + product + '</h3>';
+    if (!html.includes(title)) throw new Error('Product card missing: ' + product);
+    html = html.replace(title, title + '<p class="notice">' + escapeHtml(status) + '</p>');
+  }
+  const command = norwegian ?
+    ['Altovena Command', 'Koordinering av mennesker, oppgaver og AI-agenter med ansvar, dokumentasjon og godkjenning før viktige handlinger.', 'Under utvikling – ikke selvstendig salgsprodukt', '/no/teknologi/nexus/', 'Les om teknologien'] :
+    ['Altovena Command', 'Coordinating people, tasks and AI agents with accountability, evidence and approval before consequential actions.', 'In development – not a standalone product', '/en/technology/nexus/', 'Explore technology'];
+  const card = '<article class="product-card"><span class="pill">' + escapeHtml(command[2]) + '</span><h3>' + escapeHtml(command[0]) + '</h3><p>' + escapeHtml(command[1]) + '</p><a href="' + command[3] + '">' + escapeHtml(command[4]) + ' ↗</a></article>';
+  if (!html.includes('</div><div class="facts">')) throw new Error('Portfolio insertion point missing: ' + locale);
+  html = html.replace('</div><div class="facts">', card + '</div><div class="facts">');
   fs.writeFileSync(file, html);
 }
 
