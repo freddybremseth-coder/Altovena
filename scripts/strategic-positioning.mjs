@@ -88,4 +88,48 @@ for (const locale of ['no', 'en']) {
   fs.writeFileSync(file, html);
 }
 
+
+for (const locale of ['no', 'en']) {
+  const norwegian = locale === 'no';
+  const base = '/' + (norwegian ? 'no' : 'en') + '/';
+  const commandPath = base + (norwegian ? 'produkter/command/' : 'products/command/');
+  const pageFile = path.join(dist, commandPath.slice(1), 'index.html');
+  const nexusPath = path.join(dist, base.slice(1), norwegian ? 'teknologi/nexus/index.html' : 'technology/nexus/index.html');
+  let html = fs.readFileSync(nexusPath, 'utf8');
+  const title = norwegian ? 'Altovena Command – planlegging og godkjenning av AI-arbeid' : 'Altovena Command – coordinate and approve AI work';
+  const intro = norwegian ? 'Command er en produktretning for å samordne oppgaver, ansvar og AI-agenter. Systemet skal legge frem plan og grunnlag for godkjenning før viktige handlinger. Det er under utvikling og ikke tilgjengelig som eget kommersielt produkt.' : 'Command is a product direction for coordinating tasks, accountability and AI agents. Its intended workflow presents plans and evidence for approval before consequential actions. It remains in development and is not offered as a standalone commercial product.';
+  const items = norwegian ? [
+    ['Planlegg', 'Beskriv oppdraget, ønsket resultat, aktuelle datakilder og hvem som har ansvar.'],
+    ['Godkjenn', 'Vis forslag og konsekvenser slik at en ansvarlig person kan ta stilling før utførelse.'],
+    ['Dokumenter', 'Registrer beslutninger, endringer og resultat slik at arbeidet kan etterprøves.']
+  ] : [
+    ['Plan', 'Define the assignment, intended result, permitted sources and responsible person.'],
+    ['Approve', 'Present suggested actions and consequences for human review before execution.'],
+    ['Document', 'Record decisions, changes and outcomes so work can be reviewed.']
+  ];
+  const cards = items.map(([head,copy],i) => '<article class="card"><span class="card-icon">0' + (i + 1) + '</span><h3>' + escapeHtml(head) + '</h3><p>' + escapeHtml(copy) + '</p></article>').join('');
+  const body = '<section class="page-hero"><div class="container"><span class="eyebrow">ALTOVENA COMMAND · ' + (norwegian ? 'UNDER UTVIKLING' : 'IN DEVELOPMENT') + '</span><h1>' + escapeHtml(title) + '</h1><p class="lede">' + escapeHtml(intro) + '</p></div></section><section class="section section-white"><div class="container"><div class="card-grid">' + cards + '</div><p class="notice">' + (norwegian ? 'Beskrivelsen gjelder produktplanen. Full integrasjon, ekstern tilgjengelighet og resultatmåling er ikke sluttverifisert.' : 'This describes the product plan. Full integration, external availability and outcome measurement are not yet verified.') + '</p></div></section><section class="cta-band"><div class="container"><h2>' + (norwegian ? 'Diskuter et kontrollert AI-arbeidsløp' : 'Discuss an accountable AI workflow') + '</h2><a class="btn btn-primary" href="' + base + (norwegian ? 'bestill-demo/' : 'book-demo/') + '">' + (norwegian ? 'Ta kontakt' : 'Contact us') + '</a></div></section>';
+  html = html.replace(/<main id="main">[\s\S]*?<\/main>/, '<main id="main">' + body + '</main>');
+  html = html.replace(/<title>[^<]*<\/title>/, '<title>' + escapeHtml(title) + ' | Altovena</title>');
+  html = html.replace(/<meta name="description" content="[^"]*">/, '<meta name="description" content="' + escapeHtml(intro) + '">');
+  html = html.replace('href="/en/technology/nexus/" aria-current="page"', 'href="/en/products/command/" aria-current="page"').replace('href="/no/teknologi/nexus/" aria-current="page"', 'href="/no/produkter/command/" aria-current="page"');
+  fs.mkdirSync(path.dirname(pageFile), {recursive:true});
+  fs.writeFileSync(pageFile, html);
+
+  const productsFile = path.join(dist, base.slice(1), norwegian ? 'produkter/index.html' : 'products/index.html');
+  let productsHtml = fs.readFileSync(productsFile, 'utf8');
+  const oldCommandLink = 'href="' + base + (norwegian ? 'teknologi/nexus/' : 'technology/nexus/') + '">' + (norwegian ? 'Les om teknologien' : 'Explore technology');
+  const newCommandLink = 'href="' + commandPath + '">' + (norwegian ? 'Se Command' : 'Explore Command');
+  if (!productsHtml.includes(oldCommandLink)) throw new Error('Missing Command card link: ' + locale);
+  productsHtml = productsHtml.replace(oldCommandLink, newCommandLink);
+  fs.writeFileSync(productsFile, productsHtml);
+
+  const intelligenceFile = path.join(dist, base.slice(1), norwegian ? 'produkter/offer-intelligence/index.html' : 'products/offer-intelligence/index.html');
+  let intelligenceHtml = fs.readFileSync(intelligenceFile, 'utf8');
+  const intelligenceCopy = norwegian ? 'Altovena Intelligence omfatter produktretningen Offer Intelligence: kildebasert B2B-research, vurdering av datakvalitet og beslutningsstøtte. Første kommersielle steg er avgrensede piloter med menneskelig kontroll – ikke automatisk kontakt med potensielle kunder.' : 'Altovena Intelligence includes the Offer Intelligence direction: source-aware B2B research, data-quality assessment and decision support. The first commercial step is carefully scoped pilots with human review – not automated prospect outreach.';
+  const intelligenceSection = '<section class="section section-white" data-altovena-intelligence="2026"><div class="container"><div class="section-heading"><span class="eyebrow">ALTOVENA INTELLIGENCE</span><h2>' + (norwegian ? 'Bedre beslutningsgrunnlag for B2B-salg' : 'Better evidence for B2B sales decisions') + '</h2><p class="section-intro">' + escapeHtml(intelligenceCopy) + '</p></div></div></section>';
+  intelligenceHtml = intelligenceHtml.replace('</main>', intelligenceSection + '</main>');
+  fs.writeFileSync(intelligenceFile, intelligenceHtml);
+}
+
 console.log('PASS: Altovena umbrella positioning added in Norwegian and English, with prelaunch controls unchanged.');
