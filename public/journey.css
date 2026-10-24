@@ -1,0 +1,33 @@
+/* Accessible, responsive customer-decision sections.
+   One section per existing page; static HTML remains crawlable. */
+.journey-section{background:#f4f8f6;color:#123047}
+.journey-section .journey-wrap{max-width:1080px;margin-inline:auto}
+.journey-section h2{font-size:clamp(1.3rem,2.5vw,1.9rem);line-height:1.25;margin:0 0 .8rem}
+.journey-section h3{font-size:1.12rem;line-height:1.4;margin:0 0 .75rem}
+.journey-section p{max-width:78ch;line-height:1.72;margin:.6rem 0 1.1rem}
+.journey-section .journey-answer{font-size:clamp(1.05rem,1.3vw,1.16rem);font-weight:500}
+.journey-section .journey-explain{padding:1.1rem 0;border-top:1px solid #d2e1db}
+.journey-section .journey-explain:last-of-type{border-bottom:1px solid #d2e1db}
+.journey-section .journey-limits{border-left:3px solid #477d74;padding:.6rem 1rem;background:#eaf2ef;border-radius:0 .5rem .5rem 0}
+.journey-section .journey-trust-note{border-left:3px solid #ae8850;padding-left:1rem}
+.journey-section .journey-next{border-top:1px solid #d2e1db;margin-top:2rem;padding-top:1.35rem}
+.journey-section .journey-links{display:flex;gap:.75rem;flex-wrap:wrap}
+.journey-section .journey-links a{display:inline-flex;align-items:center;gap:.35rem;max-width:100%;padding:.78rem 1rem;border:1px solid #648e83;border-radius:.5rem;background:#fff;color:#154d49;font-weight:600;line-height:1.35;text-decoration:none}
+.journey-section .journey-links a:hover,.journey-section .journey-links a:focus-visible{background:#e0f1e8;outline-offset:3px}
+@media(max-width:680px){.journey-section .journey-links{display:flex;flex-direction:column}.journey-section .journey-links a{width:100%}.journey-section .journey-limits{padding:.6rem .85rem}}
+
+.journey-section .journey-faq{border-top:1px solid #d2e1db;padding-top:1.3rem;margin-top:1.4rem}
+.journey-section .journey-faq h2{margin-bottom:1rem}
+.journey-section .journey-faq h3{font-size:1.08rem;font-weight:700;margin:.9rem 0 .35rem}
+.journey-section .journey-faq p{margin:.3rem 0 1rem}
+.journey-section .journey-next-heading{font-size:1.1rem;font-weight:700;margin:0 0 .75rem}
+
+.journey-section .journey-comparison{margin:1.5rem 0}
+.journey-section .journey-table-scroll{width:100%;overflow-x:auto;overscroll-behavior-x:contain;border-radius:.5rem;border:1px solid #d2e1db}
+.journey-section .journey-table-scroll:focus-visible{outline:3px solid #477d74;outline-offset:3px}
+.journey-section .journey-comparison table{border-collapse:collapse;min-width:600px;width:100%;background:#fff;line-height:1.5}
+.journey-section .journey-comparison th,.journey-section .journey-comparison td{text-align:left;vertical-align:top;padding:.85rem;border-bottom:1px solid #d2e1db}
+.journey-section .journey-comparison th{font-weight:700;background:#e0eee8}
+.journey-section .journey-comparison td:first-child{font-weight:600}
+.journey-section .journey-comparison tr:last-child td{border-bottom:0}
+@media(max-width:700px){.journey-section .journey-table-scroll{overflow:visible;border:0}.journey-section .journey-comparison table{min-width:0;display:block;background:transparent}.journey-section .journey-comparison thead{position:absolute;width:1px;height:1px;clip:rect(0,0,0,0);overflow:hidden;white-space:nowrap}.journey-section .journey-comparison tbody{display:grid;gap:.8rem}.journey-section .journey-comparison tr{display:block;background:#fff;border:1px solid #d2e1db;border-radius:.5rem}.journey-section .journey-comparison td{display:block;border:0;padding:.45rem .85rem}.journey-section .journey-comparison td:before{content:attr(data-label);display:block;color:#4b6862;font-weight:700;font-size:.78rem;letter-spacing:.01em}.journey-section .journey-comparison td:first-child{padding-top:.85rem}.journey-section .journey-comparison td:last-child{padding-bottom:.85rem}}

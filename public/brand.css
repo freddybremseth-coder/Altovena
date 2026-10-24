@@ -1,0 +1,21 @@
+/* Altovena identity – responsive, accessible, and intentionally restrained. */
+.wordmark{letter-spacing:0!important;line-height:1!important;min-width:0}
+.wordmark img{width:auto;height:34px;max-width:190px;object-fit:contain;display:block}
+.footer .wordmark img{filter:brightness(0) invert(1)}
+.altovena-image{margin:0;min-width:0}
+.altovena-image img{display:block;width:100%;height:auto;border-radius:16px;border:1px solid #cfe0e0;box-shadow:0 24px 52px rgba(16,39,67,.10)}
+.altovena-image figcaption,.altovena-location-section figcaption,.altovena-film-section figcaption{font-size:.76rem;color:#60737b;margin-top:10px;line-height:1.5}
+.altovena-hero-image{position:relative;transform:rotate(-1.6deg)}
+.altovena-hero-image img{aspect-ratio:16/9;object-fit:cover}
+.altovena-location-section{padding:55px 0 70px;background:#eaf1ef;border-top:1px solid #d3e1de}
+.altovena-location-grid,.altovena-film-layout{display:grid;grid-template-columns:.72fr 1.28fr;align-items:center;gap:clamp(30px,4vw,70px)}
+.altovena-location-section h2,.altovena-film-section h2{font-family:Georgia,serif;font-size:clamp(1.7rem,3vw,2.65rem);line-height:1.17;font-weight:500;margin:12px 0 22px}
+.altovena-location-section address{font-style:normal;color:#243a4e;line-height:1.75;font-weight:580}
+.altovena-location-section p{color:#455e6f}
+.altovena-location-section figure,.altovena-film-section figure{margin:0;min-width:0}
+.altovena-location-section img{width:100%;height:auto;display:block;border-radius:14px}
+.altovena-film-section{background:#f5f8f6;padding:75px 0}
+.altovena-film-section video{width:100%;height:auto;aspect-ratio:16/9;background:#112640;border-radius:14px;display:block}
+.altovena-film-section p{color:#40546a}
+@media(max-width:900px){.altovena-location-grid,.altovena-film-layout{grid-template-columns:1fr;gap:26px}.altovena-hero-image{transform:none}}
+@media(max-width:540px){.wordmark img{height:26px;max-width:155px}.altovena-location-section,.altovena-film-section{padding:44px 0}.altovena-image img{border-radius:12px}}
